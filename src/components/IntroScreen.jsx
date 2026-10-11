@@ -4,7 +4,7 @@ export default function IntroScreen({ onStart }) {
   return (
     <section className="intro-page">
       <div className="hero-art" aria-hidden="true">
-        <div className="hero-sparkle sparkle-one">✳</div>
+        <div className="hero-sparkle sparkle-one">❋</div>
         <div className="hero-sparkle sparkle-two">✦</div>
         <div className="hero-orbit" />
         <div className="hero-orbit dotted" />

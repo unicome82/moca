@@ -121,17 +121,16 @@
   @include position(absolute);
 
   color: $color-primary;
-  font-size: 10cqw;
+  font-size: 8cqw;
 
   &.sparkle-one {
     top: 20%;
-    right: 6%;
+    right: 8%;
   }
 
   &.sparkle-two {
     bottom: 14%;
     left: 7%;
-    font-size: 8cqw;
   }
 }
 
