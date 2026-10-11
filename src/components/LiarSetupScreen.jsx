@@ -18,7 +18,7 @@ export default function LiarSetupScreen({
         <div className="eyebrow">인원 (3명 ~ 12명)</div>
         <div className="player-picker">
           <button
-            className="btn white icon small"
+            className="btn white icon"
             onClick={() => onPlayerCountChange(Math.max(3, playerCount - 1))}
             aria-label="인원 줄이기"
           >
@@ -26,7 +26,7 @@ export default function LiarSetupScreen({
           </button>
           <strong>{playerCount}</strong>
           <button
-            className="btn white icon small"
+            className="btn white icon"
             onClick={() => onPlayerCountChange(Math.min(12, playerCount + 1))}
             aria-label="인원 늘리기"
           >

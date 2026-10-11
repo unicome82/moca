@@ -1,5 +1,5 @@
 import GoogleIcon from "./GoogleIcon.jsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { skinOptions, themeOptions } from "../config/appConfig.js";
 
 export default function ScreenLayout({
@@ -22,6 +22,22 @@ export default function ScreenLayout({
   useEffect(() => {
     setHeaderHidden(false);
   }, [screen]);
+
+  useLayoutEffect(() => {
+    const shell = document.querySelector(".app-shell");
+    if (!shell) return;
+
+    const backgroundColor = getComputedStyle(shell).getPropertyValue("--ui-bg").trim();
+    if (!backgroundColor) return;
+
+    document.documentElement.style.backgroundColor = backgroundColor;
+    document.body.style.backgroundColor = backgroundColor;
+    const root = document.getElementById("root");
+    if (root) root.style.backgroundColor = backgroundColor;
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.setAttribute("content", backgroundColor);
+  }, [theme]);
 
   useEffect(() => {
     if (isCardRevealed) setHeaderHidden(true);

@@ -174,11 +174,6 @@
   transition:
     transform 0.25s,
     box-shadow 0.25s;
-
-  &:hover {
-    transform: translateY(-$space-1);
-    box-shadow: 0 $space-4 $space-6 #51473514;
-  }
 }
 
 .deck-content {
