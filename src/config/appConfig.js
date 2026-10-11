@@ -18,7 +18,7 @@ export const liarStages = [
 ];
 
 export const themeOptions = [
-  { id: "social", label: "인스타", icon: "photo_camera" },
+  { id: "social", label: "기본", icon: "palette" },
   { id: "luxe", label: "럭셔리", icon: "diamond" },
   { id: "cute", label: "귀여운", icon: "favorite" },
   { id: "retro", label: "레트로", icon: "videogame_asset" },
@@ -26,7 +26,7 @@ export const themeOptions = [
 ];
 
 export const skinOptions = [
-  { id: "base", label: "기본", icon: "crop_square" },
+  { id: "base", label: "기본", icon: "asterisk" },
   { id: "pattern", label: "패턴", icon: "grid_4x4" },
   { id: "dim-photo", label: "사진", icon: "landscape" },
   { id: "illustration", label: "일러스트", icon: "brush" },

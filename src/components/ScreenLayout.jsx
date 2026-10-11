@@ -12,6 +12,7 @@ export default function ScreenLayout({
   isCardRevealed,
   theme,
   skin,
+  skinImages,
   onThemeChange,
   onSkinChange,
 }) {
@@ -30,10 +31,7 @@ export default function ScreenLayout({
     const backgroundColor = getComputedStyle(shell).getPropertyValue("--ui-bg").trim();
     if (!backgroundColor) return;
 
-    document.documentElement.style.backgroundColor = backgroundColor;
     document.body.style.backgroundColor = backgroundColor;
-    const root = document.getElementById("root");
-    if (root) root.style.backgroundColor = backgroundColor;
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) themeColor.setAttribute("content", backgroundColor);
@@ -74,7 +72,17 @@ export default function ScreenLayout({
   }, [isCardScreen]);
 
   return (
-    <main className="app-shell" data-theme={theme} data-skin={skin}>
+    <main
+      className="app-shell"
+      data-theme={theme}
+      data-skin={skin}
+      style={{
+        "--skin-modern-overlay": skinImages.modern,
+        "--skin-pattern-image": `url("${import.meta.env.BASE_URL}images/heropatterns/${skinImages.pattern}")`,
+        "--skin-photo-image": `url("${import.meta.env.BASE_URL}images/skins/${skinImages.photo}")`,
+        "--skin-illustration-image": `url("${import.meta.env.BASE_URL}images/skins/${skinImages.illustration}")`,
+      }}
+    >
       <div className={`app-frame ${headerHidden ? "is-header-hidden" : ""}`}>
         <header className={`header ${headerHidden ? "is-hidden" : ""}`}>
           {showBack ? (

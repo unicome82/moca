@@ -22,12 +22,13 @@
     line-height: 1.4;
 
     span {
-      color: $color-primary;
+      color: var(--ui-primary);
     }
   }
   p {
     margin-bottom: $space-5;
-    @include font($font-size-s, 400, $color-black60);
+    @include font($font-size-s, 400);
+    opacity: 0.6;
   }
 }
 
@@ -53,7 +54,7 @@
 
   width: 100%;
   aspect-ratio: 1.6 / 1;
-  border: 3px dotted $color-primary-l;
+  border: 2px dotted var(--ui-primary-l);
   border-radius: 50%;
   transform: translate(-50%, -50%) rotateX(28deg) rotateZ(40deg);
   opacity: 0.8;
@@ -88,7 +89,7 @@
   }
 
   &-back {
-    background: $color-primary-l;
+    background: var(--ui-primary-l);
     transform: translate(-45%, -45%) rotate(8deg);
     box-shadow: 0 3cqw 6cqw $color-black20;
   }
@@ -96,7 +97,7 @@
   &-front {
     z-index: 1;
     align-items: center;
-    background: $color-primary;
+    background: var(--ui-primary);
     background-image: url("/images/heropatterns/dots.svg");
     background-size: 8%;
     transform: translate(-60%, -53%);
@@ -120,12 +121,12 @@
 .hero-sparkle {
   @include position(absolute);
 
-  color: $color-primary;
+  color: var(--ui-primary);
   font-size: 8cqw;
 
   &.sparkle-one {
     top: 20%;
-    right: 8%;
+    right: 9%;
   }
 
   &.sparkle-two {
@@ -156,6 +157,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
   gap: $space-4;
+  color: $color-black;
 }
 
 .deck-card {
@@ -167,6 +169,7 @@
   border: 0;
   border-radius: $radius-m;
   background: #fff;
+  color: $color-black;
   text-align: left;
   text-decoration: none;
   box-shadow: 0 $space-1 $space-2 $color-black10;
@@ -224,9 +227,9 @@
   @include keyboard-focus;
 
   z-index: 1;
-  display: block;
-  height: 40vh;
-  aspect-ratio: 5/7;
+  width: min(100%, 28.571dvh);
+  height: auto;
+  aspect-ratio: 5 / 7;
   padding: 0;
   border: 0;
   background: transparent;
@@ -242,11 +245,9 @@
 }
 
 .draw-card-inner {
-  @include position(relative);
+  @include position(absolute, 0, 0, 0, 0);
 
   display: block;
-  width: 100%;
-  height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.25, 1);
   container-type: inline-size;
@@ -279,12 +280,7 @@
 .card-back {
   overflow: hidden;
   padding: $space-6;
-  border: 1px solid #fff9ec8a;
   transform: rotateY(0deg);
-
-  // Hero Patterns polka dots pattern.
-  background-image: url("/images/heropatterns/dots.svg");
-  background-size: 5%;
   box-shadow: 0 8cqw 12cqw $color-black30;
   &::after {
     content: "";
@@ -307,7 +303,7 @@
   flex: 1;
   width: 100%;
   place-items: center;
-  color: var(--ui-bg);
+  color: $color-bg-card;
 }
 .card-back-symbol {
   @include flex(center, center);
@@ -348,6 +344,7 @@
   justify-content: space-between;
   padding: $space-6;
   background: $color-bg-card;
+  color: $color-black;
   transform: rotateY(180deg);
   text-align: center;
   .eyebrow {
@@ -406,6 +403,7 @@
   @include flex(stretch, space-evenly, column, 3vh);
 
   flex: 1;
+  width: 100%;
   min-height: calc(100dvh - $space-34);
   padding: $space-10 5% $space-8;
 }
@@ -437,7 +435,7 @@
 
 .app-frame.is-header-hidden {
   .draw-card {
-    height: 60vh;
+    width: min(100%, 42.857dvh);
   }
 
   :not(:has(.liar-guess-panel)) .draw-heading {
@@ -577,3 +575,11 @@
     font-size: clamp($font-size-xl, 3vw, 32px);
   }
 }
+
+@media (min-width: 1024px) {
+  .draw-page {
+    max-width: 600px;
+    margin-inline: auto;
+  }
+}
+

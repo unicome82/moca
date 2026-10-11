@@ -1,9 +1,11 @@
 @use "./variables" as *;
 
 @mixin theme-presets {
-  // Luxe: dark surfaces, fine gold lines, and serif headings.
+  // Luxe: dark surfaces and fine gold lines.
   .app-shell[data-theme="luxe"] {
     --ui-primary: #b69b67;
+    --ui-primary-l: #d5c49f;
+    --ui-black: #f4efe5;
     --ui-secondary: #92794d;
     --ui-bg: #191919;
     --ui-card: #292929;
@@ -12,12 +14,41 @@
     --ui-back: #39352d;
     --ui-text: #f4efe5;
 
-    .deck-card {
-      border: 1px solid var(--ui-line);
-      background: var(--ui-card);
+    .header {
+      border-bottom-color: var(--ui-line);
+    }
+
+    .brand-dot {
+      border-radius: 50%;
+      background: var(--ui-primary);
+      color: #191919;
+    }
+
+    .intro-copy h1,
+    .intro-copy p,
+    .draw-heading .eyebrow,
+    .settings-group h4 {
       color: var(--ui-text);
     }
-    .deck-content p,
+
+    .btn:not(.white):not(.black):not(.primary):not(.line):not(.selected) {
+      color: var(--ui-text);
+    }
+
+    .theme-option.selected,
+    .skin-option.selected {
+      color: var(--ui-soft);
+    }
+
+    .btn.line {
+      border-color: var(--ui-primary);
+      color: var(--ui-primary);
+    }
+
+    .btn.primary,
+    .btn.black {
+      color: var(--ui-bg);
+    }
     .draw-heading p,
     .draw-hint,
     .site-footer {
@@ -28,6 +59,7 @@
   // Cute: pill-like controls and soft rounded cards.
   .app-shell[data-theme="cute"] {
     --ui-primary: #e27e91;
+    --ui-primary-l: #f5cbd3;
     --ui-secondary: #bd6579;
     --ui-bg: #fff7f8;
     --ui-card: #fffefe;
@@ -36,20 +68,27 @@
     --ui-back: #e9a4b1;
     --ui-text: #46353a;
 
-    .deck-card,
-    .card-face,
     .btn.line {
       border-radius: $radius-xl;
     }
 
-    .deck-card {
-      box-shadow: 0 8px 20px #e27e911c;
+    .btn.primary {
+      color: var(--ui-text);
+    }
+
+    .draw-heading h1 {
+      color: var(--ui-secondary);
+    }
+
+    .btn {
+      border-radius: 999px;
     }
   }
 
-  // Retro: monospaced type and hard-edged shadows.
+  // Retro: grid details and hard-edged shadows.
   .app-shell[data-theme="retro"] {
     --ui-primary: #984c36;
+    --ui-primary-l: #d7c49a;
     --ui-secondary: #70412f;
     --ui-bg: #f1e4c5;
     --ui-card: #f7edcf;
@@ -58,28 +97,76 @@
     --ui-back: #b96746;
     --ui-text: #382c20;
 
-    .deck-card,
-    .card-face,
+    .app-frame {
+      background-image:
+        linear-gradient(#984c3609 1px, transparent 1px),
+        linear-gradient(90deg, #984c3609 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .header {
+      border-bottom: 2px solid var(--ui-text);
+    }
+
+    .brand-dot {
+      border-radius: 0;
+      background: var(--ui-primary);
+      color: #fff4d7;
+      box-shadow: 3px 3px 0 var(--ui-text);
+    }
+
     .btn.line,
     .btn.icon {
       border-radius: 0;
     }
 
-    .deck-card,
-    .draw-card .card-face {
-      box-shadow: 4px 4px 0 #382c2030;
+    .btn {
+      border: 2px solid var(--ui-text);
+      box-shadow: 3px 3px 0 var(--ui-text);
+    }
+
+    .header .brand-mark,
+    .header .settings-toggle {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--ui-text);
     }
   }
 
-  // Vintage: warm paper surfaces and restrained borders.
+  // Vintage: muted gray paper surfaces and restrained borders.
   .app-shell[data-theme="vintage"] {
-    --ui-primary: #806b4e;
-    --ui-secondary: #65543f;
-    --ui-bg: #eee8dc;
-    --ui-card: #f8f2e6;
-    --ui-line: #d5c9b4;
-    --ui-soft: #e7dece;
-    --ui-back: #9b8463;
-    --ui-text: #382f25;
+    --ui-primary: #6f6c63;
+    --ui-primary-l: #c2beb3;
+    --ui-secondary: #56544d;
+    --ui-bg: #e7e5df;
+    --ui-card: #f4f2ec;
+    --ui-line: #cbc8be;
+    --ui-soft: #ddd9cf;
+    --ui-back: #89867c;
+    --ui-text: #302f2a;
+
+    .app-frame {
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 7px,
+        #4f504b08 8px
+      );
+    }
+
+    .header {
+      border-bottom: 1px solid var(--ui-line);
+    }
+
+    .brand-dot {
+      border: 1px solid var(--ui-secondary);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ui-secondary);
+    }
   }
 }

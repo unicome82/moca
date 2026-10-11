@@ -6,6 +6,7 @@ import LiarSetupScreen from "./components/LiarSetupScreen.jsx";
 import MainListScreen from "./components/MainListScreen.jsx";
 import ScreenLayout from "./components/ScreenLayout.jsx";
 import { cardCollections, liarCategories } from "./data/decks.js";
+import { skinImageAssets } from "./data/skinAssets.js";
 import { liarStages, skins, storageKeys, themes } from "./config/appConfig.js";
 import useScreenNavigation, { readScreen } from "./hooks/useScreenNavigation.js";
 import { pickUnseenIndex, rememberCard } from "./utils/cardHistory.js";
@@ -44,6 +45,35 @@ function readLiarSession() {
 
 const randomIndex = (length) => Math.floor(Math.random() * length);
 
+const getSkinAssetIndex = (assetType, advance = false) => {
+  const assets = skinImageAssets[assetType];
+  const savedIndex = Number(
+    readPreference(storageKeys.preference(`skin-asset-${assetType}`), "-1"),
+  );
+  const currentIndex = Number.isInteger(savedIndex) && savedIndex >= 0
+    ? savedIndex % assets.length
+    : -1;
+
+  return advance ? (currentIndex + 1) % assets.length : Math.max(currentIndex, 0);
+};
+
+const skinAssetType = (skin) => (skin === "dim-photo" ? "photo" : skin);
+
+const getInitialSkinImages = (skin) => {
+  const images = Object.fromEntries(
+    Object.entries(skinImageAssets).map(([assetType, assets]) => [assetType, assets[0]]),
+  );
+  const activeType = skinAssetType(skin);
+
+  if (activeType in skinImageAssets) {
+    images[activeType] = skinImageAssets[activeType][
+      getSkinAssetIndex(activeType, true)
+    ];
+  }
+
+  return images;
+};
+
 export default function App() {
   const { screen, navigate } = useScreenNavigation();
   const [initialLiarSession] = useState(() =>
@@ -68,6 +98,18 @@ export default function App() {
     const saved = readPreference(storageKeys.preference("skin"), "base");
     return skins.includes(saved) ? saved : "base";
   });
+  const [skinImages, setSkinImages] = useState(() => getInitialSkinImages(skin));
+
+  useEffect(() => {
+    const assetType = skinAssetType(skin);
+    if (!(assetType in skinImageAssets)) return;
+
+    const assetIndex = skinImageAssets[assetType].indexOf(skinImages[assetType]);
+    savePreference(
+      storageKeys.preference(`skin-asset-${assetType}`),
+      String(assetIndex),
+    );
+  }, [skin, skinImages]);
 
   useEffect(() => {
     setRevealStage("hidden");
@@ -107,6 +149,16 @@ export default function App() {
 
   const changeSkin = (value) => {
     setSkin(value);
+    const assetType = skinAssetType(value);
+    if (assetType in skinImageAssets) {
+      const assets = skinImageAssets[assetType];
+      const nextIndex = getSkinAssetIndex(assetType, true);
+      setSkinImages((current) => ({ ...current, [assetType]: assets[nextIndex] }));
+      savePreference(
+        storageKeys.preference(`skin-asset-${assetType}`),
+        String(nextIndex),
+      );
+    }
     savePreference(storageKeys.preference("skin"), value);
   };
 
@@ -167,6 +219,7 @@ export default function App() {
       }
       theme={theme}
       skin={skin}
+      skinImages={skinImages}
       onThemeChange={changeTheme}
       onSkinChange={changeSkin}
     >

@@ -1,35 +1,76 @@
 @mixin skin-presets {
   .app-shell[data-skin="pattern"] .draw-card .card-back {
-    background-image:
-      repeating-linear-gradient(45deg, #ffffff18 0 1px, transparent 1px 9px),
-      repeating-linear-gradient(-45deg, #0000000c 0 1px, transparent 1px 9px);
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background-color: #fff;
+      opacity: 0.15;
+      -webkit-mask-image: var(--skin-pattern-image);
+      mask-image: var(--skin-pattern-image);
+      -webkit-mask-size: 10%;
+      mask-size: 10%;
+      pointer-events: none;
+    }
   }
 
   .app-shell[data-skin="dim-photo"] .draw-card .card-back {
-    background-image:
-      linear-gradient(#17171780, #17171780),
-      radial-gradient(ellipse at 72% 28%, #fff9d2 0 8%, transparent 9%),
-      linear-gradient(165deg, transparent 48%, #263d37 49% 68%, #172824 69%);
+    background-color: var(--ui-back);
+    background-image: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background-image: var(--skin-photo-image);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      filter: saturate(0.48) brightness(0.88) contrast(0.92);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    &::after {
+      background: linear-gradient(180deg, #77777a24, #24262d38);
+      mix-blend-mode: normal;
+    }
   }
 
   .app-shell[data-skin="illustration"] .draw-card .card-back {
-    background-image:
-      radial-gradient(ellipse at 25% 25%, #ffffff66 0 8%, transparent 9%),
-      radial-gradient(ellipse at 75% 72%, #ffffff35 0 15%, transparent 16%),
-      linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--ui-back), white 20%),
-        var(--ui-back)
-      );
+    background-color: var(--ui-back);
+    background-image: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background-image: var(--skin-illustration-image);
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: saturate(0.5) brightness(0.94) contrast(0.92);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    &::after {
+      background: linear-gradient(180deg, #85808724, #3a38401f);
+      mix-blend-mode: normal;
+    }
   }
 
   .app-shell[data-skin="modern"] .draw-card .card-back {
-    background-image:
-      linear-gradient(145deg, #ffffff24, transparent 45%),
-      linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--ui-back), white 12%),
-        var(--ui-back)
-      );
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background-color: var(--skin-modern-overlay);
+      opacity: 0.9;
+      pointer-events: none;
+    }
   }
 }

@@ -1,0 +1,29 @@
+MOCA skin assets
+
+Photos use the Unsplash License: https://unsplash.com/license
+Illustrations use the Pixabay Content License: https://pixabay.com/service/license-summary/
+
+Photo backgrounds:
+photo-01.jpg | https://unsplash.com/photos/ESEnXckWlLY
+photo-02.jpg | https://unsplash.com/photos/f7DRB6DKdDg
+photo-03.jpg | https://unsplash.com/photos/RAeXcB_Z1Hc
+photo-04.jpg | https://unsplash.com/photos/rFBA42UFpLs
+photo-05.jpg | https://unsplash.com/photos/HDd-NQ_AMNQ
+photo-06.jpg | https://unsplash.com/photos/_WR6tUIAJe8
+photo-07.jpg | https://unsplash.com/photos/7SXNxz8UIw4
+photo-08.jpg | https://unsplash.com/photos/V-2sZQ1zdoY
+photo-09.jpg | https://unsplash.com/photos/OiERUvVrioU
+photo-10.jpg | https://unsplash.com/photos/IdjaVYHu87Y
+photo-11.jpg | https://unsplash.com/photos/LdPzzJcrPLM
+
+Illustration backgrounds:
+illustration-01.jpg | https://pixabay.com/illustrations/boho-art-sunset-mountains-sunrise-6654957/
+illustration-02.png | https://pixabay.com/vectors/heart-graphic-ornament-abstract-8564951/
+illustration-03.png | https://pixabay.com/vectors/shapes-pattern-abstract-art-8289322/
+illustration-04.jpg | https://pixabay.com/illustrations/background-abstract-wallpaper-7262213/
+illustration-05.png | https://pixabay.com/illustrations/element-shape-blobs-aesthetic-7363837/
+illustration-06.jpg | https://pixabay.com/illustrations/flowers-pattern-graphic-design-9474432/
+illustration-07.png | https://pixabay.com/vectors/flowers-graphic-ornament-plant-8564949/
+illustration-08.png | https://pixabay.com/vectors/flowers-pattern-seamless-summer-9133746/
+illustration-09.jpg | https://pixabay.com/illustrations/gradient-abstract-background-blur-9941006/
+illustration-10.jpg | https://pixabay.com/illustrations/landscape-spring-nature-sunrise-10149106/
