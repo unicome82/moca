@@ -3,15 +3,15 @@ import GoogleIcon from "./GoogleIcon.jsx";
 export default function IntroScreen({ onStart }) {
   return (
     <section className="intro-page">
-      <div className="hero-art" aria-hidden="true">
-        <div className="hero-sparkle sparkle-one">❋</div>
-        <div className="hero-sparkle sparkle-two">✦</div>
-        <div className="hero-orbit" />
-        <div className="hero-orbit dotted" />
-        <div className="hero-card hero-card-back"></div>
-        <div className="hero-card hero-card-front">
-          <div className="hero-sun">❋</div>
-          <span className="hero-card-index">MOCA</span>
+      <div className="main-visual" aria-hidden="true">
+        <div className="visual-sparkle visual-sparkle-one">❋</div>
+        <div className="visual-sparkle visual-sparkle-two">✦</div>
+        <div className="visual-orbit" />
+        <div className="visual-orbit visual-orbit-dotted" />
+        <div className="visual-card visual-card-back"></div>
+        <div className="visual-card visual-card-front">
+          <div className="visual-sun">❋</div>
+          <span className="visual-card-index">MOCA</span>
         </div>
       </div>
       <div className="intro-copy">

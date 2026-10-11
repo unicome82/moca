@@ -45,16 +45,54 @@ function readLiarSession() {
 
 const randomIndex = (length) => Math.floor(Math.random() * length);
 
-const getSkinAssetIndex = (assetType, advance = false) => {
+const getSkinAssetIndex = (assetType) => {
   const assets = skinImageAssets[assetType];
+  const history = readJson(
+    "localStorage",
+    storageKeys.preference(`skin-asset-cycle-${assetType}`),
+    [],
+  );
+  const seen = Array.isArray(history)
+    ? [...new Set(history.filter((index) => Number.isInteger(index) && index >= 0 && index < assets.length))]
+    : [];
   const savedIndex = Number(
     readPreference(storageKeys.preference(`skin-asset-${assetType}`), "-1"),
   );
-  const currentIndex = Number.isInteger(savedIndex) && savedIndex >= 0
-    ? savedIndex % assets.length
-    : -1;
 
-  return advance ? (currentIndex + 1) % assets.length : Math.max(currentIndex, 0);
+  if (!seen.length && Number.isInteger(savedIndex) && savedIndex >= 0 && savedIndex < assets.length) {
+    seen.push(savedIndex);
+  }
+
+  let choices = assets.map((_, index) => index).filter((index) => !seen.includes(index));
+  if (!choices.length) {
+    choices = assets.map((_, index) => index);
+    if (choices.length > 1 && choices.includes(savedIndex)) {
+      choices = choices.filter((index) => index !== savedIndex);
+    }
+  }
+
+  return choices[randomIndex(choices.length)];
+};
+
+const rememberSkinAsset = (assetType, assetIndex) => {
+  const assets = skinImageAssets[assetType];
+  const historyKey = storageKeys.preference(`skin-asset-cycle-${assetType}`);
+  const history = readJson("localStorage", historyKey, []);
+  let seen = Array.isArray(history)
+    ? [...new Set(history.filter((index) => Number.isInteger(index) && index >= 0 && index < assets.length))]
+    : [];
+  const previousIndex = Number(
+    readPreference(storageKeys.preference(`skin-asset-${assetType}`), "-1"),
+  );
+
+  if (!seen.length && Number.isInteger(previousIndex) && previousIndex >= 0 && previousIndex < assets.length) {
+    seen.push(previousIndex);
+  }
+  if (seen.length >= assets.length) seen = [];
+  if (!seen.includes(assetIndex)) seen.push(assetIndex);
+
+  writeJson("localStorage", historyKey, seen);
+  savePreference(storageKeys.preference(`skin-asset-${assetType}`), String(assetIndex));
 };
 
 const skinAssetType = (skin) => (skin === "dim-photo" ? "photo" : skin);
@@ -66,9 +104,7 @@ const getInitialSkinImages = (skin) => {
   const activeType = skinAssetType(skin);
 
   if (activeType in skinImageAssets) {
-    images[activeType] = skinImageAssets[activeType][
-      getSkinAssetIndex(activeType, true)
-    ];
+    images[activeType] = skinImageAssets[activeType][getSkinAssetIndex(activeType)];
   }
 
   return images;
@@ -105,10 +141,7 @@ export default function App() {
     if (!(assetType in skinImageAssets)) return;
 
     const assetIndex = skinImageAssets[assetType].indexOf(skinImages[assetType]);
-    savePreference(
-      storageKeys.preference(`skin-asset-${assetType}`),
-      String(assetIndex),
-    );
+    rememberSkinAsset(assetType, assetIndex);
   }, [skin, skinImages]);
 
   useEffect(() => {
@@ -152,12 +185,8 @@ export default function App() {
     const assetType = skinAssetType(value);
     if (assetType in skinImageAssets) {
       const assets = skinImageAssets[assetType];
-      const nextIndex = getSkinAssetIndex(assetType, true);
+      const nextIndex = getSkinAssetIndex(assetType);
       setSkinImages((current) => ({ ...current, [assetType]: assets[nextIndex] }));
-      savePreference(
-        storageKeys.preference(`skin-asset-${assetType}`),
-        String(nextIndex),
-      );
     }
     savePreference(storageKeys.preference("skin"), value);
   };
