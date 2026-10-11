@@ -275,6 +275,7 @@
   @include flex(center, flex-start, column);
 
   border-radius: 6.4cqw;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   box-shadow: 0 $space-6 $space-15 #38312620;
   box-shadow: 0 8cqw 12cqw $color-black10;
@@ -285,6 +286,7 @@
   overflow: hidden;
   padding: $space-6;
   border: 1px solid #fff9ec8a;
+  transform: rotateY(0deg);
 
   // Hero Patterns polka dots pattern.
   background-image: url("/images/heropatterns/dots.svg");
