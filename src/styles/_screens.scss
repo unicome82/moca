@@ -1,0 +1,583 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+
+// Intro screen
+.intro-page {
+  @include position(relative);
+
+  display: grid;
+  flex: 1;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100dvh - $height-header - $space-14);
+  align-items: center;
+  padding: $space-14 4% $space-16;
+}
+
+.intro-copy {
+  z-index: 1;
+
+  h1 {
+    margin: $space-6 0 $space-4;
+    @include font(clamp(40px, 4.4vw, 48px), 400, $color-black);
+    line-height: 1.4;
+
+    span {
+      color: $color-primary;
+    }
+  }
+  p {
+    margin-bottom: $space-5;
+    @include font($font-size-s, 400, $color-black60);
+  }
+}
+
+.eyebrow {
+  @include flex(center, flex-start, row, $space-2);
+  @include font($font-size-s, 400, $color-black50);
+}
+
+.hero-art {
+  @include position(relative);
+
+  flex: 1;
+  width: min(100%, 400px);
+  aspect-ratio: 1;
+  justify-self: center;
+  container-type: inline-size;
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+.hero-orbit {
+  @include position(absolute, 50%, null, null, 50%);
+
+  width: 100%;
+  aspect-ratio: 1.6 / 1;
+  border: 3px dotted $color-primary-l;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotateX(28deg) rotateZ(40deg);
+  opacity: 0.8;
+
+  &.dotted {
+    transform: translate(-50%, -50%) rotateX(28deg) rotateZ(-40deg);
+  }
+}
+
+.hero-card {
+  @include position(absolute, 50%, null, null, 50%);
+  @include flex(stretch, space-evenly, column);
+
+  width: 47%;
+  aspect-ratio: 5 / 7;
+  padding: 6%;
+  border-radius: $radius-s;
+  color: #fff;
+  box-shadow: 0 $space-5 $space-12 #4c403318;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(50, 50, 50, 0) 0,
+      rgba(50, 50, 50, 0.5) 100%
+    );
+    mix-blend-mode: difference;
+    pointer-events: none;
+  }
+
+  &-back {
+    background: $color-primary-l;
+    transform: translate(-45%, -45%) rotate(8deg);
+    box-shadow: 0 3cqw 6cqw $color-black20;
+  }
+
+  &-front {
+    z-index: 1;
+    align-items: center;
+    background: $color-primary;
+    background-image: url("/images/heropatterns/dots.svg");
+    background-size: 8%;
+    transform: translate(-60%, -53%);
+    box-shadow: 0 3cqw 6cqw $color-black30;
+  }
+}
+
+.hero-card-index {
+  @include font(5cqw, 800);
+  align-self: stretch;
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+
+.hero-sun {
+  @include flex(center, center);
+  @include font(24cqw, 400);
+  line-height: 1;
+}
+
+.hero-sparkle {
+  @include position(absolute);
+
+  color: $color-primary;
+  font-size: 10cqw;
+
+  &.sparkle-one {
+    top: 20%;
+    right: 6%;
+  }
+
+  &.sparkle-two {
+    bottom: 14%;
+    left: 7%;
+    font-size: 8cqw;
+  }
+}
+
+// Main list
+.home-page {
+  padding: $space-12 5% $space-8;
+  flex: 1;
+  max-width: $width-content + $space-14;
+}
+
+.welcome-row {
+  @include flex(center, space-between);
+  margin-bottom: $space-8;
+
+  h1 {
+    margin: $space-3 0 $space-8;
+    @include font(clamp(28px, 3.4vw, 32px), 400);
+    line-height: 1.45;
+  }
+}
+
+.deck-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
+  gap: $space-4;
+}
+
+.deck-card {
+  @include keyboard-focus;
+  @include flex(stretch, space-between, row, $space-4);
+
+  overflow: hidden;
+  padding: clamp($space-5, 2vw, $space-8);
+  border: 0;
+  border-radius: $radius-m;
+  background: #fff;
+  text-align: left;
+  text-decoration: none;
+  box-shadow: 0 $space-1 $space-2 $color-black10;
+  cursor: pointer;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+
+  &:hover {
+    transform: translateY(-$space-1);
+    box-shadow: 0 $space-4 $space-6 #51473514;
+  }
+}
+
+.deck-content {
+  font-size: clamp($font-size-xs, 1vw, $font-size-m);
+
+  h2 {
+    margin: $space-2 0 $space-1;
+    @include font(clamp($font-size-l, 2vw, $font-size-xl), 400);
+  }
+
+  p {
+    color: $color-black50;
+  }
+}
+
+.deck-en {
+  @include font($font-size-xs, 800, $color-black30);
+  display: inline-block;
+}
+
+.deck-symbol {
+  @include flex(center, center);
+
+  flex: 0 0 $space-12;
+  align-self: center;
+  color: $color-black70;
+
+  .google-symbol {
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 200,
+      "GRAD" 0,
+      "opsz" 40;
+  }
+}
+
+.draw-stage {
+  @include position(relative);
+
+  display: grid;
+  min-height: 0;
+  place-items: center;
+  perspective: 1296px;
+}
+
+.draw-card {
+  @include position(relative);
+  @include keyboard-focus;
+
+  z-index: 1;
+  display: block;
+  height: 40vh;
+  aspect-ratio: 5/7;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: initial;
+  cursor: pointer;
+  transition:
+    width 0.45s ease,
+    height 0.45s ease;
+
+  &.is-flipped .draw-card-inner {
+    transform: rotateY(180deg);
+  }
+}
+
+.draw-card-inner {
+  @include position(relative);
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.25, 1);
+  container-type: inline-size;
+}
+
+.draw-card.is-handoff .draw-card-inner {
+  transition-duration: 0.35s;
+}
+
+.draw-card.is-handoff .card-prompt {
+  visibility: hidden;
+}
+
+.draw-card.is-replacing .card-front > * {
+  visibility: hidden;
+}
+
+.card-face {
+  @include position(absolute, 0, 0, 0, 0);
+  @include flex(center, flex-start, column);
+
+  border-radius: 6.4cqw;
+  backface-visibility: hidden;
+  box-shadow: 0 $space-6 $space-15 #38312620;
+  box-shadow: 0 8cqw 12cqw $color-black10;
+  transition: 0.3s;
+}
+
+.card-back {
+  overflow: hidden;
+  padding: $space-6;
+  border: 1px solid #fff9ec8a;
+
+  // Hero Patterns polka dots pattern.
+  background-image: url("/images/heropatterns/dots.svg");
+  background-size: 5%;
+  box-shadow: 0 8cqw 12cqw $color-black30;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(50, 50, 50, 0) 0,
+      rgba(50, 50, 50, 0.5) 100%
+    );
+    mix-blend-mode: difference;
+    pointer-events: none;
+  }
+}
+
+.card-back-mark {
+  @include flex(center, center, column, $space-5);
+
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  place-items: center;
+  color: var(--ui-bg);
+}
+.card-back-symbol {
+  @include flex(center, center);
+  @include font(32cqw, 400);
+
+  animation: card-back-symbol-rotation 12s linear infinite;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  line-height: 1;
+}
+
+@keyframes card-back-symbol-rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-back-symbol {
+    animation: none;
+  }
+}
+
+.card-back-ornament {
+  @include font(9.6cqw, 900);
+  letter-spacing: 0.2em;
+}
+
+.card-back-bottom {
+  margin-top: 16cqw;
+  padding: 3.2cqw 6.4cqw;
+  font-size: 6.4cqw;
+  border-radius: 3.2cqw;
+  border: 1px solid #fff;
+}
+
+.card-front {
+  justify-content: space-between;
+  padding: $space-6;
+  background: $color-bg-card;
+  transform: rotateY(180deg);
+  text-align: center;
+  .eyebrow {
+    font-size: 6cqw;
+  }
+}
+
+.card-front-tag {
+  @include font(4.8cqw, 600, $color-black50);
+}
+
+.card-front-symbol {
+  @include font(14.4cqw, 400);
+}
+
+.card-prompt {
+  @include flex(center, center);
+  @include font(8cqw, 400);
+  flex: 1;
+  max-width: 100%;
+  word-break: keep-all;
+}
+
+.draw-icebreak {
+  .card-back {
+    background-color: deck-color(icebreak, back);
+  }
+
+  .card-front-symbol {
+    color: deck-color(icebreak, accent);
+  }
+}
+
+.draw-solution {
+  .card-back {
+    background-color: deck-color(solution, back);
+  }
+
+  .card-front-symbol {
+    color: deck-color(solution, accent);
+  }
+}
+
+.draw-liar {
+  .card-back {
+    background-color: deck-color(liar, back);
+  }
+
+  .card-front-symbol {
+    color: deck-color(liar, accent);
+  }
+}
+
+// Draw card screens
+.draw-page {
+  @include flex(stretch, space-evenly, column, 3vh);
+
+  flex: 1;
+  min-height: calc(100dvh - $space-34);
+  padding: $space-10 5% $space-8;
+}
+
+.draw-heading {
+  text-align: center;
+
+  h1 {
+    margin: $space-2 0 $space-1;
+    @include font($font-size-2xl, 400);
+  }
+
+  p {
+    margin: 0;
+    @include font($font-size-s, 400, $color-black60);
+  }
+  .eyebrow {
+    @include flex(center, center, column);
+    @include font($font-size-s, 800, $color-black);
+    &:after {
+      content: "";
+      margin-top: $space-4;
+      width: 1px;
+      height: 5vh;
+      background: $color-black90;
+    }
+  }
+}
+
+.app-frame.is-header-hidden {
+  .draw-card {
+    height: 60vh;
+  }
+
+  :not(:has(.liar-guess-panel)) .draw-heading {
+    p,
+    h1 {
+      display: none;
+    }
+  }
+
+  .site-footer {
+    display: none;
+  }
+}
+
+.draw-bottom {
+  @include flex(stretch, flex-start, column, $space-3);
+  min-height: $height-button;
+  text-align: center;
+}
+
+.draw-hint {
+  color: $color-black50;
+  font-size: $font-size-s;
+}
+
+.site-footer {
+  @include flex(center, space-between);
+
+  margin-top: auto;
+  padding-top: $space-7;
+  color: $color-black50;
+  font-size: $font-size-xs;
+  .copyright {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.setup-section {
+  padding-top: $space-6;
+  border-top: 1px solid $color-black10;
+}
+
+.player-picker {
+  @include flex(center, center, row, $space-8);
+  margin-top: $space-4;
+
+  > strong {
+    color: deck-color(liar, accent);
+    font-size: $font-size-3xl;
+    font-weight: 500;
+    text-align: center;
+  }
+}
+
+.select-wrap {
+  margin-top: $space-5;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(4em, 1fr));
+  gap: $space-3;
+  width: 100%;
+
+  .option {
+    &.selected {
+      background: deck-color(liar, accent);
+      border-color: deck-color(liar, accent);
+      color: var(--ui-soft, #f7eee9);
+    }
+  }
+}
+
+.liar-result-panel {
+  display: grid;
+  width: min(100%, 440px);
+  place-items: center;
+}
+
+.liar-guess-result {
+  grid-column: 1 / -1;
+  padding: $space-2 0;
+  color: var(--ui-text, #{$color-black});
+  text-align: center;
+}
+
+// Fluid layouts adapt to the available width and height without device-specific overrides.
+.header {
+  height: clamp($space-12, 8vw, $space-15);
+  padding-inline: 0;
+
+  .theme-options,
+  .skin-options {
+    grid-template-columns: repeat(auto-fit, minmax($space-12, 1fr));
+  }
+}
+
+.intro-page {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp($space-4, 4vw, $space-14);
+  min-height: calc(100dvh - $space-34);
+  padding: clamp($space-7, 6vw, $space-14);
+
+  .intro-copy {
+    max-width: 520px;
+
+    h1 {
+      margin: clamp($space-4, 3vw, $space-6) 0 clamp($space-3, 2vw, $space-5);
+      font-size: clamp(28px, 4.4vw, 48px);
+    }
+
+    p {
+      font-size: clamp($font-size-s, 1.2vw, $font-size-m);
+    }
+  }
+}
+
+.home-page {
+  @include flex(stretch, flex-start, column);
+  padding: clamp($space-8, 5vw, $space-12) clamp($space-4, 5vw, $space-18)
+    clamp($space-6, 4vw, $space-8);
+
+  .welcome-row h1 {
+    margin: clamp($space-3, 2vw, $space-5) 0;
+    font-size: clamp($font-size-xl, 3vw, 32px);
+  }
+
+  .deck-list {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: clamp($space-3, 1.6vw, $space-5);
+  }
+}
+
+.draw-page {
+  min-height: calc(100dvh - $space-34);
+  padding: clamp($space-3, 8vw, $space-14);
+
+  .draw-heading h1 {
+    font-size: clamp($font-size-xl, 3vw, 32px);
+  }
+}

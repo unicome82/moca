@@ -1,0 +1,35 @@
+@mixin skin-presets {
+  .app-shell[data-skin="pattern"] .draw-card .card-back {
+    background-image:
+      repeating-linear-gradient(45deg, #ffffff18 0 1px, transparent 1px 9px),
+      repeating-linear-gradient(-45deg, #0000000c 0 1px, transparent 1px 9px);
+  }
+
+  .app-shell[data-skin="dim-photo"] .draw-card .card-back {
+    background-image:
+      linear-gradient(#17171780, #17171780),
+      radial-gradient(ellipse at 72% 28%, #fff9d2 0 8%, transparent 9%),
+      linear-gradient(165deg, transparent 48%, #263d37 49% 68%, #172824 69%);
+  }
+
+  .app-shell[data-skin="illustration"] .draw-card .card-back {
+    background-image:
+      radial-gradient(ellipse at 25% 25%, #ffffff66 0 8%, transparent 9%),
+      radial-gradient(ellipse at 75% 72%, #ffffff35 0 15%, transparent 16%),
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--ui-back), white 20%),
+        var(--ui-back)
+      );
+  }
+
+  .app-shell[data-skin="modern"] .draw-card .card-back {
+    background-image:
+      linear-gradient(145deg, #ffffff24, transparent 45%),
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--ui-back), white 12%),
+        var(--ui-back)
+      );
+  }
+}

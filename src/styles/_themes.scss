@@ -1,0 +1,85 @@
+@use "./variables" as *;
+
+@mixin theme-presets {
+  // Luxe: dark surfaces, fine gold lines, and serif headings.
+  .app-shell[data-theme="luxe"] {
+    --ui-primary: #b69b67;
+    --ui-secondary: #92794d;
+    --ui-bg: #191919;
+    --ui-card: #292929;
+    --ui-line: #514a3d;
+    --ui-soft: #302d27;
+    --ui-back: #39352d;
+    --ui-text: #f4efe5;
+
+    .deck-card {
+      border: 1px solid var(--ui-line);
+      background: var(--ui-card);
+      color: var(--ui-text);
+    }
+    .deck-content p,
+    .draw-heading p,
+    .draw-hint,
+    .site-footer {
+      color: #c3bdaf;
+    }
+  }
+
+  // Cute: pill-like controls and soft rounded cards.
+  .app-shell[data-theme="cute"] {
+    --ui-primary: #e27e91;
+    --ui-secondary: #bd6579;
+    --ui-bg: #fff7f8;
+    --ui-card: #fffefe;
+    --ui-line: #f2dce1;
+    --ui-soft: #ffedf0;
+    --ui-back: #e9a4b1;
+    --ui-text: #46353a;
+
+    .deck-card,
+    .card-face,
+    .btn.line {
+      border-radius: $radius-xl;
+    }
+
+    .deck-card {
+      box-shadow: 0 8px 20px #e27e911c;
+    }
+  }
+
+  // Retro: monospaced type and hard-edged shadows.
+  .app-shell[data-theme="retro"] {
+    --ui-primary: #984c36;
+    --ui-secondary: #70412f;
+    --ui-bg: #f1e4c5;
+    --ui-card: #f7edcf;
+    --ui-line: #cbb98e;
+    --ui-soft: #e7d6aa;
+    --ui-back: #b96746;
+    --ui-text: #382c20;
+
+    .deck-card,
+    .card-face,
+    .btn.line,
+    .btn.icon {
+      border-radius: 0;
+    }
+
+    .deck-card,
+    .draw-card .card-face {
+      box-shadow: 4px 4px 0 #382c2030;
+    }
+  }
+
+  // Vintage: warm paper surfaces and restrained borders.
+  .app-shell[data-theme="vintage"] {
+    --ui-primary: #806b4e;
+    --ui-secondary: #65543f;
+    --ui-bg: #eee8dc;
+    --ui-card: #f8f2e6;
+    --ui-line: #d5c9b4;
+    --ui-soft: #e7dece;
+    --ui-back: #9b8463;
+    --ui-text: #382f25;
+  }
+}

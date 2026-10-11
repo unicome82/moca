@@ -1,0 +1,252 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+@use "./reset";
+@use "./themes" as *;
+@use "./skins" as *;
+
+@include theme-presets;
+@include skin-presets;
+
+.btn {
+  @include flex(center, center, row, $space-2);
+  @include font($font-size-s, 500, $color-black80);
+  @include keyboard-focus;
+
+  min-height: $height-button;
+  padding: 0 $space-2;
+  text-decoration: none;
+  border-radius: $radius-s;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    border-color 0.2s;
+
+  &.line {
+    border: 1px solid $color-black80;
+    color: var(--ui-text, #{$color-black});
+
+    &:hover {
+      background: var(--ui-card, white);
+    }
+  }
+
+  &.black {
+    background: $color-black;
+    color: white;
+  }
+
+  &.white {
+    background: white;
+    border: 1px solid $color-black10;
+  }
+
+  &.small {
+    min-height: $height-button-s;
+    padding: 0 $space-4;
+  }
+
+  &.icon {
+    @include flex(center, center);
+
+    padding: 0;
+    aspect-ratio: 1;
+  }
+}
+
+h1,
+h2,
+h3,
+.hero-sun,
+.card-front-symbol,
+.card-prompt {
+  font-family: "Gowun Dodum", sans-serif;
+}
+
+.google-symbol {
+  display: inline-block;
+  flex: 0 0 auto;
+  font-family: "Material Symbols Outlined";
+  font-size: $font-size-xl;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  direction: ltr;
+  font-feature-settings: "liga";
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+
+  &.is-filled {
+    font-variation-settings:
+      "FILL" 1,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 24;
+  }
+}
+
+// App frame and header
+.app-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: $color-black;
+  background: var(--ui-bg, #{$color-bg});
+  --ui-primary: #{$color-primary};
+  --ui-secondary: #{$color-secondary};
+  --ui-bg: #{$color-bg};
+  --ui-card: #{$color-bg-card};
+  --ui-line: #{$color-black10};
+  --ui-soft: #{$color-bg};
+  --ui-back: #{$color-primary-d};
+  --ui-text: #{$color-black};
+}
+
+.app-frame {
+  @include flex(stretch, flex-start, column);
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0;
+  color: var(--ui-text, #{$color-black});
+  background: var(--ui-bg, #{$color-bg});
+}
+
+.header {
+  @include flex(center, space-between);
+
+  height: $height-header;
+  padding: 0 $space-7;
+  position: relative;
+  border-bottom: 1px solid $color-black10;
+  transition:
+    height 0.28s ease,
+    padding 0.28s ease,
+    opacity 0.2s ease,
+    transform 0.28s ease;
+
+  &.is-hidden {
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    border-bottom-width: 0;
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+  }
+}
+
+.brand-mark {
+  @include flex(center, flex-start, row, $space-2);
+  @include font($font-size-s, 800);
+
+  padding-left: $space-4;
+  cursor: pointer;
+}
+
+.brand-dot {
+  @include flex(center, center);
+  @include font($font-size-m, 500, #fff);
+  width: $space-5;
+  height: $space-6;
+  border-radius: $radius-xs;
+  background: $color-black;
+  line-height: 1;
+}
+
+.header-actions {
+  @include flex(center, flex-start);
+  position: relative;
+}
+
+.popup-wrap {
+  @include position(fixed, 0, 0, 0, 0);
+  @include flex(center, center);
+
+  z-index: 20;
+  padding: $space-4;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.popup {
+  @include flex(stretch, flex-start, column);
+
+  width: min(600px, 100%);
+  max-height: calc(100dvh - #{$space-8});
+  border-radius: $radius-m;
+  background: var(--ui-card, white);
+  box-shadow: 0 $space-4 $space-12 #29251f24;
+}
+
+.popup-header {
+  @include flex(center, space-between);
+  @include font($font-size-m, 900);
+  padding: $space-3 $space-5;
+  flex: 0 0 auto;
+  .btn-close {
+    margin-right: -$space-2;
+  }
+}
+
+.popup-inner {
+  padding: 0 $space-5 $space-5;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.popup-footer {
+  @include flex(center, center, $space-2);
+  padding: $space-5;
+  .btn {
+    flex: 1;
+  }
+}
+
+.settings-group {
+  padding-top: $space-8;
+  h4 {
+    @include font($font-size-xs, 500, $color-black80);
+    margin-bottom: $space-3;
+  }
+}
+
+.theme-options,
+.skin-options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: $space-2;
+}
+
+.theme-option,
+.skin-option {
+  @include flex(center, flex-start, column, $space-1);
+
+  min-width: 0;
+  padding: $space-2 $space-1;
+  border: 1px solid transparent;
+  border-radius: $radius-s;
+  background: transparent;
+  font-size: $font-size-xs;
+  cursor: pointer;
+
+  &.selected {
+    border-color: var(--ui-text, #{$color-black});
+    background: var(--ui-text, #{$color-black});
+    color: var(--ui-soft, #fff);
+    .google-symbol {
+      font-variation-settings: "FILL" 1;
+    }
+  }
+}
+
+.theme-option > span {
+  @include flex(center, center);
+}

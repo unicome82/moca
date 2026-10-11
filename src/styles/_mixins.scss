@@ -1,0 +1,50 @@
+@use "./variables" as *;
+
+@mixin flex($align: center, $justify: flex-start, $direction: row, $gap: 0) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin font($size: 16px, $weight: 400, $color: inherit) {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+
+@mixin position(
+  $type: relative,
+  $top: null,
+  $right: null,
+  $bottom: null,
+  $left: null
+) {
+  position: $type;
+
+  @if $top != null {
+    top: $top;
+  }
+  @if $right != null {
+    right: $right;
+  }
+  @if $bottom != null {
+    bottom: $bottom;
+  }
+  @if $left != null {
+    left: $left;
+  }
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin keyboard-focus {
+  &:focus-visible {
+    outline: 2px solid $color-secondary;
+    outline-offset: 4px;
+  }
+}
