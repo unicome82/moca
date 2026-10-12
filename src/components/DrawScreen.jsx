@@ -98,7 +98,7 @@ export default function DrawScreen({
                   )}
                   <span
                     className={`balance-choices${
-                      isShortBalanceChoices ? " is-stacked" : ""
+                      isShortBalanceChoices ? " " : " is-stacked"
                     }`}
                   >
                     <span className="balance-choice">{card.optionA}</span>
