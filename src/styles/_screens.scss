@@ -163,7 +163,6 @@
   h1 {
     margin: $space-3 0 $space-8;
     @include font(clamp(28px, 3.4vw, 32px), 400);
-    line-height: 1.45;
   }
 }
 
@@ -382,6 +381,51 @@
   word-break: keep-all;
 }
 
+.balance-prompt {
+  @include flex(center, center, column, 5cqw);
+
+  width: 100%;
+  padding: 0 1cqw;
+  font-size: 6.4cqw;
+}
+
+.balance-question {
+  @include font(5cqw, 600, var(--ui-text, #{$color-black}));
+  opacity: 0.5;
+}
+
+.balance-choices {
+  @include flex(center, center, row, 3cqw);
+  @include font(8cqw, 400, var(--ui-text, #{$color-black}));
+
+  width: 100%;
+
+  &.is-stacked {
+    flex-direction: column;
+
+    .balance-choice {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+.balance-choice {
+  @include flex(center, center, row);
+
+  flex: 1;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.balance-vs {
+  @include font(5cqw, 600, #fff);
+  padding: 0.35em 0.75em;
+  background: deck-color(balance, back);
+  border-radius: $radius-l;
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+
 .draw-icebreak {
   .card-back {
     background-color: deck-color(icebreak, back);
@@ -409,6 +453,16 @@
 
   .card-front-symbol {
     color: deck-color(liar, accent);
+  }
+}
+
+.draw-balance {
+  .card-back {
+    background-color: deck-color(balance, back);
+  }
+
+  .card-front-symbol {
+    color: deck-color(balance, accent);
   }
 }
 
@@ -596,4 +650,3 @@
     margin-inline: auto;
   }
 }
-

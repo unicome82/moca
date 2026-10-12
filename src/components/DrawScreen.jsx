@@ -17,6 +17,12 @@ export default function DrawScreen({
   const card = collection?.[cardIndex] ?? collection?.[0];
   const flipped = revealStage === "revealed";
   const isQuestion = deckId === "ice";
+  const isBalance = deckId === "balance";
+  const isShortBalanceChoices =
+    isBalance &&
+    [card?.optionA, card?.optionB].every(
+      (choice) => Array.from(choice?.replace(/\s/g, "") ?? "").length <= 4,
+    );
 
   if (!deck || !card) {
     return (
@@ -51,9 +57,11 @@ export default function DrawScreen({
         <span className="eyebrow">{deck.en}</span>
         <h1>{deck.title}</h1>
         <p>
-          {isQuestion
-            ? "카드를 눌러 질문을 확인하세요."
-            : "카드를 눌러 해결책을 확인하세요."}
+          {isBalance
+            ? "카드를 눌러 질문과 선택지를 확인하세요."
+            : isQuestion
+              ? "카드를 눌러 질문을 확인하세요."
+              : "카드를 눌러 해결책을 확인하세요."}
         </p>
       </div>
       <div className="draw-stage">
@@ -65,9 +73,11 @@ export default function DrawScreen({
           aria-label={
             flipped
               ? "다음 카드 뽑기"
-              : isQuestion
-                ? "질문 보기"
-                : "해결책 보기"
+              : isBalance
+                ? "밸런스 질문 보기"
+                : isQuestion
+                  ? "질문 보기"
+                  : "해결책 보기"
           }
           backContent={
             <span className="card-back-mark">
@@ -81,9 +91,28 @@ export default function DrawScreen({
             <>
               <span className="card-front-symbol">❋</span>
               <span className="card-front-tag">MOCA</span>
-              <span className="card-prompt">
-                {isQuestion ? card.question : card.solution}
-              </span>
+              {isBalance ? (
+                <span className="card-prompt balance-prompt">
+                  {card.question && (
+                    <span className="balance-question">{card.question}</span>
+                  )}
+                  <span
+                    className={`balance-choices${
+                      isShortBalanceChoices ? " is-stacked" : ""
+                    }`}
+                  >
+                    <span className="balance-choice">{card.optionA}</span>
+                    <span className="balance-vs" aria-hidden="true">
+                      VS
+                    </span>
+                    <span className="balance-choice">{card.optionB}</span>
+                  </span>
+                </span>
+              ) : (
+                <span className="card-prompt">
+                  {isQuestion ? card.question : card.solution}
+                </span>
+              )}
             </>
           }
         />

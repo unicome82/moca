@@ -146,6 +146,8 @@ export default function App() {
 
   useEffect(() => {
     setRevealStage("hidden");
+    const collection = cardCollections[screen];
+    if (collection) setCardIndex(pickUnseenIndex(screen, collection));
     if (screen === "liar-game") return;
 
     setKeyword("");
@@ -241,9 +243,14 @@ export default function App() {
       onBack={goBack}
       onHome={() => navigate("intro")}
       screen={screen}
-      isCardScreen={screen === "ice" || screen === "solution" || screen === "liar-game"}
+      isCardScreen={
+        screen === "ice" ||
+        screen === "solution" ||
+        screen === "balance" ||
+        screen === "liar-game"
+      }
       isCardRevealed={
-        ((screen === "ice" || screen === "solution") && revealStage === "revealed") ||
+        ((screen === "ice" || screen === "solution" || screen === "balance") && revealStage === "revealed") ||
         (screen === "liar-game" && ["shown", "handoff", "liar-reveal", "keyword"].includes(liarStage))
       }
       theme={theme}
@@ -254,7 +261,7 @@ export default function App() {
     >
       {screen === "intro" && <IntroScreen onStart={() => navigate("home")} />}
       {screen === "home" && <MainListScreen onNavigate={navigate} />}
-      {(screen === "ice" || screen === "solution") && (
+      {(screen === "ice" || screen === "solution" || screen === "balance") && (
         <DrawScreen
           key={screen}
           deckId={screen}

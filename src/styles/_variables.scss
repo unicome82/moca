@@ -20,6 +20,7 @@ $color-bg-card: #fffdf8;
 $color-deck-icebreak: rgb(55, 82, 171);
 $color-deck-solution: rgb(191, 113, 72);
 $color-deck-liar: rgb(43, 129, 75);
+$color-deck-balance: rgb(112, 83, 145);
 
 $deck-colors: (
   icebreak: (
@@ -39,6 +40,12 @@ $deck-colors: (
     back: rgba($color-deck-liar, 0.84),
     accent: $color-deck-liar,
     sparkle: rgba($color-deck-liar, 0.45),
+  ),
+  balance: (
+    surface: rgba($color-deck-balance, 0.2),
+    back: rgba($color-deck-balance, 0.84),
+    accent: $color-deck-balance,
+    sparkle: rgba($color-deck-balance, 0.45),
   ),
 );
 

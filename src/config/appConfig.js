@@ -3,6 +3,7 @@ export const screens = [
   "home",
   "ice",
   "solution",
+  "balance",
   "liar-setup",
   "liar-game",
 ];
