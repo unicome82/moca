@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import DrawScreen from "./components/DrawScreen.jsx";
-import IntroScreen from "./components/IntroScreen.jsx";
+import ThemeLanding from "./themes/ThemeLanding.jsx";
 import LiarGameScreen from "./components/LiarGameScreen.jsx";
 import LiarSetupScreen from "./components/LiarSetupScreen.jsx";
-import MainListScreen from "./components/MainListScreen.jsx";
+
 import ScreenLayout from "./components/ScreenLayout.jsx";
 import { cardCollections, liarCategories } from "./data/decks.js";
 import { skinImageAssets } from "./data/skinAssets.js";
@@ -127,8 +127,8 @@ export default function App() {
   const [playerIndex, setPlayerIndex] = useState(initialLiarSession?.playerIndex ?? 0);
   const [liarStage, setLiarStage] = useState(initialLiarSession?.stage ?? "pass");
   const [theme, setTheme] = useState(() => {
-    const saved = readPreference(storageKeys.preference("theme"), "social");
-    return themes.includes(saved) ? saved : "social";
+    const saved = readPreference(storageKeys.preference("theme"), "prism");
+    return themes.includes(saved) ? saved : "prism";
   });
   const [skin, setSkin] = useState(() => {
     const saved = readPreference(storageKeys.preference("skin"), "base");
@@ -178,8 +178,11 @@ export default function App() {
   }, [screen, keyword, navigate]);
 
   const changeTheme = (value) => {
+    if (value === theme || !themes.includes(value)) return;
     setTheme(value);
     savePreference(storageKeys.preference("theme"), value);
+    navigate("intro");
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   const changeSkin = (value) => {
@@ -259,8 +262,11 @@ export default function App() {
       onThemeChange={changeTheme}
       onSkinChange={changeSkin}
     >
-      {screen === "intro" && <IntroScreen onStart={() => navigate("home")} />}
-      {screen === "home" && <MainListScreen onNavigate={navigate} />}
+      {(screen === "intro" || screen === "home") && (
+        <ThemeLanding key={theme} theme={theme} expanded={screen === "home"}
+          onExpand={() => navigate("home")} onCollapse={() => navigate("intro")}
+          onNavigate={navigate} />
+      )}
       {(screen === "ice" || screen === "solution" || screen === "balance") && (
         <DrawScreen
           key={screen}

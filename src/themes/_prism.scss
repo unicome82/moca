@@ -1,0 +1,199 @@
+@use "../styles/variables" as *;
+@use "../styles/mixins" as *;
+
+.theme-landing[data-theme="prism"] {
+  --outer-space: clamp(16px, 2vw, 32px);
+  color-scheme: light;
+  background: $theme-color-bg;
+  @include font($family: $font-korean-serif);
+  .visual {
+    padding: var(--outer-space);
+    min-height: 100svh;
+    height: 100svh;
+    width: 100%;
+    overflow: hidden;
+    &:has(.is-expanded) {
+      height: auto;
+      .card {
+        margin: 0;
+        min-height: var(--card-size);
+      }
+    }
+    .poster {
+      @include flex($align: stretch, $justify: center, $direction: column);
+      @include position(relative);
+      width: min(100%, 70svh, 800px);
+      container-type: inline-size;
+      min-height: calc(100svh - 2 * var(--outer-space));
+      &:not(.is-expanded) {
+        max-height: 100%;
+      }
+      .list {
+        @include flex($direction: column, $gap: 2vh);
+        --card-blend-mode: plus-lighter;
+        --card-size: 20vh;
+        isolation: isolate;
+        width: 100%;
+        transition: padding 900ms cubic-bezier(0.22, 1, 0.36, 1);
+        .card {
+          @include font($family: $font-korean-serif);
+          margin: -2% 0;
+          --card-padding: clamp(12px, 5cqw, 40px);
+          width: 100%;
+          border-radius: var(--radius, clamp(16px, 3cqw, 24px));
+          mix-blend-mode: var(--card-blend-mode);
+          color: rgba($theme-color-black, 0);
+          filter: blur(6px);
+          transform: translateX(var(--shift, 0cqw)) skew(var(--skew-x, 0deg), var(--skew-y, 0deg)) rotate(var(--rotation, 0deg)) scale(var(--scale-x, 1), var(--scale-y, 1.4));
+          animation: card-enter 600ms ease-out var(--enter-delay) both;
+          &:nth-child(n + 6) {
+            display: none;
+          }
+          & + & {
+            margin-top: calc(var(--card-size) * -0.45);
+          }
+          h2 {
+            @include font($line-height: 1.1, $weight: 500, $spacing: -0.04em);
+            margin-bottom: 0.35em;
+          }
+          p {
+            @include font($family: $font-sans, $line-height: 1.5);
+          }
+          .icon {
+            @include font($size: clamp(20px, 7cqw, 56px), $line-height: 1);
+            margin-bottom: 0.2em;
+            display: block;
+          }
+          @each $tone, $color in ( "blue": $theme-color-card-blue, "pink": $theme-color-card-pink, "green": $theme-color-card-green, "yellow": $theme-color-card-yellow, "purple": $theme-color-card-purple, "brown": $theme-color-card-brown, "ivory": $theme-color-card-ivory, "muted-blue": $theme-color-card-muted-blue, "gray": $theme-color-card-gray, "charcoal": $theme-color-card-charcoal ) {
+            &[data-tone="#{$tone}"] {
+              background: rgba($color, 0.9);
+            }
+          }
+          &:nth-child(1) {
+            --enter-delay: 1000ms;
+          }
+          &:nth-child(2) {
+            --enter-delay: 1100ms;
+          }
+          &:nth-child(3) {
+            --enter-delay: 1300ms;
+          }
+          &:nth-child(4) {
+            --enter-delay: 1600ms;
+          }
+          &:nth-child(5) {
+            --enter-delay: 2000ms;
+          }
+        }
+      }
+      .copy {
+        @include position( absolute, $top: calc(50svh - var(--outer-space)), $left: 0 );
+        transform: translateY(-50%);
+        width: 100%;
+        z-index: 1;
+        text-align: center;
+        color: $theme-color-black;
+        animation: copy-enter 2000ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 120ms both;
+        transition: top 950ms cubic-bezier(0.22, 1, 0.36, 1), transform 950ms cubic-bezier(0.22, 1, 0.36, 1);
+        h1, .event, .subtitle {
+          transition: font-size 950ms cubic-bezier(0.22, 1, 0.36, 1), line-height 950ms ease, margin 950ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .trigger {
+          @include position(absolute, $inset: 0);
+          width: 100%;
+          height: 100%;
+        }
+        .event {
+          @include font($family: $font-sans, $size: clamp(10px, 3.75cqw, 30px), $weight: 700, $line-height: 1.25, $spacing: 0.1083em);
+          margin-bottom: clamp(10px, 4.6875cqw, 37.5px);
+          padding: 0.5em 1em;
+          display: inline-block;
+          border-radius: 50%;
+          border: 1px solid $theme-color-black80;
+        }
+        h1 {
+          @include font($family: $font-korean-serif, $size: clamp(28px, 8cqw, 64px), $weight: 400, $line-height: 1.25, $spacing: -0.0357em);
+          &:lang(en) {
+            font-family: $font-serif;
+          }
+        }
+        .subtitle {
+          @include font($family: $font-sans, $line-height: 1.2, $spacing: -0.0185em);
+          margin-top: clamp(10px, 4.6875cqw, 37.5px);
+        }
+      }
+      &.has-entered .copy {
+        animation: none;
+        opacity: 1;
+        visibility: visible;
+      }
+      &.is-expanded {
+        .list {
+          padding: 30cqw 0 0;
+          .card {
+            margin: 0;
+            animation: none;
+            transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), border-radius 900ms cubic-bezier(0.22, 1, 0.36, 1), margin-top 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 700ms ease, color 600ms ease;
+            transform: none;
+            border-radius: clamp(16px, 3cqw, 24px);
+            filter: blur(0);
+            color: $theme-color-black;
+            &[data-tone="brown"], &[data-tone="muted-blue"], &[data-tone="charcoal"] {
+              color: $theme-color-card-ivory;
+            }
+            &:nth-child(n + 6) {
+              display: block;
+            }
+            & + & {
+              margin-top: clamp(20px, 5cqw, 40px);
+            }
+          }
+        }
+        .copy {
+          animation: none;
+          top: 0;
+          transform: translateY(0);
+          opacity: 1;
+          visibility: visible;
+          .trigger {
+            display: none;
+          }
+          .event {
+            margin-bottom: 2cqw;
+            font-size: clamp(9px, 2cqw, 16px);
+          }
+          h1 {
+            font-size: clamp(20px, 5cqw, 40px);
+            line-height: 1;
+            word-spacing: 0.12em;
+            br {
+              display: none;
+            }
+          }
+          .subtitle {
+            margin-top: 2cqw;
+
+          }
+        }
+      }
+    }
+  }
+  @keyframes card-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes copy-enter {
+    from {
+      opacity: 0;
+      visibility: hidden;
+    }
+    to {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}

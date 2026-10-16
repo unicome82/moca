@@ -19,11 +19,11 @@ export const liarStages = [
 ];
 
 export const themeOptions = [
-  { id: "social", label: "기본", icon: "palette" },
-  { id: "luxe", label: "럭셔리", icon: "diamond" },
-  { id: "cute", label: "귀여운", icon: "favorite" },
-  { id: "retro", label: "레트로", icon: "videogame_asset" },
-  { id: "vintage", label: "빈티지", icon: "history" },
+  { id: "prism", label: "Prism", icon: "palette" },
+  { id: "shape", label: "Shape", icon: "category" },
+  { id: "folio", label: "Folio", icon: "auto_stories" },
+  { id: "retro", label: "Retro", icon: "videogame_asset" },
+  { id: "press", label: "Press", icon: "newspaper" },
 ];
 
 export const skinOptions = [

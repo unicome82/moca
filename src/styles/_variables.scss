@@ -7,12 +7,9 @@ $color-primary-l: #bdc9e5;
 $color-secondary: #50a7c2;
 $color-black: rgb(20, 30, 40);
 $color-black10: rgba(20, 30, 40, 0.1);
-$color-black20: rgba(20, 30, 40, 0.2);
 $color-black30: rgba(20, 30, 40, 0.3);
-$color-black40: rgba(20, 30, 40, 0.4);
 $color-black50: rgba(20, 30, 40, 0.5);
 $color-black60: rgba(20, 30, 40, 0.6);
-$color-black70: rgba(20, 30, 40, 0.7);
 $color-black80: rgba(20, 30, 40, 0.8);
 $color-black90: rgba(20, 30, 40, 0.9);
 $color-bg: #f8f7f3;
@@ -57,7 +54,6 @@ $deck-colors: (
 $font-size-xs: 12px;
 $font-size-s: 14px;
 $font-size-m: 16px;
-$font-size-l: 20px;
 $font-size-xl: 24px;
 $font-size-2xl: 32px;
 $font-size-3xl: 48px;
@@ -67,7 +63,6 @@ $radius-xs: 4px;
 $radius-s: 8px;
 $radius-m: 12px;
 $radius-l: 16px;
-$radius-xl: 24px;
 
 // Spacing and component heights use a 4px base unit
 $space-1: 4px;
@@ -78,23 +73,47 @@ $space-5: 20px;
 $space-6: 24px;
 $space-7: 28px;
 $space-8: 32px;
-$space-9: 36px;
 $space-10: 40px;
-$space-11: 44px;
 $space-12: 48px;
-$space-13: 52px;
 $space-14: 56px;
 $space-15: 60px;
-$space-16: 64px;
-$space-18: 72px;
-$space-20: 80px;
-$space-25: 100px;
 $space-34: 136px;
 
 $height-header: 80px;
 $height-button-s: 32px;
 $height-button: 48px;
-$height-button-l: 56px;
-$height-card-list: 264px;
-$height-card-draw: 360px;
-$width-content: 1080px;
+
+// Typography and visual theme colors
+$font-sans: ('Pretendard', sans-serif);
+$font-serif: (Georgia, 'Times New Roman', 'Noto Serif KR', serif);
+$font-korean-serif: $font-serif;
+$font-retro: ('Fraunces', Georgia, 'Noto Serif KR', serif);
+$font-display: ('Bodoni Moda', Georgia, 'Noto Serif KR', serif);
+$font-folio: ('Instrument Serif', Georgia, 'Noto Serif KR', serif);
+$theme-color-bg: #f8f5f4;
+$theme-color-black: #000;
+$theme-color-black70: rgba($theme-color-black, .7);
+$theme-color-black80: rgba($theme-color-black, .8);
+$theme-color-card-blue: #accdfb;
+$theme-color-card-pink: #f5b8c9;
+$theme-color-card-green: #b9dbb6;
+$theme-color-card-yellow: #f4d58b;
+$theme-color-card-purple: #cbbcf2;
+$theme-color-card-ivory: #ece8df;
+$theme-color-card-gray: #b8b8b8;
+$theme-color-card-charcoal: #484848;
+$theme-color-card-brown: #94745f;
+$theme-color-card-muted-blue: #718ba3;
+
+$breakpoint-mobile: 600px;
+$breakpoint-wide-mobile: 700px;
+$breakpoint-desktop: 1024px;
+
+// App surfaces for the visual themes
+$theme-palettes: (
+  prism: (bg: #f8f5f4, text: #202020, primary: #365b9d, card: #ffffff),
+  shape: (bg: #f5f1e8, text: #242822, primary: #a54c2e, card: #dadfcf),
+  folio: (bg: #f2eee1, text: #29231d, primary: #b54120, card: #eee0a0),
+  retro: (bg: #f1e4c5, text: #382c20, primary: #984c36, card: #f7edcf),
+  press: (bg: #f8f5ee, text: #35352f, primary: #56564d, card: #ffffff),
+);

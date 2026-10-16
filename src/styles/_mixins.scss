@@ -8,10 +8,20 @@
   gap: $gap;
 }
 
-@mixin font($size: 16px, $weight: 400, $color: inherit) {
+@mixin font(
+  $size: null,
+  $weight: null,
+  $color: null,
+  $family: null,
+  $line-height: null,
+  $spacing: null
+) {
   font-size: $size;
   font-weight: $weight;
   color: $color;
+  font-family: $family;
+  line-height: $line-height;
+  letter-spacing: $spacing;
 }
 
 @mixin position(
@@ -19,32 +29,28 @@
   $top: null,
   $right: null,
   $bottom: null,
-  $left: null
+  $left: null,
+  $inset: null
 ) {
   position: $type;
+  inset: $inset;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
 
-  @if $top != null {
-    top: $top;
-  }
-  @if $right != null {
-    right: $right;
-  }
-  @if $bottom != null {
-    bottom: $bottom;
-  }
-  @if $left != null {
-    left: $left;
+@mixin keyboard-focus($color: $color-secondary, $width: 2px, $offset: 4px, $selector: "&:focus-visible") {
+  #{$selector} {
+    outline: $width solid $color;
+    outline-offset: $offset;
   }
 }
 
-@mixin square($size) {
-  width: $size;
-  height: $size;
-}
-
-@mixin keyboard-focus {
-  &:focus-visible {
-    outline: 2px solid $color-secondary;
-    outline-offset: 4px;
-  }
+@mixin grid($columns: null, $gap: null, $align: null, $place: null) {
+  display: grid;
+  grid-template-columns: $columns;
+  gap: $gap;
+  align-items: $align;
+  place-items: $place;
 }

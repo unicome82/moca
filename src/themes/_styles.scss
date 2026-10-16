@@ -1,0 +1,84 @@
+@use "../styles/variables" as *;
+@use "../styles/mixins" as *;
+@use "sass:map";
+@use "./prism" as prism;
+@use "./shape" as shape;
+@use "./folio" as folio;
+@use "./retro" as retro;
+@use "./press" as press;
+
+@each $name, $palette in $theme-palettes {
+  .app-shell[data-theme="#{$name}"] {
+    --ui-bg: #{map.get($palette, bg)};
+    --ui-text: #{map.get($palette, text)};
+    --ui-black: #{map.get($palette, text)};
+    --ui-primary: #{map.get($palette, primary)};
+    --ui-secondary: #{map.get($palette, primary)};
+    --ui-back: #{map.get($palette, primary)};
+    --ui-card: #{map.get($palette, card)};
+    --ui-soft: #{map.get($palette, bg)};
+    --ui-line: #{rgba(map.get($palette, text), .22)};
+  }
+}
+.app-frame:has(> .theme-landing) > .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  border: 0;
+  background: transparent;
+  .brand-mark {
+    visibility: hidden;
+  }
+}
+.theme-landing {
+  min-height: 100svh;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .poster {
+    margin-inline: auto;
+  }
+  .card {
+    position: relative;
+    h2 {
+      font-size: clamp(16px, 5cqw, 40px);
+    }
+  }
+  .card p,
+  .copy .subtitle {
+    font-size: clamp(12px, 1.2vw, 16px);
+    opacity: 0.8;
+  }
+  .deck-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    padding: var(--card-padding, 0px);
+    border-radius: inherit;
+  }
+  .landing-copyright {
+    padding: 28px 16px;
+    color: inherit;
+    opacity: .65;
+    font-family: $font-sans;
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+    letter-spacing: .04em;
+  }
+  @include keyboard-focus($color: #365b9d, $width: 3px, $offset: 5px, $selector: ":focus-visible");
+  .intro:not([aria-expanded="true"]) {
+    cursor: pointer;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &, *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}

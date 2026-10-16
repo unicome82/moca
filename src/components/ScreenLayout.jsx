@@ -22,6 +22,7 @@ export default function ScreenLayout({
 
   useEffect(() => {
     setHeaderHidden(false);
+    if (screen === "intro") setSettingsOpen(false);
   }, [screen]);
 
   useLayoutEffect(() => {
@@ -106,6 +107,7 @@ export default function ScreenLayout({
             </button>
           )}
           <div className="header-actions">
+            {screen !== "intro" && (
             <button
               className={`btn icon settings-toggle ${settingsOpen ? "is-active" : ""}`}
               onClick={() => setSettingsOpen((open) => !open)}
@@ -115,7 +117,8 @@ export default function ScreenLayout({
             >
               <GoogleIcon name="settings" size={20} filled />
             </button>
-            {settingsOpen && (
+            )}
+            {screen !== "intro" && settingsOpen && (
               <div
                 className="popup-wrap"
                 onClick={() => setSettingsOpen(false)}
@@ -147,7 +150,11 @@ export default function ScreenLayout({
                           <button
                             key={option.id}
                             className={`btn theme-option theme-option-${option.id} ${theme === option.id ? "selected" : ""}`}
-                            onClick={() => onThemeChange(option.id)}
+                            onClick={() => {
+                              if (option.id === theme) return;
+                              setSettingsOpen(false);
+                              onThemeChange(option.id);
+                            }}
                             aria-pressed={theme === option.id}
                           >
                             <GoogleIcon name={option.icon} size={20} />

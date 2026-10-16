@@ -1,10 +1,9 @@
 @use "./variables" as *;
 @use "./mixins" as *;
 @use "./reset";
-@use "./themes" as *;
 @use "./skins" as *;
 
-@include theme-presets;
+
 @include skin-presets;
 
 .btn {
@@ -62,10 +61,9 @@
 h1,
 h2,
 h3,
-.visual-sun,
 .card-front-symbol,
 .card-prompt {
-  font-family: "Gowun Dodum", sans-serif;
+  font-family: $font-sans;
 }
 
 .google-symbol {
@@ -154,7 +152,7 @@ h3,
 
 .brand-mark {
   @include flex(center, flex-start, row, $space-2);
-  @include font($font-size-m, 900);
+  @include font($font-size-m, 900, inherit);
 
   padding-left: $space-4;
   cursor: pointer;
@@ -196,7 +194,7 @@ h3,
 
 .popup-header {
   @include flex(center, space-between);
-  @include font($font-size-m, 900);
+  @include font($font-size-m, 900, inherit);
   padding: $space-3 $space-5;
   flex: 0 0 auto;
   .btn-close {

@@ -1,0 +1,211 @@
+@use "../styles/variables" as *;
+@use "../styles/mixins" as *;
+
+.theme-landing[data-theme="retro"] {
+  $color-retro-ink: #171b16;
+  $color-retro-blue: #5484ba;
+  $color-retro-green: #80a674;
+  $color-retro-cream: #faedc9;
+  $color-retro-mustard: #d9ae42;
+  $color-retro-dusty-pink: #d99b9d;
+  $color-retro-teal: #438c86;
+  $color-retro-lavender: #a89bc4;
+  --card-a: #{$color-retro-green};
+  --card-b: #{$color-retro-cream};
+  --space: clamp(16px, 3vw, 40px);
+  --intro-bg: #{$color-retro-blue};
+  --intro-ink: #{$color-retro-cream};
+  @include font($family: $font-sans);
+  background: var(--intro-bg);
+  color: var(--intro-ink);
+  &[data-palette="green"] {
+    --intro-bg: #{$color-retro-green};
+    --intro-ink: #{$color-retro-ink};
+  }
+  &[data-palette="cream"] {
+    --intro-bg: #{$color-retro-cream};
+    --intro-ink: #{$color-retro-blue};
+  }
+  &[data-palette="green"] {
+    --card-a: #{$color-retro-blue};
+  }
+  &[data-palette="cream"] {
+    --card-b: #{$color-retro-blue};
+  }
+  .visual {
+    padding: var(--space);
+    min-height: 100svh;
+    .poster {
+      margin: 0 auto;
+      max-width: 1120px;
+      .intro {
+        @include flex($justify: center, $direction: column);
+        padding: var(--space) 0;
+        min-height: calc(100svh - 2 * var(--space));
+        text-align: center;
+        .logo {
+          @include flex($align: stretch, $justify: center);
+          @include position(relative);
+          @include font($family: $font-retro, $size: clamp(100px, 25vw, 320px), $weight: 900, $line-height: 0.8, $spacing: -0.1em);
+          &::after {
+            @include grid($place: center);
+            @include position(absolute, $top: -0.5em, $right: -0.5em);
+            @include font($family: $font-serif, $size: 0.2em, $weight: 900);
+            content: "\2733";
+            width: 1em;
+            height: 1em;
+            line-height: 1;
+            letter-spacing: 0;
+            transform-origin: center;
+            animation: star-enter 400ms ease 650ms both, star-spin 16s linear 1050ms infinite;
+          }
+          span {
+            animation: logo-arrive 850ms cubic-bezier(0.2, 1, 0.3, 1) both;
+            &:nth-child(2) {
+              animation-delay: 120ms;
+            }
+            &:nth-child(3) {
+              animation-delay: 240ms;
+            }
+            &:nth-child(4) {
+              animation-delay: 360ms;
+            }
+          }
+        }
+        .copy {
+          margin-top: clamp(36px, 5vw, 64px);
+          max-width: 640px;
+          .event {
+            @include font($size: clamp(9px, 1vw, 12px), $weight: 600, $spacing: 0.16em);
+            margin-bottom: clamp(20px, 2.5vw, 32px);
+            padding: 0.65em 1.1em;
+            display: inline-block;
+            border: 1px solid currentColor;
+            border-radius: 50%;
+          }
+          h1 {
+            @include font($family: $font-retro, $size: clamp(32px, 4.5vw, 58px), $weight: 400, $line-height: 1.02, $spacing: -0.045em);
+            em {
+              font-style: italic;
+            }
+          }
+          .subtitle {
+            @include font($family: $font-sans, $line-height: 1.65, $spacing: -0.015em);
+            margin: clamp(18px, 2.5vw, 30px) auto 0;
+            max-width: 42ch;
+          }
+        }
+      }
+      .list {
+        @include grid( $columns: repeat(3, minmax(0, 1fr)), $gap: clamp(12px, 2vw, 24px) );
+        margin-top: var(--space);
+        display: none;
+        .card {
+          --card-padding: var(--space);
+          min-height: 280px;
+          border: 1px solid $color-retro-ink;
+          border-radius: 10px;
+          box-shadow: 4px 6px 0 $color-retro-ink;
+          color: $color-retro-ink;
+          background: var(--card-a);
+          @each $index, $color in ( 2: var(--card-b), 3: $color-retro-mustard, 4: $color-retro-dusty-pink, 5: $color-retro-teal, 6: $color-retro-lavender ) {
+            &:nth-child(6n + #{$index}) {
+              background: $color;
+            }
+          }
+          .icon {
+            display: block;
+            margin-bottom: var(--space);
+            font-size: 36px;
+          }
+          h2 {
+            @include font($family: $font-serif, $weight: 500, $line-height: 1);
+          }
+          p {
+            margin-top: clamp(12px, 2vw, 20px);
+
+            line-height: 1.6;
+          }
+        }
+        @media (max-width: $breakpoint-wide-mobile) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+  button {
+    @include keyboard-focus($color: currentColor, $offset: 5px);
+  }
+  &.is-expanded .visual .poster {
+    .intro {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: var(--space);
+      min-height: 0;
+      text-align: left;
+      .logo {
+        font-size: clamp(40px, 6vw, 72px);
+        &::after {
+          display: none;
+        }
+      }
+      .copy {
+        margin-top: 0;
+        .event {
+          display: none;
+        }
+        h1 {
+          font-size: clamp(24px, 3vw, 40px);
+          br {
+            display: none;
+          }
+        }
+        .subtitle {
+          margin-top: 12px;
+        }
+      }
+      @media (max-width: $breakpoint-wide-mobile) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    .list {
+      display: grid;
+      animation: cards-arrive 650ms ease both;
+    }
+  }
+  @keyframes logo-arrive {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes star-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes star-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes cards-arrive {
+    from {
+      opacity: 0;
+      translate: 0 20px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+}

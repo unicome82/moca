@@ -1,0 +1,181 @@
+@use "../styles/variables" as *;
+@use "../styles/mixins" as *;
+
+.theme-landing[data-theme="shape"] {
+  $color-theme-ink: #242822;
+  $color-theme-paper: #f5f1e8;
+  $color-theme-sage: #dadfcf;
+  $color-theme-lavender: #d8d2df;
+  $color-theme-peach: #edd4bd;
+  $color-theme-mist: #cadbe0;
+  $color-theme-sand: #dcd7b9;
+  $color-shape-bg: #202624;
+  $color-shape-orange: #ef683e;
+  $color-shape-pink: #e75aa4;
+  $color-shape-purple: #a66be0;
+  $color-shape-gold: #f4a331;
+  --space-xs: clamp(6px, .6vw, 10px);
+  --space-sm: clamp(10px, 1.2vw, 18px);
+  --space-md: clamp(16px, 2vw, 28px);
+  --space-lg: clamp(24px, 3vw, 44px);
+  --space: clamp(16px, 4vw, 64px);
+  --ink: #{$color-theme-ink};
+  --paper: #{$color-theme-paper};
+  @include font($family: $font-sans);
+  background: var(--paper);
+  color: var(--ink);
+  &.is-expanded {
+    --intro-offset: -60svh;
+    --flip-state: paused;
+  }
+  .visual {
+    min-height: 100svh;
+    overflow-anchor: none;
+    .poster {
+      @include position(relative);
+      margin: 0 auto;
+      max-width: 1440px;
+      .intro {
+        @include flex($align: stretch, $direction: column);
+        @include position(relative);
+        margin-top: var(--intro-offset, 0px);
+        min-height: 100svh;
+        z-index: 2;
+        background: var(--paper);
+        transition: margin-top 1000ms cubic-bezier(.76, 0, .24, 1);
+        .shapes {
+          @include grid($columns: repeat(2, 1fr), $gap: var(--space-sm));
+          padding: var(--space-md);
+          height: 60svh;
+          flex-shrink: 0;
+          background: $color-shape-bg;
+          overflow: hidden;
+          .shape {
+            @include grid($place: center);
+            @include position(relative);
+            overflow: hidden;
+            perspective: 800px;
+            &::before {
+              width: min(80%, 24svh);
+              aspect-ratio: 1;
+              content: "";
+              background: currentColor;
+              animation: shape-flip 9.8s cubic-bezier(.45, 0, .25, 1) var(--flip-delay) infinite;
+              animation-play-state: var(--flip-state, running);
+            }
+            &:nth-child(1) {
+              color: $color-shape-orange;
+              --flip-delay: 0.4s;
+              &::before {
+                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+              }
+            }
+            &:nth-child(2) {
+              color: $color-shape-pink;
+              --flip-delay: 1.3s;
+              &::before {
+                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+              }
+            }
+            &:nth-child(3) {
+              color: $color-shape-purple;
+              --flip-delay: 2.2s;
+              &::before {
+                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+              }
+            }
+            &:nth-child(4) {
+              color: $color-shape-gold;
+              --flip-delay: 3.1s;
+              &::before {
+                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+              }
+            }
+          }
+        }
+        .copy {
+          @include grid($columns: 1fr 1fr, $align: center);
+          padding: var(--space-md) var(--space);
+          flex: 1;
+          align-content: center;
+          .event {
+            @include font($size: 12px, $spacing: .15em);
+            margin-bottom: var(--space-sm);
+            padding: .5em 1em;
+            grid-column: 1 / -1;
+            justify-self: start;
+            border: 1px solid $theme-color-black70;
+            border-radius: 50%;
+          }
+          h1 {
+            @include font($size: clamp(32px, 5vw, 80px), $line-height: 1.05, $weight: 400, $family: $font-sans, $spacing: -.04em);
+          }
+          .subtitle {
+            @include font($line-height: 1.6);
+          }
+          @media (max-width: $breakpoint-mobile) {
+            grid-template-columns: 1fr;
+            .subtitle {
+              margin-top: var(--space-sm);
+            }
+          }
+        }
+      }
+      .list {
+        @include grid($columns: repeat(2, minmax(0, 1fr)), $gap: var(--space-md));
+        padding: var(--space-md) var(--space);
+        .card {
+          @include position(relative);
+          --card-padding: var(--space-lg);
+          min-height: 240px;
+          background: $color-theme-sage;
+          &:nth-child(5n + 2) {
+            background: $color-theme-lavender;
+          }
+          &:nth-child(5n + 3) {
+            background: $color-theme-peach;
+          }
+          &:nth-child(5n + 4) {
+            background: $color-theme-mist;
+          }
+          &:nth-child(5n + 5) {
+            background: $color-theme-sand;
+          }
+          .icon {
+            @include font($size: 32px);
+            margin-bottom: var(--space-lg);
+            display: block;
+          }
+          h2 {
+            @include font($line-height: 1.1, $weight: 400, $family: $font-sans);
+          }
+          p {
+            @include font($line-height: 1.6);
+            margin-top: var(--space-sm);
+          }
+        }
+        @media (max-width: $breakpoint-mobile) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+  button {
+    @include keyboard-focus($color: currentColor, $offset: 6px);
+  }
+  @keyframes shape-flip {
+    0% {
+      transform: rotateY(0deg);
+    }
+    9.183673%, 50% {
+      transform: rotateY(180deg);
+    }
+    59.183673%, 100% {
+      transform: rotateY(360deg);
+    }
+  }
+}
