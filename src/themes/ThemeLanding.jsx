@@ -59,6 +59,7 @@ class LandingTransition extends Component {
 }
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const transitionTime = theme => reducedMotion() ? 0 : theme === "shape" ? 700 : 1100;
 
 export default function ThemeLanding({ theme, expanded, onExpand, onCollapse, onNavigate }) {
   const root = useRef(null);
@@ -77,9 +78,24 @@ export default function ThemeLanding({ theme, expanded, onExpand, onCollapse, on
   useLayoutEffect(() => {
     if (previous.current === expanded) return;
     previous.current = expanded;
-    gestureLock.current = performance.now() + (reducedMotion() ? 0 : 1100);
+    const duration = transitionTime(theme);
+    gestureLock.current = performance.now() + duration;
+    const keepTop = () => {
+      if (window.scrollY !== 0) window.scrollTo({ top: 0, behavior: "instant" });
+    };
+    keepTop();
+    // Touch momentum and layout changes can scroll Safari after navigation.
+    window.addEventListener("scroll", keepTop, { passive: true });
+    const timer = window.setTimeout(() => {
+      keepTop();
+      window.removeEventListener("scroll", keepTop);
+    }, duration);
     if (expanded && document.activeElement === trigger.current) list.current.focus({ preventScroll: true });
     if (!expanded && list.current.contains(document.activeElement)) trigger.current.focus({ preventScroll: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", keepTop);
+    };
   }, [expanded, theme]);
 
   useEffect(() => {
@@ -87,7 +103,7 @@ export default function ThemeLanding({ theme, expanded, onExpand, onCollapse, on
     const ignored = event => event.target.closest("input, select, textarea, [role='dialog'], [data-no-gesture]");
     const move = forward => {
       if (performance.now() < gestureLock.current || forward === expanded) return;
-      gestureLock.current = performance.now() + 1100;
+      gestureLock.current = performance.now() + transitionTime(theme);
       forward ? onExpand() : onCollapse();
     };
     const wheel = event => {
@@ -116,14 +132,24 @@ export default function ThemeLanding({ theme, expanded, onExpand, onCollapse, on
       }
       touch = null;
     };
+    const touchmove = event => {
+      if (ignored(event) || event.touches.length !== 1) return;
+      if (performance.now() < gestureLock.current) { event.preventDefault(); return; }
+      if (!touch || expanded) return;
+      const point = event.touches[0];
+      const dy = touch.y - point.clientY;
+      if (Math.abs(dy) <= Math.abs(touch.x - point.clientX)) return;
+      event.preventDefault();
+      if (dy > 45) move(true);
+    };
     const cancel = () => { touch = null; };
     const node = root.current;
     const controller = new AbortController();
-    for (const [type, handler] of Object.entries({ wheel, touchstart: start, touchend: end, touchcancel: cancel })) {
-      node.addEventListener(type, handler, { passive: type !== "wheel", signal: controller.signal });
+    for (const [type, handler] of Object.entries({ wheel, touchstart: start, touchmove, touchend: end, touchcancel: cancel })) {
+      node.addEventListener(type, handler, { passive: type !== "wheel" && type !== "touchmove", signal: controller.signal });
     }
     return () => controller.abort();
-  }, [expanded, onExpand, onCollapse]);
+  }, [expanded, onExpand, onCollapse, theme]);
 
   const copy = <div className="copy" lang="ko">
     {theme === "prism" && <button ref={trigger} className="trigger" aria-label="카드 펼쳐 보기" aria-expanded={expanded} aria-controls="theme-cards" onClick={onExpand} />}

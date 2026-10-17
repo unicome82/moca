@@ -22,7 +22,7 @@ export default function useScreenNavigation() {
     url.searchParams.set("screen", nextScreen);
     window.history[replace ? "replaceState" : "pushState"]({}, "", url);
     setScreen(nextScreen);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: nextScreen === "intro" || nextScreen === "home" ? "instant" : "smooth" });
   }, []);
 
   return { screen, navigate };

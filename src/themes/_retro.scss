@@ -51,7 +51,7 @@
             @include grid($place: center);
             @include position(absolute, $top: -0.5em, $right: -0.5em);
             @include font($family: $font-serif, $size: 0.2em, $weight: 900);
-            content: "\2733";
+            content: "\2733\FE0E";
             width: 1em;
             height: 1em;
             line-height: 1;
