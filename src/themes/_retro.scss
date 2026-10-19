@@ -1,18 +1,18 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
 
+$color-retro-ink: #171b16;
+$color-retro-blue: #5484ba;
+$color-retro-green: #80a674;
+$color-retro-cream: #faedc9;
+$color-retro-mustard: #d9ae42;
+$color-retro-dusty-pink: #d99b9d;
+$color-retro-teal: #438c86;
+$color-retro-lavender: #a89bc4;
+
 .theme-landing[data-theme="retro"] {
-  $color-retro-ink: #171b16;
-  $color-retro-blue: #5484ba;
-  $color-retro-green: #80a674;
-  $color-retro-cream: #faedc9;
-  $color-retro-mustard: #d9ae42;
-  $color-retro-dusty-pink: #d99b9d;
-  $color-retro-teal: #438c86;
-  $color-retro-lavender: #a89bc4;
   --card-a: #{$color-retro-green};
   --card-b: #{$color-retro-cream};
-  --space: clamp(16px, 3vw, 40px);
   --intro-bg: #{$color-retro-blue};
   --intro-ink: #{$color-retro-cream};
   @include font($family: $font-sans);
@@ -33,31 +33,43 @@
     --card-b: #{$color-retro-blue};
   }
   .visual {
-    padding: var(--space);
+    padding: $space-5;
     min-height: 100svh;
     .poster {
       margin: 0 auto;
       max-width: 1120px;
       .intro {
         @include flex($justify: center, $direction: column);
-        padding: var(--space) 0;
-        min-height: calc(100svh - 2 * var(--space));
+        padding: $space-8 0;
+        min-height: calc(100svh - 2 * $space-8);
         text-align: center;
         .logo {
           @include flex($align: stretch, $justify: center);
           @include position(relative);
-          @include font($family: $font-retro, $size: clamp(100px, 25vw, 320px), $weight: 900, $line-height: 0.8, $spacing: -0.1em);
+          @include font(
+            $family: $font-retro,
+            $size: clamp(100px, 25vw, 320px),
+            $weight: 900,
+            $line-height: 0.8,
+            $spacing: -0.1em
+          );
           &::after {
             @include grid($place: center);
             @include position(absolute, $top: -0.5em, $right: -0.5em);
-            @include font($family: $font-serif, $size: 0.2em, $weight: 900);
+            @include font(
+              $family: $font-serif,
+              $size: clamp(12px, 0.2em, 64px),
+              $weight: 900
+            );
             content: "\2733\FE0E";
             width: 1em;
             height: 1em;
             line-height: 1;
             letter-spacing: 0;
             transform-origin: center;
-            animation: star-enter 400ms ease 650ms both, star-spin 16s linear 1050ms infinite;
+            animation:
+              star-enter 400ms ease 650ms both,
+              star-spin 16s linear 1050ms infinite;
           }
           span {
             animation: logo-arrive 850ms cubic-bezier(0.2, 1, 0.3, 1) both;
@@ -76,55 +88,82 @@
           margin-top: clamp(36px, 5vw, 64px);
           max-width: 640px;
           .event {
-            @include font($size: clamp(9px, 1vw, 12px), $weight: 600, $spacing: 0.16em);
-            margin-bottom: clamp(20px, 2.5vw, 32px);
+            @include font(
+              $size: clamp(9px, 1vw, 12px),
+              $weight: 600,
+              $spacing: 0.16em
+            );
+            margin-bottom: clamp($space-5, 2.5vw, $space-8);
             padding: 0.65em 1.1em;
             display: inline-block;
             border: 1px solid currentColor;
             border-radius: 50%;
           }
           h1 {
-            @include font($family: $font-retro, $size: clamp(32px, 4.5vw, 58px), $weight: 400, $line-height: 1.02, $spacing: -0.045em);
+            @include font(
+              $family: $font-retro,
+              $size: clamp(32px, 4.5vw, 58px),
+              $weight: 400,
+              $line-height: 1.02,
+              $spacing: -0.045em
+            );
             em {
               font-style: italic;
             }
           }
           .subtitle {
-            @include font($family: $font-sans, $line-height: 1.65, $spacing: -0.015em);
+            @include font(
+              $family: $font-sans,
+              $line-height: 1.4,
+              $spacing: -0.015em
+            );
             margin: clamp(18px, 2.5vw, 30px) auto 0;
             max-width: 42ch;
           }
         }
       }
       .list {
-        @include grid( $columns: repeat(3, minmax(0, 1fr)), $gap: clamp(12px, 2vw, 24px) );
-        margin-top: var(--space);
+        @include grid(
+          $columns: repeat(3, minmax(0, 1fr)),
+          $gap: clamp($space-3, 2vw, $space-6)
+        );
+        margin-top: $space-8;
         display: none;
         .card {
-          --card-padding: var(--space);
-          min-height: 280px;
+          .deck-link {
+            padding: $space-8;
+          }
           border: 1px solid $color-retro-ink;
           border-radius: 10px;
           box-shadow: 4px 6px 0 $color-retro-ink;
           color: $color-retro-ink;
           background: var(--card-a);
-          @each $index, $color in ( 2: var(--card-b), 3: $color-retro-mustard, 4: $color-retro-dusty-pink, 5: $color-retro-teal, 6: $color-retro-lavender ) {
+          @each $index,
+            $color
+              in (
+                2: var(--card-b),
+                3: $color-retro-mustard,
+                4: $color-retro-dusty-pink,
+                5: $color-retro-teal,
+                6: $color-retro-lavender
+              )
+          {
             &:nth-child(6n + #{$index}) {
               background: $color;
             }
           }
           .icon {
             display: block;
-            margin-bottom: var(--space);
-            font-size: 36px;
+            margin-bottom: $space-5;
+            font-size: 10cqw;
           }
           h2 {
             @include font($family: $font-serif, $weight: 500, $line-height: 1);
           }
           p {
-            margin-top: clamp(12px, 2vw, 20px);
+            margin-top: clamp($space-3, 2vw, $space-5);
 
-            line-height: 1.6;
+            line-height: 1.4;
           }
         }
         @media (max-width: $breakpoint-wide-mobile) {
@@ -140,7 +179,7 @@
     .intro {
       flex-direction: row;
       justify-content: flex-start;
-      gap: var(--space);
+      gap: $space-8;
       min-height: 0;
       text-align: left;
       .logo {
@@ -161,7 +200,7 @@
           }
         }
         .subtitle {
-          margin-top: 12px;
+          margin-top: $space-3;
         }
       }
       @media (max-width: $breakpoint-wide-mobile) {
@@ -206,6 +245,76 @@
     to {
       opacity: 1;
       translate: 0 0;
+    }
+  }
+}
+
+.app-shell[data-theme="retro"] {
+  .card-face {
+    border: 1px solid $color-retro-ink;
+    box-shadow: 4px 6px 0 $color-retro-ink;
+  }
+  .card-back-logo {
+    display: block;
+    order: 1;
+    padding: 0.65em 1.1em;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    font-family: $font-sans;
+    font-size: 4.5cqw;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    color: inherit;
+  }
+  .card-back-tagline {
+    order: 2;
+  }
+  .card-back-bottom {
+    order: 3;
+  }
+  .card-back {
+    font-family: $font-sans;
+    &::after {
+      content: none;
+    }
+    @each $index, $background, $text in (
+      (0, $color-retro-blue, $color-retro-cream),
+      (1, $color-retro-green, $color-retro-ink)
+    ) {
+      &[data-retro-color="#{$index}"] {
+        background: $background;
+        .card-back-mark {
+          color: $text;
+        }
+      }
+    }
+    .card-back-bottom {
+      border-color: currentColor;
+    }
+  }
+  .card-back-ornament {
+    position: relative;
+    font-family: $font-retro;
+    font-size: 28cqw;
+    font-weight: 900;
+    letter-spacing: -0.1em;
+    line-height: 0.8;
+    &::after {
+      content: "\2733\FE0E";
+      position: absolute;
+      top: -0.35em;
+      right: -0.8em;
+      width: 1em;
+      height: 1em;
+      font-family: $font-serif;
+      font-size: 0.28em;
+      font-weight: 900;
+      font-variant-emoji: text;
+      line-height: 1;
+      letter-spacing: 0;
+      color: inherit;
+      background: transparent;
     }
   }
 }

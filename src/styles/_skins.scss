@@ -1,76 +1,98 @@
 @mixin skin-presets {
-  .app-shell[data-skin="pattern"] .draw-card .card-back {
+  .card-back-skin {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .app-shell[data-skin="pattern"] .card-back-skin {
+    display: block;
+    background-color: #fff;
+    opacity: .1;
+    -webkit-mask-image: var(--skin-pattern-image);
+    mask-image: var(--skin-pattern-image);
+    -webkit-mask-size: 10%;
+    mask-size: 10%;
+  }
+
+  .app-shell[data-theme="prism"][data-skin="pattern"] .card-back-skin {
+    background-color: #202020;
+    opacity: .1;
+  }
+
+  .app-shell[data-skin="dim-photo"] .card-back-skin {
+    display: block;
+    background: var(--skin-photo-image) center / cover no-repeat;
+    filter: saturate(.48) brightness(.88) contrast(.92);
+    opacity: .8;
+  }
+
+  .app-shell[data-skin="illustration"] .card-back-skin {
+    display: block;
+    background-image: var(--skin-illustration-image);
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: saturate(.5) brightness(.94) contrast(.92);
+    opacity: .8;
+  }
+
+  .app-shell[data-skin="modern"] .card-back-skin {
+    display: block;
+    background-color: var(--skin-modern-overlay);
+    opacity: .9;
+  }
+
+  .app-shell[data-theme="prism"]:not([data-skin="base"]) .draw-card .card-back .prism-backdrop {
+    display: none;
+  }
+
+  .app-shell[data-theme]:is(
+    [data-skin="dim-photo"],
+    [data-skin="illustration"]
+  ) .draw-card .card-back {
+    background-color: #000;
+  }
+
+  .app-shell[data-theme]:is(
+    [data-skin="dim-photo"],
+    [data-skin="illustration"],
+    [data-skin="modern"]
+  ) .draw-card .card-back {
+    color: #fff;
+    border-color: #fff;
+
+    .card-back-mark,
+    .card-back-logo,
+    .card-back-ornament,
+    .card-back-tagline,
+    .card-back-bottom {
+      color: #fff;
+      border-color: #fff;
+    }
+
     &::before {
-      content: "";
-      position: absolute;
-      z-index: 0;
-      inset: 0;
-      background-color: #fff;
-      opacity: 0.15;
-      -webkit-mask-image: var(--skin-pattern-image);
-      mask-image: var(--skin-pattern-image);
-      -webkit-mask-size: 10%;
-      mask-size: 10%;
-      pointer-events: none;
+      border-color: #fff;
     }
   }
 
-  .app-shell[data-skin="dim-photo"] .draw-card .card-back {
-    background-color: var(--ui-back);
-    background-image: none;
-
-    &::before {
-      content: "";
-      position: absolute;
-      z-index: 0;
-      inset: 0;
-      background-image: var(--skin-photo-image);
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      filter: saturate(0.48) brightness(0.88) contrast(0.92);
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    &::after {
-      background: linear-gradient(180deg, #77777a24, #24262d38);
-      mix-blend-mode: normal;
-    }
+  .app-shell[data-theme="retro"][data-skin] .draw-card .card-back {
+    border-color: #171b16;
   }
 
-  .app-shell[data-skin="illustration"] .draw-card .card-back {
-    background-color: var(--ui-back);
-    background-image: none;
-
-    &::before {
-      content: "";
-      position: absolute;
-      z-index: 0;
-      inset: 0;
-      background-image: var(--skin-illustration-image);
-      background-position: center;
-      background-repeat: no-repeat;
-      filter: saturate(0.5) brightness(0.94) contrast(0.92);
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    &::after {
-      background: linear-gradient(180deg, #85808724, #3a38401f);
-      mix-blend-mode: normal;
-    }
+  .app-shell[data-theme="shape"]:is(
+    [data-skin="dim-photo"],
+    [data-skin="illustration"],
+    [data-skin="modern"]
+  ) .draw-card .card-back .shape-backdrop .shape {
+    color: var(--ui-bg);
   }
 
-  .app-shell[data-skin="modern"] .draw-card .card-back {
+  .app-shell[data-theme="press"][data-skin] .draw-card .card-back {
+    border-color: #35352f;
     &::before {
-      content: "";
-      position: absolute;
-      z-index: 0;
-      inset: 0;
-      background-color: var(--skin-modern-overlay);
-      opacity: 0.9;
-      pointer-events: none;
+      border-color: #35352f;
     }
   }
 }

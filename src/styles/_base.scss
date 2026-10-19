@@ -3,12 +3,11 @@
 @use "./reset";
 @use "./skins" as *;
 
-
 @include skin-presets;
 
 .btn {
   @include flex(center, center, row, $space-2);
-  @include font($font-size-s, 500, $color-black);
+  @include font(clamp(12.25px, 3.5cqw, 14px), 500, $color-black);
   @include keyboard-focus;
 
   min-height: $height-button;
@@ -63,14 +62,14 @@ h2,
 h3,
 .card-front-symbol,
 .card-prompt {
-  font-family: $font-sans;
+  font-family: $font-serif;
 }
 
 .google-symbol {
   display: inline-block;
   flex: 0 0 auto;
   font-family: "Material Symbols Outlined";
-  font-size: $font-size-xl;
+  font-size: clamp(21px, 6cqw, 24px);
   font-style: normal;
   font-weight: 400;
   line-height: 1;
@@ -152,7 +151,7 @@ h3,
 
 .brand-mark {
   @include flex(center, flex-start, row, $space-2);
-  @include font($font-size-m, 900, inherit);
+  @include font(clamp(14px, 4cqw, 16px), 900, inherit);
 
   padding-left: $space-4;
   cursor: pointer;
@@ -160,7 +159,7 @@ h3,
 
 .brand-dot {
   @include flex(center, center);
-  @include font($font-size-m, 500, #fff);
+  @include font(clamp(14px, 4cqw, 16px), 500, #fff);
   width: $space-6;
   height: $space-6;
   border-radius: $radius-xs;
@@ -194,7 +193,7 @@ h3,
 
 .popup-header {
   @include flex(center, space-between);
-  @include font($font-size-m, 900, inherit);
+  @include font(clamp(14px, 4cqw, 16px), 900, inherit);
   padding: $space-3 $space-5;
   flex: 0 0 auto;
   .btn-close {
@@ -219,7 +218,7 @@ h3,
 .settings-group {
   padding-top: $space-8;
   h4 {
-    @include font($font-size-xs, 500, $color-black80);
+    @include font(clamp(10.5px, 3cqw, 12px), 500, $color-black80);
     margin-bottom: $space-3;
   }
 }
@@ -240,7 +239,7 @@ h3,
   border: 1px solid transparent;
   border-radius: $radius-s;
   background: transparent;
-  font-size: $font-size-xs;
+  font-size: clamp(10.5px, 3cqw, 12px);
   cursor: pointer;
 
   &.selected {

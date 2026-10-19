@@ -1,3 +1,4 @@
+import { prismShapes } from "./prismShapes.js";
 import { Component, createRef, Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { decks } from "../data/decks.js";
 import GoogleIcon from "../components/GoogleIcon.jsx";
@@ -68,12 +69,7 @@ export default function ThemeLanding({ theme, expanded, onExpand, onCollapse, on
   const previous = useRef(expanded);
   const gestureLock = useRef(0);
   const [palette] = useState(() => ["blue", "green", "cream"][Math.floor(Math.random() * 3)]);
-  const [variations] = useState(() => decks.map((_, index) => ({
-    "--index": index, "--shift": `${(index % 2 ? 1 : -1) * (15 + Math.random() * 15)}cqw`,
-    "--skew-x": `${12 + Math.random() * 14}deg`, "--skew-y": `${Math.random() * 20 - 10}deg`,
-    "--rotation": `${Math.random() * 40 - 20}deg`, "--scale-x": .5 + Math.random() * .5,
-    "--scale-y": 1.5 + Math.random(), "--radius": index % 2 ? "50%" : "8%",
-  })));
+  const variations = prismShapes.map(({ style }) => style);
 
   useLayoutEffect(() => {
     if (previous.current === expanded) return;
@@ -154,7 +150,7 @@ export default function ThemeLanding({ theme, expanded, onExpand, onCollapse, on
   const copy = <div className="copy" lang="ko">
     {theme === "prism" && <button ref={trigger} className="trigger" aria-label="카드 펼쳐 보기" aria-expanded={expanded} aria-controls="theme-cards" onClick={onExpand} />}
     {/* <p className="event">{theme === "folio" ? "CARDS FOR EVERY MOMENT" : "MOCA"}</p> */}
-    {theme !== "press" && <p className="event">{theme === "folio" ? "모든 순간을 위한 카드" : "MOCA"}</p>}
+    {theme !== "press" && <p className="event">{theme === "folio" ? "Unfold a little joy today." : "MOCA"}</p>}
     {/* <h1>Cards for Every Moment</h1> */}
     <h1>세상의 모든 카드</h1>
     {/* <p className="subtitle">From your own interests to the stories we share.<br />Bring something new to your everyday.</p> */}

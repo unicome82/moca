@@ -1,18 +1,13 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
+@use "sass:map";
 
 .theme-landing[data-theme="press"] {
-  $press-font: ("Courier New", "Pretendard", monospace);
-  $color-press-paper: #f8f5ee;
-  $color-press-ink: #35352f;
-  --space: clamp(16px, 4vw, 64px);
-  --paper: #{$color-press-paper};
-  --ink: #{$color-press-ink};
-  @include font($family: $press-font);
-  background: var(--paper);
-  color: var(--ink);
+  @include font($family: $font-mono);
+  background: map.get($theme-palettes, press, bg);
+  color: map.get($theme-palettes, press, text);
   .visual {
-    padding: var(--space);
+    padding: $space-8;
     min-height: 100svh;
     .poster {
       margin: 0 auto;
@@ -24,8 +19,8 @@
           transform-origin: top left;
         }
         @include flex($align: stretch, $justify: center, $direction: column);
-        min-height: calc(100svh - 2 * var(--space));
-        border: 1px solid $color-press-ink;
+        min-height: calc(100svh - 2 * $space-8);
+        border: 1px solid map.get($theme-palettes, press, text);
         text-align: center;
         .logo {
           @include font(
@@ -35,7 +30,7 @@
           );
         }
         .copy {
-          padding: 24px 0;
+          padding: $space-6 0;
           h1 {
             @include font(
               $size: clamp(24px, 4vw, 60px),
@@ -44,31 +39,33 @@
             );
             padding: 0.2em;
             display: inline-block;
-            border-block: 1px solid $color-press-ink;
+            border-block: 1px solid map.get($theme-palettes, press, text);
           }
           .subtitle {
-            @include font($line-height: 1.5);
-            margin-top: 20px;
+            @include font($line-height: 1.4);
+            margin-top: $space-5;
           }
         }
       }
       .catalog {
         @include flex($justify: space-between);
-        @include font($size: 12px, $spacing: 0.04em);
-        padding: 12px var(--space);
+        @include font($size: clamp(10.5px, 3cqw, 12px), $spacing: 0.04em);
+        padding: $space-3 $space-8;
         display: none;
-        border-top: 1px solid rgba($color-press-ink, 0.3);
+        border-top: 1px solid rgba(map.get($theme-palettes, press, text), 0.3);
       }
       .list {
         @include grid($columns: minmax(0, 1fr));
-        border-top: 1px solid var(--ink);
+        border-top: 1px solid map.get($theme-palettes, press, text);
         .card {
           @include grid(
             $columns: clamp(48px, 9vw, 96px) minmax(0, 1fr),
             $gap: 0 clamp(16px, 3vw, 40px)
           );
-          --card-padding: var(--space);
-          border-bottom: 1px solid var(--ink);
+          .deck-link {
+            padding: $space-8;
+          }
+          border-bottom: 1px solid map.get($theme-palettes, press, text);
           .icon {
             @include font($size: clamp(48px, 9vw, 96px), $line-height: 1);
             grid-row: 1 / 3;
@@ -84,8 +81,8 @@
             overflow-wrap: anywhere;
           }
           p {
-            @include font($line-height: 1.6);
-            margin-top: clamp(6px, 1vw, 12px);
+            @include font($line-height: 1.4);
+            margin-top: clamp(6px, 1vw, $space-3);
             grid-column: 2;
             align-self: start;
           }
@@ -101,15 +98,15 @@
       padding: 0;
       .poster {
         .intro {
-          padding: var(--space);
+          padding: $space-8;
           min-height: 0;
           border: 0;
           .logo {
-            margin-bottom: 16px;
+            margin-bottom: $space-4;
             font-size: clamp(40px, 6vw, 64px);
           }
           .copy {
-            padding: 0 0 16px;
+            padding: 0 0 $space-4;
             h1 {
               font-size: clamp(20px, 3vw, 32px);
             }
@@ -147,4 +144,44 @@
 }
 .theme-landing[data-theme="press"] .visual .poster .list .card {
   position: relative;
+}
+
+.app-shell[data-theme="press"] {
+  .card-face {
+    border: 1px solid map.get($theme-palettes, press, text);
+    box-shadow: 0 8cqw 12cqw $color-black30;
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 5cqw;
+      z-index: 1;
+      border: 1px solid map.get($theme-palettes, press, text);
+      border-radius: 3.4cqw;
+      pointer-events: none;
+    }
+  }
+  .card-back {
+    font-family: $font-mono;
+    background: map.get($theme-palettes, press, bg);
+    &::after {
+      content: none;
+    }
+  }
+  .card-back-mark {
+    color: map.get($theme-palettes, press, text);
+  }
+  .card-back-tagline {
+    padding-block: 0.4em;
+    border-block: 1px solid currentColor;
+  }
+  .card-back-bottom {
+    border-color: currentColor;
+  }
+  .card-back-ornament {
+    font-family: $font-mono;
+    font-size: clamp(30px, 18cqw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+  }
 }

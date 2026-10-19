@@ -50,14 +50,6 @@ $deck-colors: (
   @return map.get($deck-colors, $deck, $tone);
 }
 
-// Typography scale
-$font-size-xs: 12px;
-$font-size-s: 14px;
-$font-size-m: 16px;
-$font-size-xl: 24px;
-$font-size-2xl: 32px;
-$font-size-3xl: 48px;
-
 // Border radius scale uses a 4px base unit
 $radius-xs: 4px;
 $radius-s: 8px;
@@ -85,11 +77,12 @@ $height-button: 48px;
 
 // Typography and visual theme colors
 $font-sans: ('Pretendard', sans-serif);
-$font-serif: (Georgia, 'Times New Roman', 'Noto Serif KR', serif);
+$font-mono: ('Courier New', 'Pretendard', monospace);
+$font-serif: (Georgia, 'Times New Roman', 'Gowun Dodum', serif);
 $font-korean-serif: $font-serif;
-$font-retro: ('Fraunces', Georgia, 'Noto Serif KR', serif);
-$font-display: ('Bodoni Moda', Georgia, 'Noto Serif KR', serif);
-$font-folio: ('Instrument Serif', Georgia, 'Noto Serif KR', serif);
+$font-retro: ('Fraunces', Georgia, 'Gowun Dodum', serif);
+$font-display: ('Bodoni Moda', Georgia, 'Gowun Dodum', serif);
+$font-folio: ('Instrument Serif', Georgia, 'Gowun Dodum', serif);
 $theme-color-bg: #f8f5f4;
 $theme-color-black: #000;
 $theme-color-black70: rgba($theme-color-black, .7);

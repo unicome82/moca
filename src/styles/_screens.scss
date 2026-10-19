@@ -3,7 +3,7 @@
 
 .eyebrow {
   @include flex(center, flex-start, row, $space-2);
-  @include font($font-size-s, 400, $color-black50);
+  @include font(clamp(12.25px, 3.5cqw, 14px), 400, $color-black50);
 }
 
 .draw-stage {
@@ -98,39 +98,34 @@
   place-items: center;
   color: $color-bg-card;
 }
-.card-back-symbol {
-  @include flex(center, center);
-  @include font(32cqw, 400, inherit);
-
-  animation: card-back-symbol-rotation 12s linear infinite;
-  border-radius: 50%;
-  aspect-ratio: 1/1;
-  line-height: 1;
-}
-
-@keyframes card-back-symbol-rotation {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card-back-symbol {
-    animation: none;
-  }
-}
-
 .card-back-ornament {
-  @include font(9.6cqw, 900, inherit);
+  @include font(clamp(24px, 9.6cqw, 48px), 900, inherit);
   letter-spacing: 0.2em;
 }
 
 .card-back-bottom {
   margin-top: 16cqw;
   padding: 3.2cqw 6.4cqw;
-  font-size: 6.4cqw;
+  font-size: clamp(16px, 6.4cqw, 32px);
   border-radius: 3.2cqw;
   border: 1px solid #fff;
+}
+
+.card-back-tagline {
+  font-family: $font-serif;
+  font-size: 5cqw;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.card-back-game {
+  display: none;
+}
+
+.card-back-logo,
+.card-back-star {
+  display: none;
 }
 
 .card-front {
@@ -141,21 +136,21 @@
   transform: rotateY(180deg);
   text-align: center;
   .eyebrow {
-    font-size: 6cqw;
+    font-size: clamp(15px, 6cqw, 30px);
   }
 }
 
 .card-front-tag {
-  @include font(4.8cqw, 600, $color-black50);
+  @include font(clamp(12px, 4.8cqw, 24px), 600, $color-black50);
 }
 
 .card-front-symbol {
-  @include font(14.4cqw, 400, inherit);
+  @include font(clamp(36px, 14.4cqw, 72px), 400, inherit);
 }
 
 .card-prompt {
   @include flex(center, center);
-  @include font(8cqw, 400, inherit);
+  @include font(clamp(20px, 8cqw, 40px), 400, inherit);
   flex: 1;
   max-width: 100%;
   word-break: keep-all;
@@ -166,17 +161,17 @@
 
   width: 100%;
   padding: 0 1cqw;
-  font-size: 6.4cqw;
+  font-size: clamp(16px, 6.4cqw, 32px);
 }
 
 .balance-question {
-  @include font(5cqw, 600, var(--ui-text, #{$color-black}));
+  @include font(clamp(12.5px, 5cqw, 25px), 600, var(--ui-text, #{$color-black}));
   opacity: 0.5;
 }
 
 .balance-choices {
   @include flex(center, center, row, 3cqw);
-  @include font(8cqw, 400, var(--ui-text, #{$color-black}));
+  @include font(clamp(20px, 8cqw, 40px), 400, var(--ui-text, #{$color-black}));
 
   width: 100%;
 
@@ -198,7 +193,7 @@
 }
 
 .balance-vs {
-  @include font(5cqw, 600, #fff);
+  @include font(clamp(12.5px, 5cqw, 25px), 600, #fff);
   padding: 0.35em 0.75em;
   background: deck-color(balance, back);
   border-radius: $radius-l;
@@ -261,16 +256,16 @@
 
   h1 {
     margin: $space-2 0 $space-1;
-    @include font($font-size-2xl, 400, inherit);
+    @include font(clamp(28px, 8cqw, 32px), 400, inherit);
   }
 
   p {
     margin: 0;
-    @include font($font-size-s, 400, $color-black60);
+    @include font(clamp(12.25px, 3.5cqw, 14px), 400, $color-black60);
   }
   .eyebrow {
     @include flex(center, center, column);
-    @include font($font-size-s, 800, $color-black);
+    @include font(clamp(12.25px, 3.5cqw, 14px), 800, $color-black);
     &:after {
       content: "";
       margin-top: $space-4;
@@ -306,7 +301,7 @@
 
 .draw-hint {
   color: $color-black50;
-  font-size: $font-size-s;
+  font-size: clamp(12.25px, 3.5cqw, 14px);
 }
 
 .site-footer {
@@ -315,7 +310,7 @@
   margin-top: auto;
   padding-top: $space-7;
   color: $color-black50;
-  font-size: $font-size-xs;
+  font-size: clamp(10.5px, 3cqw, 12px);
   .copyright {
     flex: 1;
     text-align: center;
@@ -333,7 +328,7 @@
 
   > strong {
     color: deck-color(liar, accent);
-    font-size: $font-size-3xl;
+    font-size: clamp(42px, 12cqw, 48px);
     font-weight: 500;
     text-align: center;
   }
@@ -384,7 +379,7 @@
   padding: clamp($space-3, 8vw, $space-14);
 
   .draw-heading h1 {
-    font-size: clamp($font-size-xl, 3vw, 32px);
+    font-size: clamp(24px, 3vw, 32px);
   }
 }
 

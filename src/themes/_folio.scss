@@ -1,19 +1,19 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
+@use "sass:map";
+
+$color-brown: #572717;
+
+$color-sand: #d2b78e;
+
+$color-mint: #aed1c6;
+
+$color-page: #f7f0d8;
 
 .theme-landing[data-theme="folio"] {
-  $color-paper: #f2eee1;
-  $color-ink: #29231d;
-  $color-brown: #572717;
-  $color-sand: #d2b78e;
-  $color-terracotta: #b54120;
-  $color-mint: #aed1c6;
-  $color-page: #f7f0d8;
-  $color-butter: #eee0a0;
-  --space: clamp(16px, 4vw, 64px);
   @include font($family: $font-sans);
-  background: $color-paper;
-  color: $color-ink;
+  background: map.get($theme-palettes, folio, bg);
+  color: map.get($theme-palettes, folio, text);
   .visual {
     padding: 0;
     height: 100%;
@@ -25,80 +25,109 @@
       overflow: hidden;
       .intro {
         @include flex($justify: center, $direction: column);
-        padding: clamp(24px, 4vh, 56px) var(--space);
+        padding: $space-8 $space-5;
         text-align: center;
         .logo {
-          @include font($family: $font-display, $size: clamp(80px, 13vw, 168px), $weight: 400, $spacing: -0.13em);
+          @include font(
+            $family: $font-display,
+            $size: clamp(80px, 13vw, 168px),
+            $weight: 400,
+            $spacing: -0.13em
+          );
           color: $theme-color-black;
           font-optical-sizing: auto;
         }
         .copy {
-          margin-top: clamp(16px, 3vh, 32px);
+          margin-top: clamp($space-4, 3vh, $space-8);
           .event {
-            @include font($size: 10px, $spacing: 0.16em);
-            margin-bottom: 12px;
+            @include font(
+              $family: $font-folio,
+              $size: clamp(16px, 2vw, 24px),
+              $line-height: 1.4,
+              $spacing: 0.04em
+            );
+            margin-bottom: $space-3;
           }
           h1 {
-            @include font($family: $font-display, $size: clamp(28px, 4vw, 48px), $weight: 400, $spacing: -0.055em);
+            @include font(
+              $family: $font-display,
+              $size: clamp(28px, 4vw, 48px),
+              $weight: 400,
+              $spacing: -0.055em
+            );
             text-transform: uppercase;
           }
           .subtitle {
             margin-top: 14px;
-
           }
         }
       }
       .list {
-        @include grid( $columns: repeat(2, minmax(0, 1fr)), $gap: clamp(16px, 3vw, 32px) );
-        padding: var(--space);
+        @include grid(
+          $columns: repeat(2, minmax(0, 1fr)),
+          $gap: clamp($space-4, 3vw, $space-8)
+        );
+        padding: $space-5;
         .card {
           @include position(relative);
-          --card-padding: clamp(24px, 3vw, 40px);
-          min-height: 240px;
+          .deck-link {
+            padding: $space-10 $space-5;
+          }
           border-radius: 2px;
-          color: var(--card-ink, #{$color-page});
+          color: $color-page;
           background: $color-brown;
           &:nth-child(5n + 1) {
-            background: $color-terracotta;
+            background: map.get($theme-palettes, folio, primary);
           }
           &:nth-child(5n + 2) {
             background: $color-mint;
           }
           &:nth-child(5n + 3) {
-            background: $color-butter;
+            background: map.get($theme-palettes, folio, card);
           }
           &:nth-child(5n + 4) {
             background: $color-sand;
           }
           &:nth-child(6n + 5) {
-            background: $color-paper;
+            background: map.get($theme-palettes, folio, bg);
           }
           .icon {
             display: block;
-            margin-bottom: 28px;
-            font-size: 32px;
+            margin-bottom: $space-5;
+            font-size: clamp(25px, 10cqw, 50px);
+            float: right;
           }
           h2 {
             @include font($family: $font-sans, $weight: 600, $line-height: 1);
           }
-          @each $index, $title-color in ( 1: $color-butter, 2: $color-terracotta, 3: $color-brown, 4: $color-ink, 5: $color-terracotta, 6: $color-page, 7: $color-ink, 8: $color-terracotta, 9: $color-brown, 10: $color-mint ) {
+          @each $index,
+            $title-color
+              in (
+                1: map.get($theme-palettes, folio, card),
+                2: map.get($theme-palettes, folio, primary),
+                3: $color-brown,
+                4: map.get($theme-palettes, folio, text),
+                5: map.get($theme-palettes, folio, primary),
+                6: $color-page,
+                7: map.get($theme-palettes, folio, text),
+                8: map.get($theme-palettes, folio, primary),
+                9: $color-brown,
+                10: $color-mint
+              )
+          {
             &:nth-child(10n + #{$index}) {
-              --card-ink: #{$title-color};
+              color: $title-color;
             }
           }
           &:nth-child(6n + 5) {
-            --card-ink: #{$color-terracotta};
+            color: map.get($theme-palettes, folio, primary);
           }
           p {
-            margin-top: 16px;
-
+            margin-top: $space-3;
           }
         }
         @media (max-width: $breakpoint-mobile) {
-          gap: 12px;
-          .card {
-            --card-padding: 20px;
-          }
+          gap: $space-3;
         }
       }
     }
@@ -112,22 +141,32 @@
       height: 50%;
       transform: translateX(-50%);
       .card {
-        @include flex($align: flex-start, $justify: flex-start, $direction: column, $gap: clamp(8px, 1vw, 14px));
+        @include flex(
+          $align: flex-start,
+          $justify: flex-start,
+          $direction: column,
+          $gap: clamp($space-2, 1vw, 14px)
+        );
         @include position(absolute, $left: 50%);
-        --card-padding: clamp(12px, 2vw, 24px);
+        .deck-link {
+          padding: clamp($space-3, 2vw, $space-6);
+        }
         height: auto;
         aspect-ratio: 3 / 4;
         container-type: inline-size;
         min-height: 0;
         transform: translateX(-50%);
         border-radius: 2px;
-        box-shadow: inset 3cqw 0 5cqw rgba($color-ink, 0.1), 0 1cqw 5cqw -1cqw rgba($color-ink, 0.5);
+        box-shadow:
+          inset 3cqw 0 5cqw rgba(map.get($theme-palettes, folio, text), 0.1),
+          0 1cqw 5cqw -1cqw rgba(map.get($theme-palettes, folio, text), 0.5);
         &::before {
           @include position(absolute, $top: -2.5%, $right: 0, $left: 0);
           height: 3%;
           border-radius: 1px 1px 0 0;
           background: $color-page;
-          box-shadow: inset 0 -2px 0 rgba($color-ink, 0.12);
+          box-shadow: inset 0 -2px 0
+            rgba(map.get($theme-palettes, folio, text), 0.12);
           clip-path: polygon(1% 0, 99% 0, 100% 100%, 0 100%);
           content: "";
         }
@@ -143,9 +182,8 @@
           top: 0%;
           transform: translateX(-50%) rotate(-2deg);
           h2 {
-            font-size: 19cqw;
+            font-size: clamp(47.5px, 19cqw, 95px);
             font-weight: 700;
-
           }
         }
         &:nth-child(2) {
@@ -153,11 +191,10 @@
           top: 8%;
           transform: translateX(-50%) rotate(1.5deg);
           h2 {
-            font-size: 28cqw;
+            font-size: clamp(70px, 28cqw, 140px);
             font-family: $font-folio;
             font-weight: 400;
             font-style: italic;
-
           }
         }
         &:nth-child(3) {
@@ -165,10 +202,9 @@
           top: 20%;
           transform: translateX(-50%) rotate(-1deg);
           h2 {
-            font-size: 24cqw;
+            font-size: clamp(60px, 24cqw, 120px);
             font-family: $font-display;
             font-weight: 600;
-
           }
         }
         &:nth-child(4) {
@@ -176,10 +212,9 @@
           top: 32%;
           transform: translateX(-50%) rotate(2.5deg);
           h2 {
-            font-size: 30cqw;
+            font-size: clamp(75px, 30cqw, 150px);
             font-family: $font-folio;
             font-weight: 400;
-
           }
         }
         &:nth-child(5) {
@@ -187,24 +222,27 @@
           top: 50%;
           transform: translateX(-50%) rotate(-1.5deg);
           h2 {
-            font-size: 21cqw;
+            font-size: clamp(52.5px, 21cqw, 105px);
             font-family: $font-display;
             font-weight: 600;
-
           }
         }
         &:nth-child(n + 6) {
           display: none;
         }
         .icon {
-          @include position( absolute, $top: clamp(12px, 2cqw, 24px), $right: clamp(12px, 2cqw, 24px) );
+          @include position(
+            absolute,
+            $top: clamp(12px, 2cqw, 24px),
+            $right: clamp(12px, 2cqw, 24px)
+          );
           margin-bottom: 0;
           display: block;
           font-size: clamp(20px, 6cqw, 40px);
         }
         h2 {
           font-family: $font-display;
-          padding-right: clamp(24px, 8cqw, 56px);
+          padding-right: clamp($space-6, 8cqw, $space-14);
           width: 100%;
           text-align: left;
           overflow-wrap: anywhere;
@@ -255,16 +293,91 @@
   gap: inherit;
 }
 .theme-landing[data-theme="folio"] .visual .poster {
-  padding-top: 40px;
+  padding-top: $space-10;
 }
 @media (max-width: $breakpoint-mobile) {
   .theme-landing[data-theme="folio"].is-expanded .visual .poster .list {
     grid-template-columns: 1fr;
   }
 }
-.theme-landing[data-theme="folio"]:not(.is-expanded) .visual .poster .list .card:last-child {
+.theme-landing[data-theme="folio"]:not(.is-expanded)
+  .visual
+  .poster
+  .list
+  .card:last-child {
   left: 45%;
   top: 50%;
   width: 76%;
   transform: translateX(-50%) rotate(-1.5deg);
+}
+
+.app-shell[data-theme="folio"] {
+  .card-back-logo {
+    display: block;
+    margin: 0;
+    font-family: $font-display;
+    font-size: 8cqw;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1;
+    font-optical-sizing: auto;
+    color: inherit;
+    text-align: center;
+  }
+  .card-back-star {
+    display: block;
+    font-size: 12cqw;
+    line-height: 1;
+    color: inherit;
+  }
+  .card-face {
+    border-radius: 0;
+  }
+  .card-back {
+    font-family: $font-sans;
+    &::after {
+      content: none;
+    }
+    @each $index, $background,
+      $text
+        in (
+          (0, $color-brown, $color-page),
+          (1, map.get($theme-palettes, folio, primary), $color-page),
+          (2, $color-mint, map.get($theme-palettes, folio, text)),
+          (3, map.get($theme-palettes, folio, card), $color-brown),
+          (4, $color-sand, $color-brown)
+        )
+    {
+      &[data-folio-color="#{$index}"] {
+        background: $background;
+        .card-back-mark {
+          color: $text;
+        }
+      }
+    }
+    .card-back-bottom {
+      border-color: currentColor;
+    }
+  }
+  .card-back-ornament {
+    font-family: $font-display;
+    font-size: 17cqw;
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: -0.055em;
+    line-height: 1;
+    font-optical-sizing: auto;
+    text-align: center;
+    .card-back-brand {
+      display: none;
+    }
+    .card-back-game {
+      display: block;
+      max-width: 100%;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      hyphens: none;
+    }
+  }
 }

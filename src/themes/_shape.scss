@@ -1,29 +1,60 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
+@use "sass:map";
+
+$color-shape-bg: #202624;
+$color-shape-orange: #ef683e;
+$color-shape-pink: #e75aa4;
+$color-shape-purple: #a66be0;
+$color-shape-gold: #f4a331;
+
+@mixin shape-colors-and-masks {
+&:nth-child(1) {
+  color: $color-shape-orange;
+  --flip-delay: 0.4s;
+  &::before {
+    -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+  }
+}
+&:nth-child(2) {
+  color: $color-shape-pink;
+  --flip-delay: 1.3s;
+  &::before {
+    -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+  }
+}
+&:nth-child(3) {
+  color: $color-shape-purple;
+  --flip-delay: 2.2s;
+  &::before {
+    -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+  }
+}
+&:nth-child(4) {
+  color: $color-shape-gold;
+  --flip-delay: 3.1s;
+  &::before {
+    -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E")
+      center / contain no-repeat;
+  }
+}
+}
 
 .theme-landing[data-theme="shape"] {
-  $color-theme-ink: #242822;
-  $color-theme-paper: #f5f1e8;
-  $color-theme-sage: #dadfcf;
-  $color-theme-lavender: #d8d2df;
-  $color-theme-peach: #edd4bd;
-  $color-theme-mist: #cadbe0;
-  $color-theme-sand: #dcd7b9;
-  $color-shape-bg: #202624;
-  $color-shape-orange: #ef683e;
-  $color-shape-pink: #e75aa4;
-  $color-shape-purple: #a66be0;
-  $color-shape-gold: #f4a331;
-  --space-xs: clamp(6px, .6vw, 10px);
-  --space-sm: clamp(10px, 1.2vw, 18px);
-  --space-md: clamp(16px, 2vw, 28px);
-  --space-lg: clamp(24px, 3vw, 44px);
-  --space: clamp(16px, 4vw, 64px);
-  --ink: #{$color-theme-ink};
-  --paper: #{$color-theme-paper};
   @include font($family: $font-sans);
-  background: var(--paper);
-  color: var(--ink);
+  background: map.get($theme-palettes, shape, bg);
+  color: map.get($theme-palettes, shape, text);
   &.is-expanded {
     --intro-offset: -60svh;
     --flip-state: paused;
@@ -41,11 +72,11 @@
         margin-top: var(--intro-offset, 0px);
         min-height: 100svh;
         z-index: 2;
-        background: var(--paper);
+        background: map.get($theme-palettes, shape, bg);
         transition: margin-top 650ms cubic-bezier(0.22, 1, 0.36, 1);
         .shapes {
-          @include grid($columns: repeat(2, 1fr), $gap: var(--space-sm));
-          padding: var(--space-md);
+          @include grid($columns: repeat(2, 1fr), $gap: $space-3);
+          padding: $space-6;
           height: 60svh;
           flex-shrink: 0;
           background: $color-shape-bg;
@@ -60,102 +91,69 @@
               aspect-ratio: 1;
               content: "";
               background: currentColor;
-              animation: shape-flip 9.8s cubic-bezier(.45, 0, .25, 1) var(--flip-delay) infinite;
+              animation: shape-flip 9.8s cubic-bezier(0.45, 0, 0.25, 1)
+                var(--flip-delay) infinite;
               animation-play-state: var(--flip-state, running);
             }
-            &:nth-child(1) {
-              color: $color-shape-orange;
-              --flip-delay: 0.4s;
-              &::before {
-                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-              }
-            }
-            &:nth-child(2) {
-              color: $color-shape-pink;
-              --flip-delay: 1.3s;
-              &::before {
-                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-              }
-            }
-            &:nth-child(3) {
-              color: $color-shape-purple;
-              --flip-delay: 2.2s;
-              &::before {
-                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-              }
-            }
-            &:nth-child(4) {
-              color: $color-shape-gold;
-              --flip-delay: 3.1s;
-              &::before {
-                -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-                mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
-              }
-            }
+            @include shape-colors-and-masks;
           }
         }
         .copy {
           @include grid($columns: 1fr 1fr, $align: center);
-          padding: var(--space-md) var(--space);
+          padding: $space-6 $space-5;
           flex: 1;
           align-content: center;
           .event {
-            @include font($size: 12px, $spacing: .15em);
-            margin-bottom: var(--space-sm);
-            padding: .5em 1em;
+            @include font($size: clamp(10.5px, 3cqw, 12px), $spacing: 0.15em);
+            margin-bottom: $space-3;
+            padding: 0.5em 1em;
             grid-column: 1 / -1;
             justify-self: start;
             border: 1px solid $theme-color-black70;
             border-radius: 50%;
           }
           h1 {
-            @include font($size: clamp(32px, 5vw, 80px), $line-height: 1.05, $weight: 400, $family: $font-sans, $spacing: -.04em);
+            @include font(
+              $size: clamp(32px, 5vw, 80px),
+              $line-height: 1.05,
+              $weight: 400,
+              $family: $font-sans,
+              $spacing: -0.04em
+            );
           }
           .subtitle {
-            @include font($line-height: 1.6);
+            @include font($line-height: 1.4);
           }
           @media (max-width: $breakpoint-mobile) {
             grid-template-columns: 1fr;
             .subtitle {
-              margin-top: var(--space-sm);
+              margin-top: $space-3;
             }
           }
         }
       }
       .list {
-        @include grid($columns: repeat(2, minmax(0, 1fr)), $gap: var(--space-md));
-        padding: var(--space-md) var(--space);
+        @include grid($columns: repeat(2, minmax(0, 1fr)), $gap: $space-3);
+        container-type: inline-size;
+        padding: $space-6 $space-5;
         .card {
           @include position(relative);
-          --card-padding: var(--space-lg);
-          min-height: 240px;
-          background: $color-theme-sage;
-          &:nth-child(5n + 2) {
-            background: $color-theme-lavender;
+          .deck-link {
+            padding: $space-5;
           }
-          &:nth-child(5n + 3) {
-            background: $color-theme-peach;
-          }
-          &:nth-child(5n + 4) {
-            background: $color-theme-mist;
-          }
-          &:nth-child(5n + 5) {
-            background: $color-theme-sand;
-          }
+          background: transparent;
+          border: 0.15cqw solid map.get($theme-palettes, shape, text);
+          border-radius: 4cqw;
           .icon {
-            @include font($size: 32px);
-            margin-bottom: var(--space-lg);
+            margin-bottom: $space-6;
             display: block;
           }
           h2 {
             @include font($line-height: 1.1, $weight: 400, $family: $font-sans);
           }
           p {
-            @include font($line-height: 1.6);
-            margin-top: var(--space-sm);
+            @include font($line-height: 1.4);
+            margin-top: $space-3;
           }
         }
         @media (max-width: $breakpoint-mobile) {
@@ -171,11 +169,59 @@
     0% {
       transform: rotateY(0deg);
     }
-    9.183673%, 50% {
+    9.183673%,
+    50% {
       transform: rotateY(180deg);
     }
-    59.183673%, 100% {
+    59.183673%,
+    100% {
       transform: rotateY(360deg);
     }
   }
+}
+
+.app-shell[data-theme="shape"] {
+  .card-back-mark {
+    display: none;
+  }
+  .card-back {
+    font-family: $font-sans;
+    justify-content: center;
+    background: $color-shape-bg;
+    &::after {
+      content: none;
+    }
+  }
+  .shape-backdrop {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6cqw;
+    width: 100%;
+    margin-bottom: 0;
+    .shape {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1;
+      &::before {
+        content: "";
+        width: 100%;
+        aspect-ratio: 1;
+        background: currentColor;
+      }
+      @include shape-colors-and-masks;
+    }
+  }
+  .card-back-ornament {
+    font-family: $font-sans;
+    font-size: clamp(30px, 18cqw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+}
+
+.shape-backdrop {
+  display: none;
 }

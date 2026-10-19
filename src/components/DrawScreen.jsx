@@ -81,10 +81,14 @@ export default function DrawScreen({
           }
           backContent={
             <span className="card-back-mark">
-              <span className="card-back-symbol">❋</span>
+
               <span className="card-back-ornament" aria-hidden="true">
-                MOCA
+                <span className="card-back-brand">MOCA</span>
+                <span className="card-back-game" lang="en">{deck.en}</span>
               </span>
+              <span className="card-back-star" aria-hidden="true">✦</span>
+              <span className="card-back-tagline">세상의 모든 카드</span>
+              <span className="card-back-logo" aria-hidden="true">MOCA</span>
             </span>
           }
           frontContent={
