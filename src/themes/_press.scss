@@ -7,7 +7,7 @@
   background: map.get($theme-palettes, press, bg);
   color: map.get($theme-palettes, press, text);
   .visual {
-    padding: $space-8;
+    padding: $space-5;
     min-height: 100svh;
     .poster {
       margin: 0 auto;
