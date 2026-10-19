@@ -107,9 +107,10 @@
           $top: calc(50svh - clamp($space-4, 2vw, $space-8)),
           $left: 0
         );
-        padding-top: $space-4;
+        @include flex(center, center, column);
         transform: translateY(-50%);
         width: 100%;
+        height: calc(24vh - $space-4);
         z-index: 1;
         text-align: center;
         color: $theme-color-black;
@@ -276,18 +277,19 @@
       border-radius: var(--radius);
       mix-blend-mode: plus-lighter;
       filter: blur(0.75cqw);
-      transform: translateX(var(--shift))
-        skew(var(--skew-x), var(--skew-y))
-        rotate(var(--rotation))
-        scale(var(--scale-x), var(--scale-y));
-      @each $tone, $color in (
-        "blue": $theme-color-card-blue,
-        "pink": $theme-color-card-pink,
-        "green": $theme-color-card-green,
-        "yellow": $theme-color-card-yellow
-      ) {
+      transform: translateX(var(--shift)) skew(var(--skew-x), var(--skew-y))
+        rotate(var(--rotation)) scale(var(--scale-x), var(--scale-y));
+      @each $tone,
+        $color
+          in (
+            "blue": $theme-color-card-blue,
+            "pink": $theme-color-card-pink,
+            "green": $theme-color-card-green,
+            "yellow": $theme-color-card-yellow
+          )
+      {
         &[data-tone="#{$tone}"] {
-          background: rgba($color, .9);
+          background: rgba($color, 0.9);
         }
       }
     }
@@ -301,7 +303,7 @@
     font-weight: 700;
     letter-spacing: 0.1083em;
     line-height: 1.25;
-    padding: .5em 1em;
+    padding: 0.5em 1em;
     border: 1px solid $theme-color-black80;
     border-radius: 50%;
   }

@@ -17,7 +17,7 @@
     mask-size: 10%;
   }
 
-  .app-shell[data-theme="prism"][data-skin="pattern"] .card-back-skin {
+  .app-shell:is([data-theme="prism"], [data-theme="press"])[data-skin="pattern"] .card-back-skin {
     background-color: #202020;
     opacity: .1;
   }

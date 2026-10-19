@@ -150,6 +150,10 @@
   .card-face {
     border: 1px solid map.get($theme-palettes, press, text);
     box-shadow: 0 8cqw 12cqw $color-black30;
+  }
+  .card-back {
+    font-family: $font-mono;
+    background: map.get($theme-palettes, press, bg);
     &::before {
       content: "";
       position: absolute;
@@ -159,10 +163,6 @@
       border-radius: 3.4cqw;
       pointer-events: none;
     }
-  }
-  .card-back {
-    font-family: $font-mono;
-    background: map.get($theme-palettes, press, bg);
     &::after {
       content: none;
     }
