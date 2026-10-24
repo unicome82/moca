@@ -66,6 +66,7 @@ export default function DrawScreen({
       </div>
       <div className="draw-stage">
         <CardFlip
+          deckId={deckId}
           isFlipped={flipped}
           className={revealStage === "replacing" ? "is-replacing" : ""}
           onClick={handleCardClick}

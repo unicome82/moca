@@ -1,6 +1,6 @@
 import GoogleIcon from "./GoogleIcon.jsx";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { skinOptions, themeOptions } from "../config/appConfig.js";
+import { themeOptions } from "../config/appConfig.js";
 
 export default function ScreenLayout({
   children,
@@ -11,10 +11,8 @@ export default function ScreenLayout({
   isCardScreen,
   isCardRevealed,
   theme,
-  skin,
-  skinImages,
+  themeImages,
   onThemeChange,
-  onSkinChange,
 }) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
@@ -76,12 +74,12 @@ export default function ScreenLayout({
     <main
       className="app-shell"
       data-theme={theme}
-      data-skin={skin}
       style={{
-        "--skin-modern-overlay": skinImages.modern,
-        "--skin-pattern-image": `url("${import.meta.env.BASE_URL}images/heropatterns/${skinImages.pattern}")`,
-        "--skin-photo-image": `url("${import.meta.env.BASE_URL}images/skins/${skinImages.photo}")`,
-        "--skin-illustration-image": `url("${import.meta.env.BASE_URL}images/skins/${skinImages.illustration}")`,
+        "--theme-pattern-image": `url("${import.meta.env.BASE_URL}images/heropatterns/${themeImages.pattern}")`,
+        "--theme-photo-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.photo}")`,
+        "--theme-illustration-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.illustration}")`,
+        "--theme-scenery-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.scenery}")`,
+        "--theme-cutout-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.cutout}")`,
       }}
     >
       <div className={`app-frame ${headerHidden ? "is-header-hidden" : ""}`}>
@@ -158,22 +156,6 @@ export default function ScreenLayout({
                             aria-pressed={theme === option.id}
                           >
                             <GoogleIcon name={option.icon} size={20} />
-                            {option.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="settings-group">
-                      <h4>스킨</h4>
-                      <div className="skin-options">
-                        {skinOptions.map((option) => (
-                          <button
-                            key={option.id}
-                            className={`btn skin-option ${skin === option.id ? "selected" : ""}`}
-                            onClick={() => onSkinChange(option.id)}
-                            aria-pressed={skin === option.id}
-                          >
-                            <GoogleIcon name={option.icon} size={18} />
                             {option.label}
                           </button>
                         ))}

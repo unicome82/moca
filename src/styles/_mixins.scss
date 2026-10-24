@@ -1,4 +1,5 @@
 @use "./variables" as *;
+@use "sass:map";
 
 @mixin flex($align: center, $justify: flex-start, $direction: row, $gap: 0) {
   display: flex;
@@ -47,10 +48,28 @@
   }
 }
 
-@mixin grid($columns: null, $gap: null, $align: null, $place: null) {
-  display: grid;
-  grid-template-columns: $columns;
-  gap: $gap;
-  align-items: $align;
-  place-items: $place;
+// Wrapping columns with a shared gap and responsive column count.
+@mixin flex-columns($columns: 2, $gap: $space-3) {
+  @include flex(stretch, flex-start, row, $gap);
+  flex-wrap: wrap;
+  --columns: #{$columns};
+  --column-gap: #{$gap};
+  > * {
+    flex: 0 0 calc((100% - (var(--columns) - 1) * var(--column-gap)) / var(--columns));
+    min-width: 0;
+  }
+}
+
+// Every theme supplies its own palette; shared UI reads these CSS properties.
+@mixin theme-colors($palette) {
+  --ui-bg: #{map.get($palette, bg)};
+  --ui-text: #{map.get($palette, text)};
+  --ui-black: #{map.get($palette, text)};
+  --ui-primary: #{map.get($palette, primary)};
+  --liar-accent: var(--ui-primary);
+  --ui-secondary: #{map.get($palette, primary)};
+  --ui-back: #{map.get($palette, primary)};
+  --ui-card: #{map.get($palette, card)};
+  --ui-soft: #{map.get($palette, bg)};
+  --ui-line: #{rgba(map.get($palette, text), .22)};
 }

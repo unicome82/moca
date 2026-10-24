@@ -102,6 +102,7 @@ export default function LiarGameScreen({
           </div>
         ) : (
           <CardFlip
+            deckId="liar"
             isFlipped={isRevealed}
             className={`${stage === "handoff" ? "is-handoff" : ""} ${isKeywordReveal ? "liar-guess-panel" : ""}`}
             onClick={stage === "pass" ? onReveal : undefined}

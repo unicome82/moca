@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { prismShapes } from "../themes/prismShapes.js";
+import { patternDeckColors } from "../data/themeAssets.js";
 
 /** Shared two-sided card. Each screen supplies its own face content. */
 export default function CardFlip({
+  deckId,
   isFlipped = false,
   className = "",
   onClick,
@@ -13,6 +15,7 @@ export default function CardFlip({
 }) {
   const [folioColor] = useState(() => Math.floor(Math.random() * 5));
   const [retroColor] = useState(() => Math.floor(Math.random() * 2));
+  const patternColor = patternDeckColors[deckId];
   const classes = ["draw-card", isFlipped && "is-flipped", className]
     .filter(Boolean)
     .join(" ");
@@ -24,9 +27,8 @@ export default function CardFlip({
       onClick={onClick}
       aria-label={ariaLabel}
     >
-      <span className="draw-card-inner" onTransitionEnd={onTransitionEnd}>
-        <span className="card-face card-back" data-folio-color={folioColor} data-retro-color={retroColor}>
-          <span className="card-back-skin" aria-hidden="true" />
+      <span className="draw-card-inner" data-folio-color={folioColor} data-retro-color={retroColor} data-pattern-color={patternColor} onTransitionEnd={onTransitionEnd}>
+        <span className="card-face card-back" data-folio-color={folioColor} data-retro-color={retroColor} data-pattern-color={patternColor}>
           <span className="prism-backdrop" aria-hidden="true">
             {prismShapes.map(({ tone, style }) => (
               <span className="prism-backdrop-shape" key={tone} data-tone={tone} style={style} />

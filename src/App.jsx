@@ -6,8 +6,8 @@ import LiarSetupScreen from "./components/LiarSetupScreen.jsx";
 
 import ScreenLayout from "./components/ScreenLayout.jsx";
 import { cardCollections, liarCategories } from "./data/decks.js";
-import { skinImageAssets } from "./data/skinAssets.js";
-import { liarStages, skins, storageKeys, themes } from "./config/appConfig.js";
+import { themeImageAssets } from "./data/themeAssets.js";
+import { liarStages, storageKeys, themes } from "./config/appConfig.js";
 import useScreenNavigation, { readScreen } from "./hooks/useScreenNavigation.js";
 import { pickUnseenIndex, rememberCard } from "./utils/cardHistory.js";
 import {
@@ -45,18 +45,18 @@ function readLiarSession() {
 
 const randomIndex = (length) => Math.floor(Math.random() * length);
 
-const getSkinAssetIndex = (assetType) => {
-  const assets = skinImageAssets[assetType];
+const getThemeAssetIndex = (assetType) => {
+  const assets = themeImageAssets[assetType];
   const history = readJson(
     "localStorage",
-    storageKeys.preference(`skin-asset-cycle-${assetType}`),
+    storageKeys.preference(`theme-asset-cycle-${assetType}`),
     [],
   );
   const seen = Array.isArray(history)
     ? [...new Set(history.filter((index) => Number.isInteger(index) && index >= 0 && index < assets.length))]
     : [];
   const savedIndex = Number(
-    readPreference(storageKeys.preference(`skin-asset-${assetType}`), "-1"),
+    readPreference(storageKeys.preference(`theme-asset-${assetType}`), "-1"),
   );
 
   if (!seen.length && Number.isInteger(savedIndex) && savedIndex >= 0 && savedIndex < assets.length) {
@@ -74,15 +74,15 @@ const getSkinAssetIndex = (assetType) => {
   return choices[randomIndex(choices.length)];
 };
 
-const rememberSkinAsset = (assetType, assetIndex) => {
-  const assets = skinImageAssets[assetType];
-  const historyKey = storageKeys.preference(`skin-asset-cycle-${assetType}`);
+const rememberThemeAsset = (assetType, assetIndex) => {
+  const assets = themeImageAssets[assetType];
+  const historyKey = storageKeys.preference(`theme-asset-cycle-${assetType}`);
   const history = readJson("localStorage", historyKey, []);
   let seen = Array.isArray(history)
     ? [...new Set(history.filter((index) => Number.isInteger(index) && index >= 0 && index < assets.length))]
     : [];
   const previousIndex = Number(
-    readPreference(storageKeys.preference(`skin-asset-${assetType}`), "-1"),
+    readPreference(storageKeys.preference(`theme-asset-${assetType}`), "-1"),
   );
 
   if (!seen.length && Number.isInteger(previousIndex) && previousIndex >= 0 && previousIndex < assets.length) {
@@ -92,21 +92,12 @@ const rememberSkinAsset = (assetType, assetIndex) => {
   if (!seen.includes(assetIndex)) seen.push(assetIndex);
 
   writeJson("localStorage", historyKey, seen);
-  savePreference(storageKeys.preference(`skin-asset-${assetType}`), String(assetIndex));
+  savePreference(storageKeys.preference(`theme-asset-${assetType}`), String(assetIndex));
 };
 
-const skinAssetType = (skin) => (skin === "dim-photo" ? "photo" : skin);
-
-const getInitialSkinImages = (skin) => {
-  const images = Object.fromEntries(
-    Object.entries(skinImageAssets).map(([assetType, assets]) => [assetType, assets[0]]),
-  );
-  const activeType = skinAssetType(skin);
-
-  if (activeType in skinImageAssets) {
-    images[activeType] = skinImageAssets[activeType][getSkinAssetIndex(activeType)];
-  }
-
+const getInitialThemeImages = (theme) => {
+  const images = Object.fromEntries(Object.entries(themeImageAssets).map(([type, assets]) => [type, assets[0]]));
+  if (theme in themeImageAssets) images[theme] = themeImageAssets[theme][getThemeAssetIndex(theme)];
   return images;
 };
 
@@ -130,19 +121,11 @@ export default function App() {
     const saved = readPreference(storageKeys.preference("theme"), "prism");
     return themes.includes(saved) ? saved : "prism";
   });
-  const [skin, setSkin] = useState(() => {
-    const saved = readPreference(storageKeys.preference("skin"), "base");
-    return skins.includes(saved) ? saved : "base";
-  });
-  const [skinImages, setSkinImages] = useState(() => getInitialSkinImages(skin));
+  const [themeImages, setThemeImages] = useState(() => getInitialThemeImages(theme));
 
   useEffect(() => {
-    const assetType = skinAssetType(skin);
-    if (!(assetType in skinImageAssets)) return;
-
-    const assetIndex = skinImageAssets[assetType].indexOf(skinImages[assetType]);
-    rememberSkinAsset(assetType, assetIndex);
-  }, [skin, skinImages]);
+    if (theme in themeImageAssets) rememberThemeAsset(theme, themeImageAssets[theme].indexOf(themeImages[theme]));
+  }, [theme, themeImages]);
 
   useEffect(() => {
     setRevealStage("hidden");
@@ -179,21 +162,14 @@ export default function App() {
 
   const changeTheme = (value) => {
     if (value === theme || !themes.includes(value)) return;
+    if (value in themeImageAssets) {
+      const nextIndex = getThemeAssetIndex(value);
+      setThemeImages(current => ({ ...current, [value]: themeImageAssets[value][nextIndex] }));
+    }
     setTheme(value);
     savePreference(storageKeys.preference("theme"), value);
     navigate("intro");
     window.scrollTo({ top: 0, behavior: "instant" });
-  };
-
-  const changeSkin = (value) => {
-    setSkin(value);
-    const assetType = skinAssetType(value);
-    if (assetType in skinImageAssets) {
-      const assets = skinImageAssets[assetType];
-      const nextIndex = getSkinAssetIndex(assetType);
-      setSkinImages((current) => ({ ...current, [assetType]: assets[nextIndex] }));
-    }
-    savePreference(storageKeys.preference("skin"), value);
   };
 
   const revealCard = () => {
@@ -257,10 +233,8 @@ export default function App() {
         (screen === "liar-game" && ["shown", "handoff", "liar-reveal", "keyword"].includes(liarStage))
       }
       theme={theme}
-      skin={skin}
-      skinImages={skinImages}
+      themeImages={themeImages}
       onThemeChange={changeTheme}
-      onSkinChange={changeSkin}
     >
       {(screen === "intro" || screen === "home") && (
         <ThemeLanding key={theme} theme={theme} expanded={screen === "home"}

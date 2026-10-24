@@ -1,0 +1,204 @@
+@use "../styles/variables" as *;
+@use "../styles/mixins" as *;
+$theme-palette: (
+  bg: #edf1ef,
+  text: #233b37,
+  primary: #233b37,
+  card: #ffffff,
+);
+
+.app-shell[data-theme="illustration"] {
+  @include theme-colors($theme-palette);
+  .app-frame:has(.theme-landing.is-expanded) {
+    .settings-toggle {
+      color: #fff;
+    }
+  }
+  .shape-backdrop {
+    display: none;
+  }
+  .card-face {
+    border: 1px solid var(--ui-line);
+  }
+  .card-front {
+    background: var(--ui-card);
+    color: var(--ui-text);
+  }
+  .card-back {
+    background-image: var(--theme-illustration-image);
+    background-position: center;
+    background-size: auto;
+    background-repeat: no-repeat;
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: $color-black50;
+      mix-blend-mode: normal;
+      pointer-events: none;
+    }
+  }
+  .card-back-mark {
+    color: $color-bg-card;
+  }
+  .card-back-ornament {
+    font-size: clamp(24px, 20cqw, 56px);
+    font-family: $font-display;
+    font-weight: 600;
+    letter-spacing: -0.045em;
+  }
+  .card-back-bottom {
+    border-color: currentColor;
+  }
+  .theme-landing {
+    --illustration-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    width: 100%;
+    max-width: $width-content;
+    margin-inline: auto;
+    transition: max-width 950ms var(--illustration-ease);
+    @include flex(stretch, flex-start, column);
+    color: var(--ui-text);
+    background: var(--ui-bg);
+    .visual {
+      @include flex(stretch);
+      flex: 1;
+    }
+    .poster {
+      @include flex(stretch, flex-start, column);
+      flex: 1;
+      max-width: 1040px;
+    }
+    .intro {
+      background-image: var(--theme-illustration-image);
+      position: relative;
+      isolation: isolate;
+      @include flex(
+        stretch,
+        center,
+        column,
+        clamp($space-8, calc(var(--intro-height, 100svh) * 0.08), 80px)
+      );
+      flex: 0 0 auto;
+      min-height: 100svh;
+      overflow: hidden;
+      padding: clamp($space-6, 6vw, 72px);
+      background-position: center;
+      background-size: auto;
+      background-repeat: no-repeat;
+      color: $color-bg-card;
+      box-shadow: 0 18px 50px $color-black10;
+      transition:
+        min-height 950ms var(--illustration-ease),
+        padding 950ms var(--illustration-ease),
+        gap 950ms var(--illustration-ease),
+        box-shadow 950ms ease;
+      .logo {
+        font-size: clamp(76px, 19cqw, 220px);
+        font-family: $font-display;
+        font-weight: 600;
+        letter-spacing: -0.045em;
+        line-height: 0.9;
+        transition: font-size 950ms var(--illustration-ease);
+      }
+      .copy {
+        h1 {
+          margin-bottom: clamp(
+            $space-2,
+            calc(var(--intro-height, 100svh) * 0.02),
+            $space-4
+          );
+          font-size: clamp(26px, 5cqw, 52px);
+          line-height: 1.2;
+        }
+        .subtitle {
+          font-size: clamp(13px, 2cqw, 17px);
+          opacity: 1;
+        }
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: $color-black50;
+        pointer-events: none;
+      }
+    }
+    .list {
+      @include flex-columns(2, clamp($space-3, 2vw, $space-6));
+      padding: clamp($space-4, 5vw, 64px);
+      .card {
+        min-height: clamp(166px, 20vh, 270px);
+        border: 1px solid var(--ui-line);
+        border-radius: $radius-m;
+        background: var(--ui-card);
+        overflow: hidden;
+        .deck-link {
+          @include flex(flex-start, flex-end, column, $space-3);
+          padding: clamp(18px, 3vw, $space-8);
+          color: inherit;
+          text-align: left;
+          text-decoration: none;
+          transition: background 0.2s;
+          &:hover {
+            background: var(--ui-line);
+          }
+        }
+        h2 {
+          font-size: clamp(18px, 3cqw, 28px);
+        }
+        p {
+          font-size: clamp(12px, 1.5cqw, 15px);
+        }
+        .icon {
+          margin-bottom: auto;
+        }
+      }
+    }
+    &:not(.is-expanded) {
+      max-width: 100%;
+      padding: 0;
+      .poster {
+        max-width: none;
+      }
+      .list {
+        display: none;
+      }
+      .intro {
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+    &.is-expanded {
+      .intro {
+        min-height: 0;
+        gap: clamp(
+          $space-8,
+          calc(var(--intro-height, 100svh) * 0.03),
+          $space-6
+        );
+        .logo {
+          font-size: clamp(52px, 10cqw, 90px);
+        }
+      }
+      .list {
+        animation: illustration-list-enter 700ms var(--illustration-ease) 200ms
+          backwards;
+      }
+    }
+  }
+  .card-back-tagline {
+    font-style: italic;
+  }
+}
+
+@keyframes illustration-list-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

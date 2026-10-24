@@ -1,16 +1,7 @@
-export const skinImageAssets = {
-  modern: [
-    "rgb(0, 0, 0)",
-    "rgb(22, 22, 22)",
-    "rgb(44, 44, 44)",
-    "rgb(67, 67, 67)",
-    "rgb(89, 89, 89)",
-    "rgb(111, 111, 111)",
-    "rgb(133, 133, 133)",
-    "rgb(156, 156, 156)",
-    "rgb(178, 178, 178)",
-    "rgb(200, 200, 200)",
-  ],
+// Shared by landing decks and their game cards.
+export const patternDeckColors = { ice: 0, solution: 2, balance: 3, liar: 4 };
+
+export const themeImageAssets = {
   pattern: [
     "bamboo.svg",
     "boxes.svg",
@@ -36,6 +27,30 @@ export const skinImageAssets = {
     "photo-09.jpg",
     "photo-10.jpg",
     "photo-11.jpg",
+  ],
+  scenery: [
+    "scenery-01.png",
+    "scenery-02.png",
+    "scenery-03.png",
+    "scenery-04.png",
+    "scenery-05.png",
+    "scenery-06.png",
+    "scenery-07.png",
+    "scenery-08.png",
+    "scenery-09.png",
+    "scenery-10.png",
+  ],
+  cutout: [
+    "cutout-01.png",
+    "cutout-02.png",
+    "cutout-03.png",
+    "cutout-04.png",
+    "cutout-05.png",
+    "cutout-06.png",
+    "cutout-07.png",
+    "cutout-08.png",
+    "cutout-09.png",
+    "cutout-10.png",
   ],
   illustration: [
     "illustration-01.jpg",

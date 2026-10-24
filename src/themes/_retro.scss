@@ -1,6 +1,5 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
-
 $color-retro-ink: #171b16;
 $color-retro-blue: #5484ba;
 $color-retro-green: #80a674;
@@ -9,6 +8,12 @@ $color-retro-mustard: #d9ae42;
 $color-retro-dusty-pink: #d99b9d;
 $color-retro-teal: #438c86;
 $color-retro-lavender: #a89bc4;
+$theme-palette: (
+  bg: #f1e4c5,
+  text: #382c20,
+  primary: $color-retro-blue,
+  card: #f7edcf,
+);
 
 .theme-landing[data-theme="retro"] {
   --card-a: #{$color-retro-green};
@@ -21,40 +26,39 @@ $color-retro-lavender: #a89bc4;
   &[data-palette="green"] {
     --intro-bg: #{$color-retro-green};
     --intro-ink: #{$color-retro-ink};
+    --card-a: #{$color-retro-blue};
   }
   &[data-palette="cream"] {
     --intro-bg: #{$color-retro-cream};
     --intro-ink: #{$color-retro-blue};
-  }
-  &[data-palette="green"] {
-    --card-a: #{$color-retro-blue};
-  }
-  &[data-palette="cream"] {
     --card-b: #{$color-retro-blue};
   }
   .visual {
+    @include flex(stretch);
     padding: $space-5;
     min-height: 100svh;
     .poster {
+      @include flex(stretch, flex-start, column);
+      flex: 1;
       margin: 0 auto;
       max-width: 1120px;
       .intro {
         @include flex($justify: center, $direction: column);
         padding: $space-8 0;
-        min-height: calc(100svh - 2 * $space-8);
+        flex: 1;
         text-align: center;
         .logo {
           @include flex($align: stretch, $justify: center);
           @include position(relative);
           @include font(
             $family: $font-retro,
-            $size: clamp(100px, 25vw, 320px),
+            $size: clamp(100px, 25cqw, 320px),
             $weight: 900,
             $line-height: 0.8,
             $spacing: -0.1em
           );
           &::after {
-            @include grid($place: center);
+            @include flex(center, center);
             @include position(absolute, $top: -0.5em, $right: -0.5em);
             @include font(
               $family: $font-serif,
@@ -89,7 +93,7 @@ $color-retro-lavender: #a89bc4;
           max-width: 640px;
           .event {
             @include font(
-              $size: clamp(9px, 1vw, 12px),
+              $size: clamp(9px, 1cqw, 12px),
               $weight: 600,
               $spacing: 0.16em
             );
@@ -102,7 +106,7 @@ $color-retro-lavender: #a89bc4;
           h1 {
             @include font(
               $family: $font-retro,
-              $size: clamp(32px, 4.5vw, 58px),
+              $size: clamp(32px, 4.5cqw, 58px),
               $weight: 400,
               $line-height: 1.02,
               $spacing: -0.045em
@@ -123,10 +127,7 @@ $color-retro-lavender: #a89bc4;
         }
       }
       .list {
-        @include grid(
-          $columns: repeat(3, minmax(0, 1fr)),
-          $gap: clamp($space-3, 2vw, $space-6)
-        );
+        @include flex-columns(3, clamp($space-3, 2vw, $space-6));
         margin-top: $space-8;
         display: none;
         .card {
@@ -162,12 +163,11 @@ $color-retro-lavender: #a89bc4;
           }
           p {
             margin-top: clamp($space-3, 2vw, $space-5);
-
             line-height: 1.4;
           }
         }
         @media (max-width: $breakpoint-wide-mobile) {
-          grid-template-columns: 1fr;
+          --columns: 1;
         }
       }
     }
@@ -175,42 +175,47 @@ $color-retro-lavender: #a89bc4;
   button {
     @include keyboard-focus($color: currentColor, $offset: 5px);
   }
-  &.is-expanded .visual .poster {
-    .intro {
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: $space-8;
-      min-height: 0;
-      text-align: left;
-      .logo {
-        font-size: clamp(40px, 6vw, 72px);
-        &::after {
-          display: none;
-        }
-      }
-      .copy {
-        margin-top: 0;
-        .event {
-          display: none;
-        }
-        h1 {
-          font-size: clamp(24px, 3vw, 40px);
-          br {
-            display: none;
+  &.is-expanded {
+    .visual {
+      .poster {
+        .intro {
+          flex: 0 0 auto;
+          flex-direction: row;
+          justify-content: flex-start;
+          gap: $space-8;
+          min-height: 0;
+          text-align: left;
+          .logo {
+            font-size: clamp(40px, 6cqw, 72px);
+            &::after {
+              display: none;
+            }
+          }
+          .copy {
+            margin-top: 0;
+            .event {
+              display: none;
+            }
+            h1 {
+              font-size: clamp(24px, 3cqw, 40px);
+              br {
+                display: none;
+              }
+            }
+            .subtitle {
+              margin-top: $space-3;
+            }
+          }
+          @media (max-width: $breakpoint-wide-mobile) {
+            flex-direction: column;
+            align-items: flex-start;
           }
         }
-        .subtitle {
-          margin-top: $space-3;
+        .list {
+          display: flex;
+          animation: cards-arrive 650ms ease both;
         }
       }
-      @media (max-width: $breakpoint-wide-mobile) {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-    .list {
-      display: grid;
-      animation: cards-arrive 650ms ease both;
     }
   }
   @keyframes logo-arrive {
@@ -250,6 +255,10 @@ $color-retro-lavender: #a89bc4;
 }
 
 .app-shell[data-theme="retro"] {
+  @include theme-colors($theme-palette);
+  .card-front-symbol {
+    color: var(--card-back-accent);
+  }
   .card-face {
     border: 1px solid $color-retro-ink;
     box-shadow: 4px 6px 0 $color-retro-ink;
@@ -278,10 +287,17 @@ $color-retro-lavender: #a89bc4;
     &::after {
       content: none;
     }
-    @each $index, $background, $text in (
-      (0, $color-retro-blue, $color-retro-cream),
-      (1, $color-retro-green, $color-retro-ink)
-    ) {
+    @each $index, $background,
+      $text
+        in (
+          (0, $color-retro-blue, $color-retro-cream),
+          (1, $color-retro-green, $color-retro-ink)
+        )
+    {
+      @at-root .app-shell[data-theme="retro"]
+          .draw-card-inner[data-retro-color="#{$index}"] {
+        --card-back-accent: #{$background};
+      }
       &[data-retro-color="#{$index}"] {
         background: $background;
         .card-back-mark {
@@ -296,7 +312,7 @@ $color-retro-lavender: #a89bc4;
   .card-back-ornament {
     position: relative;
     font-family: $font-retro;
-    font-size: 28cqw;
+    font-size: clamp(26px, 22cqw, 60px);
     font-weight: 900;
     letter-spacing: -0.1em;
     line-height: 0.8;

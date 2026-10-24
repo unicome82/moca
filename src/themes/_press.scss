@@ -1,15 +1,22 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
 @use "sass:map";
+$theme-palette: (
+  bg: #f8f5ee,
+  text: #35352f,
+  primary: #35352f,
+  card: #ffffff,
+);
 
 .theme-landing[data-theme="press"] {
   @include font($family: $font-mono);
-  background: map.get($theme-palettes, press, bg);
-  color: map.get($theme-palettes, press, text);
+  background: map.get($theme-palette, bg);
+  color: map.get($theme-palette, text);
   .visual {
-    padding: $space-5;
-    min-height: 100svh;
+    @include flex(stretch);
     .poster {
+      @include flex(stretch, flex-start, column);
+      flex: 1;
       margin: 0 auto;
       max-width: 1040px;
       .intro {
@@ -19,27 +26,43 @@
           transform-origin: top left;
         }
         @include flex($align: stretch, $justify: center, $direction: column);
-        min-height: calc(100svh - 2 * $space-8);
-        border: 1px solid map.get($theme-palettes, press, text);
+        flex: 0 0 auto;
+        min-height: 100svh;
+        position: relative;
+        padding: $space-5;
         text-align: center;
+        transition: min-height 950ms cubic-bezier(0.22, 1, 0.36, 1);
+        &::before {
+          content: "";
+          position: absolute;
+          inset: $space-5;
+          border: 1px solid map.get($theme-palette, text);
+          pointer-events: none;
+          transition: opacity 650ms ease;
+        }
         .logo {
+          transition:
+            font-size 950ms cubic-bezier(0.22, 1, 0.36, 1),
+            margin-bottom 950ms cubic-bezier(0.22, 1, 0.36, 1);
           @include font(
-            $size: clamp(64px, 16vw, 240px),
+            $size: clamp(64px, 16cqw, 240px),
             $line-height: 0.85,
             $spacing: -0.04em
           );
         }
         .copy {
           padding: $space-6 0;
+          transition: padding 950ms cubic-bezier(0.22, 1, 0.36, 1);
           h1 {
+            transition: font-size 950ms cubic-bezier(0.22, 1, 0.36, 1);
             @include font(
-              $size: clamp(24px, 4vw, 60px),
+              $size: clamp(24px, 4cqw, 60px),
               $line-height: 1.05,
               $spacing: -0.04em
             );
             padding: 0.2em;
             display: inline-block;
-            border-block: 1px solid map.get($theme-palettes, press, text);
+            border-block: 1px solid map.get($theme-palette, text);
           }
           .subtitle {
             @include font($line-height: 1.4);
@@ -52,40 +75,34 @@
         @include font($size: clamp(10.5px, 3cqw, 12px), $spacing: 0.04em);
         padding: $space-3 $space-8;
         display: none;
-        border-top: 1px solid rgba(map.get($theme-palettes, press, text), 0.3);
+        border-top: 1px solid rgba(map.get($theme-palette, text), 0.3);
       }
       .list {
-        @include grid($columns: minmax(0, 1fr));
-        border-top: 1px solid map.get($theme-palettes, press, text);
+        @include flex(stretch, flex-start, column);
+        border-top: 1px solid map.get($theme-palette, text);
         .card {
-          @include grid(
-            $columns: clamp(48px, 9vw, 96px) minmax(0, 1fr),
-            $gap: 0 clamp(16px, 3vw, 40px)
-          );
           .deck-link {
-            padding: $space-8;
+            padding: $space-6;
           }
-          border-bottom: 1px solid map.get($theme-palettes, press, text);
+          border-bottom: 1px solid map.get($theme-palette, text);
           .icon {
-            @include font($size: clamp(48px, 9vw, 96px), $line-height: 1);
-            grid-row: 1 / 3;
+            @include font($size: clamp(36px, 9cqw, 96px), $line-height: 1);
             align-self: center;
-            font-variation-settings:
-              "FILL" 1,
-              "wght" 400;
+            .google-symbol {
+              font-variation-settings:
+                "FILL" 1,
+                "wght" 400;
+            }
           }
           h2 {
             @include font($weight: 500, $line-height: 1.1);
-            grid-column: 2;
-            align-self: end;
             overflow-wrap: anywhere;
           }
           p {
             @include font($line-height: 1.4);
             margin-top: clamp(6px, 1vw, $space-3);
-            grid-column: 2;
-            align-self: start;
           }
+          position: relative;
         }
       }
     }
@@ -95,35 +112,43 @@
   }
   &.is-expanded {
     .visual {
-      padding: 0;
       .poster {
         .intro {
-          padding: $space-8;
           min-height: 0;
-          border: 0;
+          &::before {
+            opacity: 0;
+          }
           .logo {
             margin-bottom: $space-4;
-            font-size: clamp(40px, 6vw, 64px);
+            font-size: clamp(40px, 6cqw, 64px);
           }
           .copy {
             padding: 0 0 $space-4;
             h1 {
-              font-size: clamp(20px, 3vw, 32px);
+              font-size: clamp(20px, 3cqw, 32px);
             }
           }
         }
         .catalog {
           display: flex;
         }
-        .list .card {
-          animation: print-card 650ms cubic-bezier(0.22, 1, 0.36, 1)
-            calc(var(--index) * 100ms) both;
+        .list {
+          .card {
+            animation: print-card 650ms cubic-bezier(0.22, 1, 0.36, 1)
+              calc(var(--index) * 100ms) both;
+          }
         }
       }
     }
   }
-  &:not(.is-expanded) .visual .poster .list {
-    display: none;
+  &:not(.is-expanded) {
+    .visual {
+      .poster {
+        .list {
+          display: none;
+        }
+      }
+    }
   }
   @keyframes print-card {
     from {
@@ -135,31 +160,34 @@
       transform: scale(1);
     }
   }
-}
-.theme-landing[data-theme="press"] .deck-link {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: inherit;
-  gap: inherit;
-}
-.theme-landing[data-theme="press"] .visual .poster .list .card {
-  position: relative;
+  .deck-link {
+    @include flex(center, flex-start, row, clamp($space-6, 3vw, $space-10));
+    .icon {
+      flex-shrink: 0;
+    }
+    .deck-copy {
+      @include flex(stretch, center, column);
+      flex: 1;
+      min-width: 0;
+    }
+  }
 }
 
 .app-shell[data-theme="press"] {
+  @include theme-colors($theme-palette);
   .card-face {
-    border: 1px solid map.get($theme-palettes, press, text);
+    border: 1px solid map.get($theme-palette, text);
     box-shadow: 0 8cqw 12cqw $color-black30;
   }
   .card-back {
     font-family: $font-mono;
-    background: map.get($theme-palettes, press, bg);
+    background: map.get($theme-palette, bg);
     &::before {
       content: "";
       position: absolute;
       inset: 5cqw;
       z-index: 1;
-      border: 1px solid map.get($theme-palettes, press, text);
+      border: 1px solid map.get($theme-palette, text);
       border-radius: 3.4cqw;
       pointer-events: none;
     }
@@ -168,7 +196,7 @@
     }
   }
   .card-back-mark {
-    color: map.get($theme-palettes, press, text);
+    color: map.get($theme-palette, text);
   }
   .card-back-tagline {
     padding-block: 0.4em;

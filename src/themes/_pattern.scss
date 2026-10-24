@@ -1,0 +1,266 @@
+@use "../styles/variables" as *;
+@use "../styles/mixins" as *;
+$theme-palette: (
+  bg: #fffdf5,
+  text: #101f50,
+  primary: #e65a2e,
+  card: #fffdf5,
+);
+
+// Shared lettering for the opening title and game-card brand.
+
+@mixin pattern-lettering {
+  font-family: "Oleo Script", "Brush Script MT", cursive;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  transform: rotate(-7deg);
+}
+
+@keyframes pattern-intro-reveal {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+  to {
+    opacity: var(--pattern-reveal-opacity, 1);
+    translate: 0 0;
+  }
+}
+
+.app-shell[data-theme="pattern"] {
+  @include theme-colors($theme-palette);
+  .card-front-symbol {
+    color: var(--pattern-bg);
+  }
+  .shape-backdrop {
+    display: none;
+  }
+  .card-front {
+    background: var(--ui-card);
+    color: var(--ui-text);
+  }
+  .card-back-bottom {
+    border-color: currentColor;
+  }
+  [data-pattern-color] {
+    --pattern-ink: #fffdf5;
+  }
+  [data-pattern-color="0"] {
+    --pattern-bg: #e65a2e;
+  }
+  [data-pattern-color="1"] {
+    --pattern-bg: #fffdf5;
+    --pattern-ink: #101f50;
+  }
+  [data-pattern-color="2"] {
+    --pattern-bg: #101f50;
+  }
+  [data-pattern-color="3"] {
+    --pattern-bg: #176342;
+  }
+  [data-pattern-color="4"] {
+    --pattern-bg: #696b68;
+  }
+  .theme-landing .intro,
+  .theme-landing .card,
+  .card-back {
+    background-color: var(--pattern-bg);
+    color: var(--pattern-ink);
+    isolation: isolate;
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--pattern-ink);
+      opacity: 0.065;
+      -webkit-mask: var(--theme-pattern-image) repeat 0 0 / 64px;
+      mask: var(--theme-pattern-image) repeat 0 0 / 64px;
+      pointer-events: none;
+    }
+  }
+  .theme-landing {
+    @include flex(stretch, flex-start, column);
+    --pattern-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    .visual {
+      flex: 1 0 auto;
+    }
+    .landing-copyright {
+      flex: 0 0 auto;
+    }
+    .poster {
+      @include flex(stretch, flex-start, column);
+    }
+    .intro {
+      flex: 0 0 auto;
+      @include flex(center, center, column);
+      gap: clamp($space-7, 5vh, $space-14);
+      position: relative;
+      min-height: 100svh;
+      overflow: hidden;
+      padding: max(64px, env(safe-area-inset-top)) $space-6
+        max($space-10, env(safe-area-inset-bottom));
+      text-align: center;
+      transition: min-height 900ms var(--pattern-ease),
+        padding 900ms var(--pattern-ease),
+        gap 900ms var(--pattern-ease),
+        color 600ms ease,
+        background-color 600ms ease;
+    }
+    .logo {
+      @include pattern-lettering;
+      font-size: clamp(100px, 24cqw, 300px);
+      text-shadow: 2px 4px 0
+        color-mix(in srgb, var(--pattern-ink) 15%, transparent);
+      transition: font-size 900ms var(--pattern-ease),
+        text-shadow 900ms ease;
+    }
+    .event {
+      display: none;
+    }
+    h1 {
+      margin-bottom: $space-4;
+      line-height: 1.2;
+      font-size: clamp(20px, 3.5cqw, 36px);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      transition: font-size 900ms var(--pattern-ease),
+        margin-bottom 900ms var(--pattern-ease);
+    }
+    .copy {
+      .subtitle {
+        font-size: clamp(13px, 2cqw, 17px);
+        line-height: 1.8;
+        max-height: 6em;
+        overflow: hidden;
+        visibility: visible;
+        transition: max-height 900ms var(--pattern-ease),
+        opacity 300ms ease,
+        visibility 0s;
+      }
+    }
+    &.is-entering:not(.is-expanded) {
+      .intro {
+        .logo,
+      h1,
+      .subtitle {
+          animation: pattern-intro-reveal var(--reveal-duration, 850ms)
+          var(--pattern-ease) var(--reveal-delay) backwards;
+        }
+        .logo {
+          --reveal-duration: 1000ms;
+          --reveal-delay: 80ms;
+        }
+        h1 {
+          --reveal-delay: 260ms;
+        }
+        .subtitle {
+          --pattern-reveal-opacity: 0.8;
+          --reveal-delay: 420ms;
+        }
+      }
+    }
+    .list {
+      @include flex(stretch, flex-start, column, $space-3);
+      padding: $space-4;
+    }
+    &:not(.is-expanded) {
+      .list {
+        display: none;
+      }
+    }
+    .card {
+      flex: 0 0 auto;
+      min-width: 0;
+      min-height: 0;
+      border-radius: $radius-m;
+      overflow: hidden;
+      .deck-link {
+        @include flex(center, flex-start, row, clamp($space-2, 2svh, $space-5));
+        padding: clamp(10px, 3svh, $space-8);
+      }
+      .deck-copy {
+        flex: 1;
+        min-width: 0;
+        @include flex(flex-start, center, column, $space-2);
+      }
+      .icon {
+        flex-shrink: 0;
+        .google-symbol {
+          font-size: clamp(32px, 10cqw, 88px);
+          font-variation-settings: "wght" 300;
+        }
+      }
+      h2 {
+        font-size: clamp(24px, 5cqw, 36px);
+      }
+      p {
+        line-height: 1.7;
+      }
+    }
+    &.is-expanded {
+      .intro {
+        min-height: 0;
+        background-color: transparent;
+        color: $color-black;
+        padding: 8vh $space-5 4vh;
+        gap: $space-2;
+        &::before {
+          opacity: 0;
+        }
+      }
+      .logo {
+        font-size: clamp(44px, 9svh, 88px);
+        text-shadow: none;
+      }
+      h1 {
+        margin-bottom: 0;
+        font-size: clamp(16px, 3svh, 24px);
+      }
+      .copy {
+        .subtitle {
+          max-height: 0;
+          opacity: 0;
+          visibility: hidden;
+          transition-delay: 0s, 0s, 300ms;
+        }
+      }
+      .card {
+        .icon {
+          font-size: clamp(28px, 8svh, 72px);
+        }
+        h2 {
+          font-size: clamp(16px, 3.5svh, 30px);
+        }
+        p {
+          font-size: clamp(10px, 1.8svh, 14px);
+        }
+      }
+      .list {
+        animation: pattern-intro-reveal 700ms var(--pattern-ease) backwards;
+      }
+    }
+  }
+  .theme-landing .card::before,
+  .card-back::before {
+    -webkit-mask-size: 32px;
+    mask-size: 32px;
+  }
+  .card-back {
+    background-position: center;
+    background-size: cover;
+    &::after {
+      content: none;
+    }
+    border: 8px solid var(--pattern-bg);
+  }
+  .card-back-mark {
+    color: $color-bg-card;
+    color: var(--pattern-ink);
+  }
+  .card-back-ornament {
+    @include pattern-lettering;
+    font-size: 23cqw;
+  }
+}

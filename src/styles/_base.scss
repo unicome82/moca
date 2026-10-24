@@ -1,9 +1,6 @@
 @use "./variables" as *;
 @use "./mixins" as *;
 @use "./reset";
-@use "./skins" as *;
-
-@include skin-presets;
 
 .btn {
   @include flex(center, center, row, $space-2);
@@ -122,6 +119,7 @@ h3,
   padding: 0;
   color: var(--ui-text, #{$color-black});
   background: var(--ui-bg, #{$color-bg});
+  word-break: keep-all;
 }
 
 .header {
@@ -223,15 +221,13 @@ h3,
   }
 }
 
-.theme-options,
-.skin-options {
+.theme-options {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: $space-2;
 }
 
-.theme-option,
-.skin-option {
+.theme-option {
   @include flex(center, flex-start, column, $space-1);
 
   min-width: 0;

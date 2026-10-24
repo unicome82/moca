@@ -1,27 +1,27 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
 @use "sass:map";
-
+$theme-palette: (
+  bg: #f2eee1,
+  text: #29231d,
+  primary: #b54120,
+  card: #eee0a0,
+);
 $color-brown: #572717;
-
 $color-sand: #d2b78e;
-
 $color-mint: #aed1c6;
-
 $color-page: #f7f0d8;
 
 .theme-landing[data-theme="folio"] {
   @include font($family: $font-sans);
-  background: map.get($theme-palettes, folio, bg);
-  color: map.get($theme-palettes, folio, text);
+  background: map.get($theme-palette, bg);
+  color: map.get($theme-palette, text);
   .visual {
     padding: 0;
-    height: 100%;
     .poster {
       @include position(relative);
       margin: 0 auto;
-      height: 100%;
-      min-height: 760px;
+      min-height: 100svh;
       overflow: hidden;
       .intro {
         @include flex($justify: center, $direction: column);
@@ -30,7 +30,7 @@ $color-page: #f7f0d8;
         .logo {
           @include font(
             $family: $font-display,
-            $size: clamp(80px, 13vw, 168px),
+            $size: clamp(80px, 13cqw, 168px),
             $weight: 400,
             $spacing: -0.13em
           );
@@ -42,7 +42,7 @@ $color-page: #f7f0d8;
           .event {
             @include font(
               $family: $font-folio,
-              $size: clamp(16px, 2vw, 24px),
+              $size: clamp(16px, 2cqw, 24px),
               $line-height: 1.4,
               $spacing: 0.04em
             );
@@ -51,7 +51,7 @@ $color-page: #f7f0d8;
           h1 {
             @include font(
               $family: $font-display,
-              $size: clamp(28px, 4vw, 48px),
+              $size: clamp(28px, 4cqw, 48px),
               $weight: 400,
               $spacing: -0.055em
             );
@@ -63,10 +63,7 @@ $color-page: #f7f0d8;
         }
       }
       .list {
-        @include grid(
-          $columns: repeat(2, minmax(0, 1fr)),
-          $gap: clamp($space-4, 3vw, $space-8)
-        );
+        @include flex-columns(2, clamp($space-4, 3vw, $space-8));
         padding: $space-5;
         .card {
           @include position(relative);
@@ -77,19 +74,16 @@ $color-page: #f7f0d8;
           color: $color-page;
           background: $color-brown;
           &:nth-child(5n + 1) {
-            background: map.get($theme-palettes, folio, primary);
+            background: map.get($theme-palette, primary);
           }
           &:nth-child(5n + 2) {
             background: $color-mint;
           }
           &:nth-child(5n + 3) {
-            background: map.get($theme-palettes, folio, card);
+            background: map.get($theme-palette, card);
           }
           &:nth-child(5n + 4) {
             background: $color-sand;
-          }
-          &:nth-child(6n + 5) {
-            background: map.get($theme-palettes, folio, bg);
           }
           .icon {
             display: block;
@@ -103,24 +97,24 @@ $color-page: #f7f0d8;
           @each $index,
             $title-color
               in (
-                1: map.get($theme-palettes, folio, card),
-                2: map.get($theme-palettes, folio, primary),
+                1: map.get($theme-palette, card),
+                2: map.get($theme-palette, primary),
                 3: $color-brown,
-                4: map.get($theme-palettes, folio, text),
-                5: map.get($theme-palettes, folio, primary),
+                4: map.get($theme-palette, text),
+                5: map.get($theme-palette, primary),
                 6: $color-page,
-                7: map.get($theme-palettes, folio, text),
-                8: map.get($theme-palettes, folio, primary),
+                7: map.get($theme-palette, text),
+                8: map.get($theme-palette, primary),
                 9: $color-brown,
                 10: $color-mint
-              )
-          {
+              ) {
             &:nth-child(10n + #{$index}) {
               color: $title-color;
             }
           }
           &:nth-child(6n + 5) {
-            color: map.get($theme-palettes, folio, primary);
+            background: map.get($theme-palette, bg);
+            color: map.get($theme-palette, primary);
           }
           p {
             margin-top: $space-3;
@@ -130,150 +124,175 @@ $color-page: #f7f0d8;
           gap: $space-3;
         }
       }
+      padding-top: $space-10;
     }
   }
-  &:not(.is-expanded) .visual .poster {
-    .list {
-      @include position(absolute, $bottom: 0, $left: 50%);
-      padding: 0;
-      display: block;
-      width: min(88%, 720px);
-      height: 50%;
-      transform: translateX(-50%);
-      .card {
-        @include flex(
+  &:not(.is-expanded) {
+    .visual {
+      .poster {
+        //Reserve space for the overlapping cards without assuming a fixed screen height.
+        --folio-stack-height: min(70cqw, 55svh);
+        padding-bottom: var(--folio-stack-height);
+        .list {
+          @include position(absolute, $bottom: 0, $left: 50%);
+          padding: 0;
+          display: block;
+          width: min(88%, 720px);
+          height: var(--folio-stack-height);
+          transform: translateX(-50%);
+          .card {
+            @include flex(
           $align: flex-start,
           $justify: flex-start,
           $direction: column,
           $gap: clamp($space-2, 1vw, 14px)
         );
-        @include position(absolute, $left: 50%);
-        .deck-link {
-          padding: clamp($space-3, 2vw, $space-6);
-        }
-        height: auto;
-        aspect-ratio: 3 / 4;
-        container-type: inline-size;
-        min-height: 0;
-        transform: translateX(-50%);
-        border-radius: 2px;
-        box-shadow:
-          inset 3cqw 0 5cqw rgba(map.get($theme-palettes, folio, text), 0.1),
-          0 1cqw 5cqw -1cqw rgba(map.get($theme-palettes, folio, text), 0.5);
-        &::before {
-          @include position(absolute, $top: -2.5%, $right: 0, $left: 0);
-          height: 3%;
-          border-radius: 1px 1px 0 0;
-          background: $color-page;
-          box-shadow: inset 0 -2px 0
-            rgba(map.get($theme-palettes, folio, text), 0.12);
-          clip-path: polygon(1% 0, 99% 0, 100% 100%, 0 100%);
-          content: "";
-        }
-        @for $index from 1 through 5 {
-          &:nth-child(#{$index}) {
-            top: #{($index - 1) * 17%};
-            width: #{48% + ($index - 1) * 7%};
-            z-index: $index;
-          }
-        }
-        &:nth-child(1) {
-          left: 44%;
-          top: 0%;
-          transform: translateX(-50%) rotate(-2deg);
-          h2 {
-            font-size: clamp(47.5px, 19cqw, 95px);
-            font-weight: 700;
-          }
-        }
-        &:nth-child(2) {
-          left: 56%;
-          top: 8%;
-          transform: translateX(-50%) rotate(1.5deg);
-          h2 {
-            font-size: clamp(70px, 28cqw, 140px);
-            font-family: $font-folio;
-            font-weight: 400;
-            font-style: italic;
-          }
-        }
-        &:nth-child(3) {
-          left: 47%;
-          top: 20%;
-          transform: translateX(-50%) rotate(-1deg);
-          h2 {
-            font-size: clamp(60px, 24cqw, 120px);
-            font-family: $font-display;
-            font-weight: 600;
-          }
-        }
-        &:nth-child(4) {
-          left: 55%;
-          top: 32%;
-          transform: translateX(-50%) rotate(2.5deg);
-          h2 {
-            font-size: clamp(75px, 30cqw, 150px);
-            font-family: $font-folio;
-            font-weight: 400;
-          }
-        }
-        &:nth-child(5) {
-          left: 45%;
-          top: 50%;
-          transform: translateX(-50%) rotate(-1.5deg);
-          h2 {
-            font-size: clamp(52.5px, 21cqw, 105px);
-            font-family: $font-display;
-            font-weight: 600;
-          }
-        }
-        &:nth-child(n + 6) {
-          display: none;
-        }
-        .icon {
-          @include position(
+            @include position(absolute, $left: 50%);
+            .deck-link {
+              padding: clamp($space-3, 2vw, $space-6);
+            }
+            height: auto;
+            aspect-ratio: 3 / 4;
+            container-type: inline-size;
+            min-height: 0;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            box-shadow: inset 3cqw 0 5cqw rgba(map.get($theme-palette, text), 0.1),
+          0 1cqw 5cqw -1cqw rgba(map.get($theme-palette, text), 0.5);
+            &::before {
+              @include position(absolute, $top: -2.5%, $right: 0, $left: 0);
+              height: 3%;
+              border-radius: 1px 1px 0 0;
+              background: $color-page;
+              box-shadow: inset 0 -2px 0
+            rgba(map.get($theme-palette, text), 0.12);
+              clip-path: polygon(1% 0, 99% 0, 100% 100%, 0 100%);
+              content: "";
+            }
+            @for $index from 1 through 5 {
+              &:nth-child(#{$index}) {
+                top: #{($index - 1) * 17%};
+                width: #{48% + ($index - 1) * 7%};
+                z-index: $index;
+              }
+            }
+            &:nth-child(1) {
+              left: 44%;
+              top: 0%;
+              transform: translateX(-50%) rotate(-2deg);
+              h2 {
+                font-size: clamp(47.5px, 19cqw, 95px);
+                font-weight: 700;
+              }
+            }
+            &:nth-child(2) {
+              left: 56%;
+              top: 8%;
+              transform: translateX(-50%) rotate(1.5deg);
+              h2 {
+                font-size: clamp(70px, 28cqw, 140px);
+                font-family: $font-folio;
+                font-weight: 400;
+                font-style: italic;
+              }
+            }
+            &:nth-child(3) {
+              left: 47%;
+              top: 20%;
+              transform: translateX(-50%) rotate(-1deg);
+              h2 {
+                font-size: clamp(60px, 24cqw, 120px);
+                font-family: $font-display;
+                font-weight: 600;
+              }
+            }
+            &:nth-child(4) {
+              left: 55%;
+              top: 32%;
+              transform: translateX(-50%) rotate(2.5deg);
+              h2 {
+                font-size: clamp(75px, 30cqw, 150px);
+                font-family: $font-folio;
+                font-weight: 400;
+              }
+            }
+            &:nth-child(5) {
+              left: 45%;
+              top: 50%;
+              transform: translateX(-50%) rotate(-1.5deg);
+              h2 {
+                font-size: clamp(52.5px, 21cqw, 105px);
+                font-family: $font-display;
+                font-weight: 600;
+              }
+            }
+            &:nth-child(n + 6) {
+              display: none;
+            }
+            .icon {
+              @include position(
             absolute,
             $top: clamp(12px, 2cqw, 24px),
             $right: clamp(12px, 2cqw, 24px)
           );
-          margin-bottom: 0;
-          display: block;
-          font-size: clamp(20px, 6cqw, 40px);
-        }
-        h2 {
-          font-family: $font-display;
-          padding-right: clamp($space-6, 8cqw, $space-14);
-          width: 100%;
-          text-align: left;
-          overflow-wrap: anywhere;
-        }
-        p {
-          display: none;
+              margin-bottom: 0;
+              display: block;
+              font-size: clamp(20px, 6cqw, 40px);
+            }
+            h2 {
+              font-family: $font-display;
+              padding-right: clamp($space-6, 8cqw, $space-14);
+              width: 100%;
+              text-align: left;
+              overflow-wrap: anywhere;
+            }
+            p {
+              display: none;
+            }
+          }
+          .card:last-child {
+            left: 45%;
+            top: 50%;
+            width: 76%;
+            transform: translateX(-50%) rotate(-1.5deg);
+          }
         }
       }
+    }
+    .deck-link {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: inherit;
     }
   }
-  &.is-expanded .visual .poster {
-    min-height: 100%;
-    height: auto;
-    overflow: visible;
-    .intro {
-      align-items: flex-start;
-      text-align: left;
-      .logo {
-        font-size: clamp(48px, 8vw, 96px);
-      }
-      .copy {
-        h1 {
-          font-size: clamp(26px, 4vw, 44px);
+  &.is-expanded {
+    .visual {
+      .poster {
+        min-height: 0;
+        overflow: visible;
+        .intro {
+          align-items: flex-start;
+          text-align: left;
+          .logo {
+            font-size: clamp(48px, 8cqw, 96px);
+          }
+          .copy {
+            h1 {
+              font-size: clamp(26px, 4cqw, 44px);
+            }
+          }
+        }
+        .list {
+          animation: none;
+        }
+        .card {
+          p {
+            animation: folio-description 450ms 200ms both;
+          }
         }
       }
-    }
-    .list {
-      animation: none;
-    }
-    .card p {
-      animation: folio-description 450ms 200ms both;
     }
   }
   @keyframes folio-description {
@@ -285,33 +304,24 @@ $color-page: #f7f0d8;
     }
   }
 }
-.theme-landing[data-theme="folio"]:not(.is-expanded) .deck-link {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: inherit;
-}
-.theme-landing[data-theme="folio"] .visual .poster {
-  padding-top: $space-10;
-}
+
 @media (max-width: $breakpoint-mobile) {
-  .theme-landing[data-theme="folio"].is-expanded .visual .poster .list {
-    grid-template-columns: 1fr;
+  .theme-landing[data-theme="folio"].is-expanded {
+    .visual {
+      .poster {
+        .list {
+          --columns: 1;
+        }
+      }
+    }
   }
-}
-.theme-landing[data-theme="folio"]:not(.is-expanded)
-  .visual
-  .poster
-  .list
-  .card:last-child {
-  left: 45%;
-  top: 50%;
-  width: 76%;
-  transform: translateX(-50%) rotate(-1.5deg);
 }
 
 .app-shell[data-theme="folio"] {
+  @include theme-colors($theme-palette);
+  .card-front-symbol {
+    color: var(--card-back-accent);
+  }
   .card-back-logo {
     display: block;
     margin: 0;
@@ -342,12 +352,14 @@ $color-page: #f7f0d8;
       $text
         in (
           (0, $color-brown, $color-page),
-          (1, map.get($theme-palettes, folio, primary), $color-page),
-          (2, $color-mint, map.get($theme-palettes, folio, text)),
-          (3, map.get($theme-palettes, folio, card), $color-brown),
+          (1, map.get($theme-palette, primary), $color-page),
+          (2, $color-mint, map.get($theme-palette, text)),
+          (3, map.get($theme-palette, card), $color-brown),
           (4, $color-sand, $color-brown)
-        )
-    {
+        ) {
+      @at-root .app-shell[data-theme="folio"] .draw-card-inner[data-folio-color="#{$index}"] {
+        --card-back-accent: #{$background};
+      }
       &[data-folio-color="#{$index}"] {
         background: $background;
         .card-back-mark {
