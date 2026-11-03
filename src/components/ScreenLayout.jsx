@@ -27,8 +27,7 @@ export default function ScreenLayout({
     if (screen === "intro") setSettingsOpen(false);
   }, [screen]);
 
-  // iOS Safari tints the status bar / toolbar with the body background,
-  // so match it to whatever is actually painted at the top of the screen.
+  // Match the browser chrome and the body to what is actually painted on screen.
   useLayoutEffect(() => {
     const shell = document.querySelector(".app-shell");
     if (!shell) return undefined;
@@ -36,26 +35,25 @@ export default function ScreenLayout({
     const isTransparent = (color) =>
       !color || color === "transparent" || /rgba\(.*,\s*0\)$/.test(color);
 
-    // A home screen app draws its own (transparent) status bar, so there the
-    // body only shows past the page edges: match the bottom of the page instead.
-    const isStandalone =
-      window.navigator.standalone === true ||
-      window.matchMedia("(display-mode: standalone)").matches;
-
-    const syncSurfaceColor = () => {
-      const sampleY = isStandalone ? window.innerHeight - 1 : 1;
-      const topElements = document.elementsFromPoint(window.innerWidth / 2, sampleY);
-      const painted = topElements
+    const paintedAt = (y) =>
+      document
+        .elementsFromPoint(window.innerWidth / 2, y)
         .map((element) => getComputedStyle(element).backgroundColor)
         .find((color) => !isTransparent(color));
-      const backgroundColor =
-        painted || getComputedStyle(shell).getPropertyValue("--ui-bg").trim();
-      if (!backgroundColor) return;
 
-      document.documentElement.style.backgroundColor = backgroundColor;
-      document.body.style.backgroundColor = backgroundColor;
+    // The status bar takes the color at the top of the screen, while the body
+    // shows past the page edges (below the footer, overscroll), so it matches
+    // the bottom of the page instead: a dark pinned header must not leak there.
+    const syncSurfaceColor = () => {
+      const fallback = getComputedStyle(shell).getPropertyValue("--ui-bg").trim();
+      const topColor = paintedAt(1) || fallback;
+      const bottomColor = paintedAt(window.innerHeight - 1) || fallback;
+      if (!topColor || !bottomColor) return;
+
+      document.documentElement.style.backgroundColor = bottomColor;
+      document.body.style.backgroundColor = bottomColor;
       const themeColor = document.querySelector('meta[name="theme-color"]');
-      if (themeColor) themeColor.setAttribute("content", backgroundColor);
+      if (themeColor) themeColor.setAttribute("content", topColor);
     };
 
     syncSurfaceColor();

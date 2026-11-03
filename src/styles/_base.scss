@@ -191,6 +191,8 @@ h3,
   max-height: calc(100dvh - #{$space-8});
   border-radius: $radius-m;
   background: var(--ui-card, white);
+  // Lives inside the header, which can be light-on-dark (e.g. Shape's pinned header).
+  color: var(--ui-text, #{$color-black});
   box-shadow: 0 $space-4 $space-12 #29251f24;
 }
 

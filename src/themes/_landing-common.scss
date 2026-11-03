@@ -44,7 +44,8 @@
   &.is-over-intro {
     position: fixed;
     // Icons follow the intro's text color copied onto the header.
-    &.is-stuck .btn {
+    // (Only the header's own buttons, not the settings popup it hosts.)
+    &.is-stuck .btn:not(.popup *) {
       color: inherit;
     }
     &.is-stuck {
