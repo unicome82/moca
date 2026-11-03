@@ -19,6 +19,7 @@ export default function ScreenLayout({
   const [headerHidden, setHeaderHidden] = useState(false);
   const [headerStuck, setHeaderStuck] = useState(false);
   const touchStartY = useRef(null);
+  const headerRef = useRef(null);
 
   useEffect(() => {
     setHeaderHidden(false);
@@ -65,6 +66,60 @@ export default function ScreenLayout({
     window.addEventListener("scroll", syncStuck, { passive: true });
     return () => window.removeEventListener("scroll", syncStuck);
   }, [screen]);
+
+  // On the landing, the pinned header reuses the intro's own background
+  // (color, pattern or photo with its overlay) instead of a flat color.
+  useLayoutEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const props = [
+      "backgroundColor",
+      "backgroundImage",
+      "backgroundSize",
+      "backgroundPosition",
+      "backgroundRepeat",
+      "color",
+    ];
+    props.forEach((prop) => {
+      header.style[prop] = "";
+    });
+    if (!headerStuck) return;
+
+    const isClear = (color) => /rgba\(.*,\s*0\)$|transparent/.test(color);
+    const source = [".theme-landing .intro", ".theme-landing .poster", ".theme-landing"]
+      .map((selector) => document.querySelector(selector))
+      .find((element) => {
+        if (!element) return false;
+        const { backgroundColor, backgroundImage } = getComputedStyle(element);
+        return backgroundImage !== "none" || !isClear(backgroundColor);
+      });
+    if (!source) return;
+
+    const style = getComputedStyle(source);
+    const overlay = ["::before", "::after"]
+      .map((pseudo) => getComputedStyle(source, pseudo))
+      .find(
+        (pseudo) =>
+          pseudo.content !== "none" &&
+          !isClear(pseudo.backgroundColor),
+      );
+    const layers = [style.backgroundImage].filter((layer) => layer !== "none");
+    if (overlay) {
+      const tint = overlay.backgroundColor;
+      layers.unshift(`linear-gradient(${tint}, ${tint})`);
+    }
+
+    header.style.backgroundColor = isClear(style.backgroundColor) ? "" : style.backgroundColor;
+    header.style.backgroundImage = layers.join(", ") || "none";
+    header.style.backgroundSize = overlay ? `auto, ${style.backgroundSize}` : style.backgroundSize;
+    header.style.backgroundPosition = overlay
+      ? `0 0, ${style.backgroundPosition}`
+      : style.backgroundPosition;
+    header.style.backgroundRepeat = overlay
+      ? `no-repeat, ${style.backgroundRepeat}`
+      : style.backgroundRepeat;
+    header.style.color = style.color;
+  }, [headerStuck, theme, screen]);
 
   useEffect(() => {
     if (isCardRevealed) setHeaderHidden(true);
@@ -114,6 +169,7 @@ export default function ScreenLayout({
     >
       <div className={`app-frame ${headerHidden ? "is-header-hidden" : ""}`}>
         <header
+          ref={headerRef}
           className={`header ${headerHidden ? "is-hidden" : ""} ${headerStuck ? "is-stuck" : ""}`}
         >
           {showBack ? (

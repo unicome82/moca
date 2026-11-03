@@ -28,9 +28,10 @@
   // Pinned once the landing scrolls: logo left, settings right.
   &.is-stuck {
     position: fixed;
+    // Background and text color are copied from the intro by ScreenLayout.
     background: var(--ui-bg);
     color: var(--ui-text);
-    box-shadow: 0 1px 0 var(--ui-line);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     .brand-mark {
       visibility: visible;
       opacity: 1;
