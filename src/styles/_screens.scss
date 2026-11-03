@@ -266,6 +266,7 @@
 }
 
 .app-frame.is-header-hidden {
+  padding-top: env(safe-area-inset-top);
   .draw-card {
     width: min(100%, 42.857dvh);
   }
@@ -352,7 +353,7 @@
 
 // Fluid layouts adapt to the available width and height without device-specific overrides.
 .header {
-  height: clamp($space-12, 8vw, $space-15);
+  height: calc(clamp(#{$space-12}, 8vw, #{$space-15}) + env(safe-area-inset-top));
   padding-inline: 0;
 
 }

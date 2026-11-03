@@ -344,6 +344,7 @@ $color-page: #f7f0d8;
     border-radius: 0;
   }
   .card-back {
+    padding: $space-3;
     font-family: $font-sans;
     &::after {
       content: none;
@@ -368,11 +369,11 @@ $color-page: #f7f0d8;
       }
     }
     .card-back-mark {
-      gap: 3cqw;
-      padding-block: 6cqw;
+      justify-content: space-evenly;
+      gap: 0;
     }
     .card-back-bottom {
-      margin-top: 4cqw;
+      margin-top: 0;
       border-color: currentColor;
     }
   }
