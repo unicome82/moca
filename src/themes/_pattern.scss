@@ -50,7 +50,8 @@ $theme-palette: (
     --pattern-bg: #e65a2e;
   }
   [data-pattern-color="1"] {
-    --pattern-bg: #fffdf5;
+    // Cream, not the page white, so this card stands apart from the background.
+    --pattern-bg: #f2e6c9;
     --pattern-ink: #101f50;
   }
   [data-pattern-color="2"] {
