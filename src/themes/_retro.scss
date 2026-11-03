@@ -337,3 +337,8 @@ $theme-palette: (
     }
   }
 }
+
+// The settings icon takes the intro's (palette) ink from the start, not only once pinned.
+.app-frame:has(.theme-landing[data-theme="retro"]) > .header.is-over-intro .btn:not(.popup *) {
+  color: inherit;
+}
