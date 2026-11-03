@@ -62,6 +62,15 @@
 // Keep landing content below the iPhone status bar while its background runs underneath.
 .theme-landing .intro {
   border-top: env(safe-area-inset-top) solid transparent;
+  // Paint the image from the outer edge so the status bar strip continues the same picture.
+  background-origin: border-box;
+}
+// Image intros darken with an ::after overlay that stops at the padding box;
+// tint the status bar strip with the same overlay color.
+@each $theme in (photo, scenery, illustration, cutout) {
+  .theme-landing[data-theme="#{$theme}"] .intro {
+    border-top-color: $color-black50;
+  }
 }
 .theme-landing[data-theme="prism"] .visual {
   border-top: env(safe-area-inset-top) solid transparent;
