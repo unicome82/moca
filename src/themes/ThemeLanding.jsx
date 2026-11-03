@@ -1,3 +1,4 @@
+import { assetUrl } from "../utils/assetUrl.js";
 import { prismShapes } from "./prismShapes.js";
 import {
   Component,
@@ -321,7 +322,7 @@ export default function ThemeLanding({
               theme === "pattern"
                 ? {
                     ...variations[index],
-                    "--theme-pattern-image": `url("${import.meta.env.BASE_URL}images/heropatterns/${cardPatterns[index]}")`,
+                    "--theme-pattern-image": assetUrl(`images/heropatterns/${cardPatterns[index]}`),
                   }
                 : variations[index]
             }

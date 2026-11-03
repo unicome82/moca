@@ -1,3 +1,4 @@
+import { assetUrl } from "../utils/assetUrl.js";
 import GoogleIcon from "./GoogleIcon.jsx";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { themeOptions } from "../config/appConfig.js";
@@ -75,11 +76,11 @@ export default function ScreenLayout({
       className="app-shell"
       data-theme={theme}
       style={{
-        "--theme-pattern-image": `url("${import.meta.env.BASE_URL}images/heropatterns/${themeImages.pattern}")`,
-        "--theme-photo-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.photo}")`,
-        "--theme-illustration-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.illustration}")`,
-        "--theme-scenery-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.scenery}")`,
-        "--theme-cutout-image": `url("${import.meta.env.BASE_URL}images/skins/${themeImages.cutout}")`,
+        "--theme-pattern-image": assetUrl(`images/heropatterns/${themeImages.pattern}`),
+        "--theme-photo-image": assetUrl(`images/skins/${themeImages.photo}`),
+        "--theme-illustration-image": assetUrl(`images/skins/${themeImages.illustration}`),
+        "--theme-scenery-image": assetUrl(`images/skins/${themeImages.scenery}`),
+        "--theme-cutout-image": assetUrl(`images/skins/${themeImages.cutout}`),
       }}
     >
       <div className={`app-frame ${headerHidden ? "is-header-hidden" : ""}`}>
