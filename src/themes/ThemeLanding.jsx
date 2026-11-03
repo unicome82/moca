@@ -24,9 +24,31 @@ function measure(element) {
     width: element.offsetWidth * Math.hypot(matrix.a, matrix.b),
     height: element.offsetHeight * Math.hypot(matrix.c, matrix.d),
     angle: (Math.atan2(matrix.b, matrix.a) * 180) / Math.PI,
+    fontSize: parseFloat(getComputedStyle(element).fontSize),
     transform,
   };
 }
+
+// Elements each theme moves between the intro and the list. Animating these
+// with transforms keeps the expand off the layout path (no per-frame reflow).
+const transitionTargets = {
+  prism: ".copy .event, .copy h1, .copy .subtitle",
+  folio: ".logo, .intro .copy, .list > .card",
+  retro: ".logo, .intro .copy",
+  pattern: ".logo, .intro h1",
+  press: ".logo, .intro h1, .intro .subtitle",
+};
+// Text whose font size changes scales evenly by that ratio, since its line
+// breaks (and so its box shape) can differ between the two layouts.
+const scalesByFontSize = ["prism", "pattern", "press"];
+const transitionDuration = { folio: 900, pattern: 900 };
+// Prism's cards keep their own CSS transform transition (skewed shapes to
+// cards); only their change of place is added on top, via `translate`.
+const slideTargets = { prism: ".list > .card" };
+const center = (element) => {
+  const rect = element.getBoundingClientRect();
+  return { element, x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+};
 
 // Capture geometry before React changes the layout, including browser navigation.
 class LandingTransition extends Component {
@@ -35,32 +57,46 @@ class LandingTransition extends Component {
 
   getSnapshotBeforeUpdate(previousProps) {
     if (previousProps.expanded === this.props.expanded) return null;
-    const selector =
-      this.props.theme === "prism"
-        ? ".copy"
-        : this.props.theme === "folio"
-          ? ".logo, .intro .copy, .list > .card"
-          : ".logo, .intro .copy";
-    return [...this.node.current.querySelectorAll(selector)].map(measure);
+    const { theme } = this.props;
+    const intro = this.node.current.querySelector(".intro");
+    return {
+      elements: [
+        ...this.node.current.querySelectorAll(transitionTargets[theme]),
+      ].map(measure),
+      slides: slideTargets[theme]
+        ? [...this.node.current.querySelectorAll(slideTargets[theme])].map(center)
+        : [],
+      // Pattern's colored intro snaps to its small size; a curtain of the
+      // same color shrinks over the revealed list instead.
+      curtain:
+        theme === "pattern" && this.props.expanded && intro
+          ? {
+              rect: intro.getBoundingClientRect(),
+              color: getComputedStyle(intro).backgroundColor,
+            }
+          : null,
+    };
   }
 
-  componentDidUpdate(previousProps, previousState, before) {
-    if (!before) return;
+  componentDidUpdate(previousProps, previousState, snapshot) {
+    if (!snapshot) return;
     this.animations.forEach((animation) => animation.cancel());
     this.animations = [];
     if (reducedMotion()) return;
 
+    const { theme } = this.props;
+    const duration = transitionDuration[theme] ?? 950;
+    const easing = "cubic-bezier(.22, 1, .36, 1)";
+    const before = snapshot.elements;
     const after = before.map(({ element }) => measure(element));
     this.animations = before.flatMap((old, index) => {
       const next = after[index];
       if (!old.width || !old.height || !next.width || !next.height) return [];
       const base = next.transform === "none" ? "" : next.transform;
-      // Prism's copy fills the intro but hugs its content in the list.
-      // Scaling that container would stretch its lettering and oval border.
-      const scale =
-        this.props.theme === "prism"
-          ? ""
-          : `scale(${old.width / next.width}, ${old.height / next.height})`;
+      const ratio = old.fontSize / next.fontSize || 1;
+      const scale = scalesByFontSize.includes(theme)
+        ? `scale(${ratio})`
+        : `scale(${old.width / next.width}, ${old.height / next.height})`;
       return [
         old.element.animate(
           [
@@ -70,13 +106,54 @@ class LandingTransition extends Component {
             },
             { transformOrigin: "center center", transform: next.transform },
           ],
-          {
-            duration: this.props.theme === "folio" ? 900 : 950,
-            easing: "cubic-bezier(.22, 1, .36, 1)",
-          },
+          { duration, easing },
         ),
       ];
     });
+    snapshot.slides.forEach((old) => {
+      const next = center(old.element);
+      const dx = old.x - next.x;
+      const dy = old.y - next.y;
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+      this.animations.push(
+        old.element.animate(
+          [{ translate: `${dx}px ${dy}px` }, { translate: "0 0" }],
+          { duration, easing },
+        ),
+      );
+    });
+    if (snapshot.curtain) this.animations.push(this.dropCurtain(snapshot.curtain, duration, easing));
+  }
+
+  dropCurtain({ rect, color }, duration, easing) {
+    const root = this.node.current;
+    const intro = root.querySelector(".intro");
+    const origin = root.getBoundingClientRect();
+    const curtain = document.createElement("div");
+    curtain.setAttribute("aria-hidden", "true");
+    Object.assign(curtain.style, {
+      position: "absolute",
+      left: `${rect.left - origin.left}px`,
+      top: `${rect.top - origin.top}px`,
+      width: `${rect.width}px`,
+      height: `${rect.height}px`,
+      background: color,
+      zIndex: "1",
+      pointerEvents: "none",
+      transformOrigin: "top",
+    });
+    root.append(curtain);
+    const end = intro ? intro.getBoundingClientRect().height / rect.height : 0;
+    const animation = curtain.animate(
+      [
+        { transform: "scaleY(1)", opacity: 1 },
+        { transform: `scaleY(${end})`, opacity: 0 },
+      ],
+      { duration, easing },
+    );
+    const remove = () => curtain.remove();
+    animation.finished.then(remove, remove);
+    return animation;
   }
 
   componentWillUnmount() {
@@ -84,7 +161,11 @@ class LandingTransition extends Component {
   }
 
   render() {
-    return <div ref={this.node}>{this.props.children}</div>;
+    return (
+      <div ref={this.node} style={{ position: "relative" }}>
+        {this.props.children}
+      </div>
+    );
   }
 }
 
@@ -357,7 +438,7 @@ export default function ThemeLanding({
       })}
     </ul>
   );
-  const animated = ["prism", "folio", "retro"].includes(theme);
+  const animated = theme in transitionTargets;
   const Transition = animated ? LandingTransition : Fragment;
   const transitionProps = animated ? { expanded, theme } : {};
   return (

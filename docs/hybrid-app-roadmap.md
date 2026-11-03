@@ -111,7 +111,7 @@
   | 붕어빵 머리 vs 꼬리 | 대상이 생소 | Cereal: milk first vs cereal first |
   | 민초 vs 반민초 | 그대로 통함 | Mint chocolate: love vs hate |
 
-- [ ] 폰트 분기: Pretendard가 **KS X 1001 서브셋**이라 일본어·중국어는 깨짐
+- [ ] 폰트 분기: 본문은 디바이스 기본 폰트라 일본어·중국어도 표시됨. 장식용 폰트(Gowun Dodum 등)만 확인 필요
   - 로케일별 폰트 동적 로드 (Noto Sans JP / Noto Sans TC 등, 무료 라이선스)
 - [ ] 장식용 라틴 폰트 확장 서브셋 확인 (악센트 문자)
 - [ ] 스토어 메타데이터·스크린샷 언어별 제작 (설명 문구도 AI 작성 + AI 2차 검토)

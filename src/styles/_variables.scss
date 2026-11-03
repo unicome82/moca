@@ -77,8 +77,10 @@ $height-button-s: 32px;
 $height-button: 48px;
 
 // Typography and visual theme colors
-$font-sans: ("Pretendard", sans-serif);
-$font-mono: ("Courier New", "Pretendard", monospace);
+// Device UI fonts: San Francisco / Apple SD Gothic Neo on Apple, Roboto / Noto Sans KR on Android,
+// Segoe UI / Malgun Gothic on Windows. Nothing to download.
+$font-sans: (-apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI", Roboto, sans-serif);
+$font-mono: ("Courier New", -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", monospace);
 $font-serif: (Georgia, "Times New Roman", "Gowun Dodum", serif);
 $font-korean-serif: $font-serif;
 $font-retro: ("Fraunces", Georgia, "Gowun Dodum", serif);

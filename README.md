@@ -26,7 +26,7 @@ npm run local
 
 외부 CDN 없이 `src/assets/fonts/`의 woff2 파일을 사용하며, `@font-face` 정의는 `src/styles/_fonts.scss`에 있습니다.
 
-- Pretendard: 400·500·600·700·900 굵기, KS X 1001(2,350자) 서브셋
+- 본문: 디바이스 기본 폰트 (Apple SD Gothic Neo, Noto Sans KR, 맑은 고딕 등, 내려받는 파일 없음)
 - Gowun Dodum: Google Fonts 유니코드 범위 분할 파일 (필요한 범위만 내려받음)
 - Bodoni Moda, Fraunces, Instrument Serif, Oleo Script: 라틴 서브셋
 - Material Symbols Outlined: 앱에서 쓰는 아이콘만 포함한 서브셋. **새 아이콘을 쓰려면 아이콘 이름을 추가해 폰트를 다시 받아야 합니다.**

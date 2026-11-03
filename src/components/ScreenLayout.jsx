@@ -84,6 +84,8 @@ export default function ScreenLayout({
     const isClear = (color) => /rgba\(.*,\s*0\)$|transparent/.test(color);
     const LOGO_HEIGHT = 26;
     let metrics = null;
+    // Scroll events fire every frame; only write styles when the pin state flips.
+    let lastProgress = null;
 
     const surfaceColor = () => {
       if (!landing) return "";
@@ -155,22 +157,28 @@ export default function ScreenLayout({
           scale,
         };
       }
-      metrics = { pinAt, logo: logoMetrics };
+      metrics = { pinAt, logo: logoMetrics, color: getComputedStyle(intro).color };
+      lastProgress = null;
       intro.style.top = `${-travel}px`;
     };
 
     const sync = () => {
       if (!header) return;
       if (!intro) {
+        const stuck = window.scrollY > 8;
+        if (stuck === lastProgress) return;
+        lastProgress = stuck;
         header.style.setProperty("--header-surface", surfaceColor());
         setHeaderOverIntro(false);
-        setHeaderStuck(window.scrollY > 8);
+        setHeaderStuck(stuck);
         return;
       }
       if (!metrics) measure();
-      const { pinAt, logo: logoMetrics } = metrics;
+      const { pinAt, logo: logoMetrics, color } = metrics;
       // Switch at once (no gradual transition) when the copy area has scrolled past.
       const progress = pinAt && window.scrollY >= pinAt - 1 ? 1 : 0;
+      if (progress === lastProgress) return;
+      lastProgress = progress;
       intro.style.setProperty("--pin-progress", progress.toFixed(3));
       landing.classList.toggle("is-intro-pinned", progress === 1);
       if (logo && logoMetrics && progress === 0) {
@@ -181,7 +189,7 @@ export default function ScreenLayout({
         logo.style.transformOrigin = origin;
         logo.style.transform = `translate(${dx * progress}px, ${dy * progress}px) scale(${1 + (scale - 1) * progress})`;
       }
-      header.style.color = getComputedStyle(intro).color;
+      header.style.color = color;
       setHeaderOverIntro(true);
       setHeaderStuck(progress >= 1);
     };

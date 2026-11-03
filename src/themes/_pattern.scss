@@ -102,10 +102,8 @@ $theme-palette: (
       padding: max(64px, env(safe-area-inset-top)) $space-6
         max($space-10, env(safe-area-inset-bottom));
       text-align: center;
-      transition: min-height 900ms var(--pattern-ease),
-        padding 900ms var(--pattern-ease),
-        gap 900ms var(--pattern-ease),
-        color 600ms ease,
+      // Size changes are animated with transforms by ThemeLanding.
+      transition: color 600ms ease,
         background-color 600ms ease;
     }
     .logo {
@@ -113,8 +111,7 @@ $theme-palette: (
       font-size: clamp(100px, 24cqw, 300px);
       text-shadow: 2px 4px 0
         color-mix(in srgb, var(--pattern-ink) 15%, transparent);
-      transition: font-size 900ms var(--pattern-ease),
-        text-shadow 900ms ease;
+      transition: text-shadow 900ms ease;
     }
     .event {
       display: none;
@@ -125,8 +122,6 @@ $theme-palette: (
       font-size: clamp(20px, 3.5cqw, 36px);
       font-weight: 500;
       letter-spacing: -0.04em;
-      transition: font-size 900ms var(--pattern-ease),
-        margin-bottom 900ms var(--pattern-ease);
     }
     .copy {
       .subtitle {
@@ -135,8 +130,7 @@ $theme-palette: (
         max-height: 6em;
         overflow: hidden;
         visibility: visible;
-        transition: max-height 900ms var(--pattern-ease),
-        opacity 300ms ease,
+        transition: opacity 300ms ease,
         visibility 0s;
       }
     }
@@ -202,6 +196,8 @@ $theme-palette: (
     &.is-expanded {
       .intro {
         min-height: 0;
+        // The logo and title slide in from below this smaller box.
+        overflow: visible;
         background-color: transparent;
         color: $color-black;
         padding: 8vh $space-5 4vh;
@@ -223,7 +219,6 @@ $theme-palette: (
           max-height: 0;
           opacity: 0;
           visibility: hidden;
-          transition-delay: 0s, 0s, 300ms;
         }
       }
       .card {
@@ -238,7 +233,8 @@ $theme-palette: (
         }
       }
       .list {
-        animation: pattern-intro-reveal 700ms var(--pattern-ease) backwards;
+        // Start once the moving logo and title have mostly cleared the list.
+        animation: pattern-intro-reveal 700ms var(--pattern-ease) 200ms backwards;
       }
     }
   }

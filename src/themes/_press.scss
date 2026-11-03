@@ -31,19 +31,16 @@ $theme-palette: (
         position: relative;
         padding: $space-5;
         text-align: center;
-        transition: min-height 950ms cubic-bezier(0.22, 1, 0.36, 1);
         &::before {
           content: "";
           position: absolute;
           inset: $space-5;
           border: 1px solid map.get($theme-palette, text);
           pointer-events: none;
-          transition: opacity 650ms ease;
+          // The intro snaps to its small size, so the frame leaves quickly.
+          transition: opacity 250ms ease;
         }
         .logo {
-          transition:
-            font-size 950ms cubic-bezier(0.22, 1, 0.36, 1),
-            margin-bottom 950ms cubic-bezier(0.22, 1, 0.36, 1);
           @include font(
             $size: clamp(64px, 16cqw, 240px),
             $line-height: 0.85,
@@ -52,9 +49,7 @@ $theme-palette: (
         }
         .copy {
           padding: $space-6 0;
-          transition: padding 950ms cubic-bezier(0.22, 1, 0.36, 1);
           h1 {
-            transition: font-size 950ms cubic-bezier(0.22, 1, 0.36, 1);
             @include font(
               $size: clamp(24px, 4cqw, 60px),
               $line-height: 1.05,
@@ -134,8 +129,9 @@ $theme-palette: (
         }
         .list {
           .card {
+            // Start once the moving title has mostly cleared the list.
             animation: print-card 650ms cubic-bezier(0.22, 1, 0.36, 1)
-              calc(var(--index) * 100ms) both;
+              calc(250ms + var(--index) * 100ms) both;
           }
         }
       }
