@@ -77,6 +77,10 @@ $theme-palette: (
       @include position(relative);
       margin: 0 auto;
       max-width: 1440px;
+      // Expanded, the intro's negative margin parks the dark shapes panel above the
+      // page top; clip it there so iOS overscroll (pulling down) doesn't reveal it.
+      display: flow-root;
+      overflow-y: clip;
       .intro {
         @include flex($align: stretch, $direction: column);
         @include position(relative);
