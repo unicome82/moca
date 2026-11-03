@@ -3,7 +3,7 @@ import { storageKeys, themes } from "../config/appConfig.js";
 import { themeImageAssets } from "../data/themeAssets.js";
 import { readJson, readPreference, savePreference, writeJson } from "../utils/browserStorage.js";
 
-const DEFAULT_THEME = "prism";
+const DEFAULT_THEME = "shape";
 const randomIndex = (length) => Math.floor(Math.random() * length);
 const cycleKey = (assetType) => storageKeys.preference(`theme-asset-cycle-${assetType}`);
 const lastAssetKey = (assetType) => storageKeys.preference(`theme-asset-${assetType}`);
