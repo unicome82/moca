@@ -263,6 +263,17 @@ $theme-palette: (
   display: none;
 }
 
+// The status bar strip continues the dark shapes panel at the top of the intro.
+.theme-landing[data-theme="shape"] .visual .poster .intro {
+  border-top-color: $color-shape-bg;
+}
+
+// Pinned home header keeps the dark shapes panel color (and light text/icons).
+.theme-landing[data-theme="shape"].is-intro-pinned .visual .poster .intro {
+  background: $color-shape-bg;
+  color: $color-bg-card;
+}
+
 // Pinned home header: the intro's four shapes line up as the logo, left of settings.
 .theme-landing[data-theme="shape"].is-intro-pinned .visual .poster .intro .shapes {
   @include position(absolute, $left: var(--pin-logo-left), $bottom: var(--pin-logo-bottom));

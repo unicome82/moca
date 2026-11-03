@@ -43,6 +43,10 @@
   // the header only keeps the settings button on top.
   &.is-over-intro {
     position: fixed;
+    // Icons follow the intro's text color copied onto the header.
+    &.is-stuck .btn {
+      color: inherit;
+    }
     &.is-stuck {
       background: transparent;
       box-shadow: none;
