@@ -6,6 +6,11 @@
   box-sizing: border-box;
 }
 
+// Disable double-tap zoom on mobile (iOS Safari ignores user-scalable=no)
+* {
+  touch-action: manipulation;
+}
+
 html,
 body {
   scrollbar-width: none;
