@@ -1,6 +1,5 @@
 @use "./variables" as *;
 @use "./mixins" as *;
-@use "./shape-masks" as *;
 
 .eyebrow {
   @include flex(center, flex-start, row, $space-2);
@@ -123,50 +122,6 @@
 
 .card-back-game {
   display: none;
-}
-
-// Every theme shares the four-shape card back. Themes set --card-back-shape
-// (white on dark or coloured backs, ink on light backs) or restyle the shapes.
-.card-back {
-  justify-content: center;
-  gap: 10cqw;
-  --card-back-shape: #fff;
-}
-
-.shape-backdrop {
-  @include flex-columns(2, 6cqw);
-
-  position: relative;
-  z-index: 1;
-  width: 60%;
-  .shape {
-    @include flex(center, center);
-
-    aspect-ratio: 1;
-    &::before {
-      content: "";
-      width: 100%;
-      aspect-ratio: 1;
-      background: var(--card-back-shape);
-    }
-    @include shape-masks;
-  }
-}
-
-// Only the slogan and the liar game's player label stay next to the shapes.
-// The extra .draw-card keeps this above themes that show their own back ornaments.
-.draw-card .card-back .card-back-mark {
-  flex: 0 0 auto;
-  > :not(.card-back-bottom, .card-back-tagline) {
-    display: none;
-  }
-}
-
-.card-back .card-back-tagline,
-.card-back .card-back-bottom {
-  margin-top: 0;
-  color: var(--card-back-shape);
-  border-color: currentColor;
 }
 
 .card-back-logo,

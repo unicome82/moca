@@ -1,6 +1,5 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
-@use "../styles/shape-masks" as *;
 @use "sass:map";
 $theme-palette: (
   bg: #f8f5ee,
@@ -181,7 +180,6 @@ $theme-palette: (
     box-shadow: 0 8cqw 12cqw $color-black30;
   }
   .card-back {
-    --card-back-shape: #{map.get($theme-palette, text)};
     font-family: $font-mono;
     background: map.get($theme-palette, bg);
     &::before {
@@ -199,9 +197,6 @@ $theme-palette: (
   }
   .card-back-mark {
     color: map.get($theme-palette, text);
-  }
-  .shape-backdrop .shape {
-    @include shape-masks(outline);
   }
   .card-back-tagline {
     padding-block: 0.4em;

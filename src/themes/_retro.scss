@@ -1,6 +1,5 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
-@use "../styles/shape-masks" as *;
 $color-retro-ink: #171b16;
 $color-retro-blue: #5484ba;
 $color-retro-green: #80a674;
@@ -279,10 +278,6 @@ $theme-palette: (
   }
   .card-back-tagline {
     order: 2;
-  }
-  .shape-backdrop .shape {
-    filter: drop-shadow(3px 4px 0 $color-retro-ink);
-    @include shape-masks(pixel);
   }
   .card-back-bottom {
     order: 3;

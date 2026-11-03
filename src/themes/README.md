@@ -13,11 +13,6 @@ This mixin emits the `--ui-*` CSS properties consumed by shared UI.
 Keep theme-specific colors in the theme file. Keep basic colors, spacing,
 breakpoints, and reusable mixins in `../styles/`.
 
-Every theme's card back shows the same four shapes and the slogan (`.shape-backdrop`, masks in
-`../styles/_shape-masks.scss`). Themes only set `--card-back-shape`: white on dark
-or coloured backs, ink on light backs. Shape keeps its colours at full width (other themes shrink them so the theme shows), Press uses the
-`outline` masks and Retro the `pixel` masks with an ink shadow.
-
 Use SCSS variables for fixed design values. Use CSS properties for inherited
 theme values, random card colors, and image URLs supplied by React.
 

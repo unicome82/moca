@@ -33,6 +33,9 @@ $theme-palette: (
   .card-front-symbol {
     color: var(--pattern-bg);
   }
+  .shape-backdrop {
+    display: none;
+  }
   .card-front {
     background: var(--ui-card);
     color: var(--ui-text);
@@ -251,7 +254,6 @@ $theme-palette: (
       content: none;
     }
     border: 8px solid var(--pattern-bg);
-    --card-back-shape: var(--pattern-ink);
   }
   .card-back-mark {
     color: $color-bg-card;
