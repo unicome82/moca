@@ -36,8 +36,15 @@ export default function ScreenLayout({
     const isTransparent = (color) =>
       !color || color === "transparent" || /rgba\(.*,\s*0\)$/.test(color);
 
+    // A home screen app draws its own (transparent) status bar, so there the
+    // body only shows past the page edges: match the bottom of the page instead.
+    const isStandalone =
+      window.navigator.standalone === true ||
+      window.matchMedia("(display-mode: standalone)").matches;
+
     const syncSurfaceColor = () => {
-      const topElements = document.elementsFromPoint(window.innerWidth / 2, 1);
+      const sampleY = isStandalone ? window.innerHeight - 1 : 1;
+      const topElements = document.elementsFromPoint(window.innerWidth / 2, sampleY);
       const painted = topElements
         .map((element) => getComputedStyle(element).backgroundColor)
         .find((color) => !isTransparent(color));
@@ -109,6 +116,8 @@ export default function ScreenLayout({
       if (isClear(getComputedStyle(intro).backgroundColor)) {
         intro.style.backgroundColor = surfaceColor();
       }
+      // Lets CSS extend a narrower (padded) intro to the full width while pinned.
+      intro.style.setProperty("--pin-surface", getComputedStyle(intro).backgroundColor);
       const headerHeight = header.offsetHeight;
       const travel = Math.max(0, intro.offsetHeight - headerHeight);
       const pinAt = Math.max(0, flowRect.bottom + window.scrollY - headerHeight);
@@ -199,7 +208,7 @@ export default function ScreenLayout({
         ["position", "top", "zIndex", "backgroundColor"].forEach((prop) => {
           intro.style[prop] = "";
         });
-        ["--pin-progress", "--pin-logo-left", "--pin-logo-bottom", "--pin-logo-height"].forEach(
+        ["--pin-progress", "--pin-surface", "--pin-logo-left", "--pin-logo-bottom", "--pin-logo-height"].forEach(
           (name) => intro.style.removeProperty(name),
         );
         landing?.classList.remove("is-intro-pinned");

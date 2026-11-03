@@ -59,6 +59,11 @@
 }
 
 // While the intro collapses into the header strip, everything but the logo fades out.
+// A padded intro (e.g. Retro) still spans the full width as the pinned header.
+.theme-landing.is-intro-pinned .intro {
+  box-shadow: 0 0 0 100vmax var(--pin-surface, transparent) !important;
+  clip-path: inset(0 -100vmax);
+}
 .theme-landing .intro > :not(.logo, .shapes) {
   opacity: calc(1 - var(--pin-progress, 0) * 1.6);
 }
