@@ -194,6 +194,9 @@ $theme-palette: (
       content: none;
     }
   }
+  .shape-backdrop {
+    width: 100%;
+  }
   .shape-backdrop .shape {
     &::before {
       background: currentColor;

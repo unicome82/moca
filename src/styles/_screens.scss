@@ -138,7 +138,7 @@
 
   position: relative;
   z-index: 1;
-  width: 100%;
+  width: 60%;
   .shape {
     @include flex(center, center);
 
@@ -153,18 +153,16 @@
   }
 }
 
-// Only the liar game's player label stays next to the shapes.
+// Only the slogan and the liar game's player label stay next to the shapes.
 // The extra .draw-card keeps this above themes that show their own back ornaments.
 .draw-card .card-back .card-back-mark {
   flex: 0 0 auto;
-  > :not(.card-back-bottom) {
-    display: none;
-  }
-  &:not(:has(.card-back-bottom)) {
+  > :not(.card-back-bottom, .card-back-tagline) {
     display: none;
   }
 }
 
+.card-back .card-back-tagline,
 .card-back .card-back-bottom {
   margin-top: 0;
   color: var(--card-back-shape);
