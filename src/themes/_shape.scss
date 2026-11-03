@@ -211,8 +211,18 @@ $theme-palette: (
       }
     }
   }
+  // Shape shows only its shapes, plus the liar game's player label.
   .card-back-mark {
-    display: none;
+    flex: 0 0 auto;
+    > :not(.card-back-bottom) {
+      display: none;
+    }
+    &:not(:has(.card-back-bottom)) {
+      display: none;
+    }
+  }
+  .card-back-bottom {
+    margin-top: 10cqw;
   }
   .card-back {
     font-family: $font-sans;
