@@ -18,6 +18,7 @@ export default function ScreenLayout({
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
   const [headerStuck, setHeaderStuck] = useState(false);
+  const [headerOverIntro, setHeaderOverIntro] = useState(false);
   const touchStartY = useRef(null);
   const headerRef = useRef(null);
 
@@ -59,67 +60,75 @@ export default function ScreenLayout({
     };
   }, [theme, screen, headerStuck]);
 
-  // Once the page scrolls, pin the header with a solid background.
-  useEffect(() => {
-    const syncStuck = () => setHeaderStuck(window.scrollY > 8);
-    syncStuck();
-    window.addEventListener("scroll", syncStuck, { passive: true });
-    return () => window.removeEventListener("scroll", syncStuck);
-  }, [screen]);
-
-  // On the landing, the pinned header reuses the intro's own background
-  // (color, pattern or photo with its overlay) instead of a flat color.
+  // Pin the header once the page scrolls. On the landing, the intro (copy area)
+  // itself becomes the sticky header: it scrolls up until only a header-high
+  // strip is left, so its own background never gets cut.
   useLayoutEffect(() => {
     const header = headerRef.current;
-    if (!header) return;
-    const props = [
-      "backgroundColor",
-      "backgroundImage",
-      "backgroundSize",
-      "backgroundPosition",
-      "backgroundRepeat",
-      "color",
-    ];
-    props.forEach((prop) => {
-      header.style[prop] = "";
-    });
-    if (!headerStuck) return;
-
+    const landing = document.querySelector(".theme-landing");
+    const intro = landing?.querySelector(".intro");
     const isClear = (color) => /rgba\(.*,\s*0\)$|transparent/.test(color);
-    const source = [".theme-landing .intro", ".theme-landing .poster", ".theme-landing"]
-      .map((selector) => document.querySelector(selector))
-      .find((element) => {
-        if (!element) return false;
-        const { backgroundColor, backgroundImage } = getComputedStyle(element);
-        return backgroundImage !== "none" || !isClear(backgroundColor);
-      });
-    if (!source) return;
+    const hasBackground = (element) => {
+      const { backgroundImage, backgroundColor } = getComputedStyle(element);
+      return backgroundImage !== "none" || !isClear(backgroundColor);
+    };
 
-    const style = getComputedStyle(source);
-    const overlay = ["::before", "::after"]
-      .map((pseudo) => getComputedStyle(source, pseudo))
-      .find(
-        (pseudo) =>
-          pseudo.content !== "none" &&
-          !isClear(pseudo.backgroundColor),
-      );
-    const layers = [style.backgroundImage].filter((layer) => layer !== "none");
-    if (overlay) {
-      const tint = overlay.backgroundColor;
-      layers.unshift(`linear-gradient(${tint}, ${tint})`);
-    }
+    const reset = () => {
+      if (intro) {
+        intro.style.position = "";
+        intro.style.top = "";
+        intro.style.zIndex = "";
+      }
+      landing?.classList.remove("is-intro-pinned");
+      if (header) {
+        header.style.color = "";
+        header.style.backgroundColor = "";
+      }
+      setHeaderOverIntro(false);
+    };
 
-    header.style.backgroundColor = isClear(style.backgroundColor) ? "" : style.backgroundColor;
-    header.style.backgroundImage = layers.join(", ") || "none";
-    header.style.backgroundSize = overlay ? `auto, ${style.backgroundSize}` : style.backgroundSize;
-    header.style.backgroundPosition = overlay
-      ? `0 0, ${style.backgroundPosition}`
-      : style.backgroundPosition;
-    header.style.backgroundRepeat = overlay
-      ? `no-repeat, ${style.backgroundRepeat}`
-      : style.backgroundRepeat;
-    header.style.color = style.color;
-  }, [headerStuck, theme, screen]);
+    const sync = () => {
+      if (!header) return;
+      const introSticks = screen === "home" && intro && hasBackground(intro);
+      if (!introSticks) {
+        // No painted intro: give the pinned header the landing's own background color.
+        const surface = landing
+          ? [".poster", ".visual"]
+              .map((selector) => landing.querySelector(selector))
+              .concat(landing)
+              .find((element) => element && !isClear(getComputedStyle(element).backgroundColor))
+          : null;
+        header.style.backgroundColor = surface
+          ? getComputedStyle(surface).backgroundColor
+          : "";
+        setHeaderOverIntro(false);
+        setHeaderStuck(window.scrollY > 8);
+        return;
+      }
+      header.style.backgroundColor = "";
+      const headerHeight = header.offsetHeight;
+      const travel = intro.offsetHeight - headerHeight;
+      intro.style.position = "sticky";
+      intro.style.top = `${-travel}px`;
+      intro.style.zIndex = "5";
+      const pinned = window.scrollY >= travel - 1;
+      landing.classList.toggle("is-intro-pinned", pinned);
+      setHeaderOverIntro(true);
+      header.style.color = getComputedStyle(intro).color;
+      setHeaderStuck(pinned);
+    };
+
+    sync();
+    const timer = setTimeout(sync, 1000); // after the expand animation
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+      reset();
+    };
+  }, [screen, theme]);
 
   useEffect(() => {
     if (isCardRevealed) setHeaderHidden(true);
@@ -170,7 +179,7 @@ export default function ScreenLayout({
       <div className={`app-frame ${headerHidden ? "is-header-hidden" : ""}`}>
         <header
           ref={headerRef}
-          className={`header ${headerHidden ? "is-hidden" : ""} ${headerStuck ? "is-stuck" : ""}`}
+          className={`header ${headerHidden ? "is-hidden" : ""} ${headerStuck ? "is-stuck" : ""} ${headerOverIntro ? "is-over-intro" : ""}`}
         >
           {showBack ? (
             <button

@@ -28,7 +28,6 @@
   // Pinned once the landing scrolls: logo left, settings right.
   &.is-stuck {
     position: fixed;
-    // Background and text color are copied from the intro by ScreenLayout.
     background: var(--ui-bg);
     color: var(--ui-text);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
@@ -37,6 +36,22 @@
       opacity: 1;
     }
   }
+  // The sticky intro supplies the background; the header only overlays the logo and settings.
+  &.is-over-intro {
+    position: fixed;
+    &.is-stuck {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+}
+
+// Copy fades out while the intro is pinned as the header strip.
+.theme-landing .intro > * {
+  transition: opacity 0.25s ease;
+}
+.theme-landing.is-intro-pinned .intro > * {
+  opacity: 0;
 }
 
 // Keep landing content below the iPhone status bar while its background runs underneath.
