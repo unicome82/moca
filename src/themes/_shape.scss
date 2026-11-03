@@ -1,6 +1,8 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
+@use "sass:list";
 @use "sass:map";
+@use "../styles/shape-masks" as *;
 $color-shape-bg: #202624;
 $color-shape-orange: #ef683e;
 $color-shape-pink: #e75aa4;
@@ -20,46 +22,20 @@ $theme-palette: (
 );
 
 @mixin shape-colors-and-masks {
-  &:nth-child(1) {
-    color: $color-shape-orange;
-    --flip-delay: 0.4s;
-    &::before {
-      -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
-      mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M0%20100V0L50%2050L100%200V100Z%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
+  $sequence: (
+    ($color-shape-orange, 0.4s),
+    ($color-shape-pink, 1.3s),
+    ($color-shape-purple, 2.2s),
+    ($color-shape-gold, 3.1s)
+  );
+  @for $index from 1 through list.length($sequence) {
+    $item: list.nth($sequence, $index);
+    &:nth-child(#{$index}) {
+      color: list.nth($item, 1);
+      --flip-delay: #{list.nth($item, 2)};
     }
   }
-  &:nth-child(2) {
-    color: $color-shape-pink;
-    --flip-delay: 1.3s;
-    &::before {
-      -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
-      mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
-    }
-  }
-  &:nth-child(3) {
-    color: $color-shape-purple;
-    --flip-delay: 2.2s;
-    &::before {
-      -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
-      mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M85.355%2014.645A50%2050%200%201%200%2085.355%2085.355L50%2050Z%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
-    }
-  }
-  &:nth-child(4) {
-    color: $color-shape-gold;
-    --flip-delay: 3.1s;
-    &::before {
-      -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
-      mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50%200L100%20100H0Z%22%2F%3E%3C%2Fsvg%3E")
-        center / contain no-repeat;
-    }
-  }
+  @include shape-masks;
 }
 
 .theme-landing[data-theme="shape"] {
@@ -211,34 +187,18 @@ $theme-palette: (
       }
     }
   }
-  .card-back-mark {
-    display: none;
-  }
   .card-back {
     font-family: $font-sans;
-    justify-content: center;
     background: $color-shape-bg;
     &::after {
       content: none;
     }
   }
-  .shape-backdrop {
-    position: relative;
-    z-index: 1;
-    @include flex-columns(2, 6cqw);
-    width: 100%;
-    margin-bottom: 0;
-    .shape {
-      @include flex(center, center);
-      aspect-ratio: 1;
-      &::before {
-        content: "";
-        width: 100%;
-        aspect-ratio: 1;
-        background: currentColor;
-      }
-      @include shape-colors-and-masks;
+  .shape-backdrop .shape {
+    &::before {
+      background: currentColor;
     }
+    @include shape-colors-and-masks;
   }
   .card-back-ornament {
     font-family: $font-sans;
@@ -249,6 +209,3 @@ $theme-palette: (
   }
 }
 
-.shape-backdrop {
-  display: none;
-}

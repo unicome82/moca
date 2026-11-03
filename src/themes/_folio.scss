@@ -348,19 +348,19 @@ $color-page: #f7f0d8;
     &::after {
       content: none;
     }
-    @each $index, $background,
-      $text
+    @each $index, $background, $text, $shape
         in (
-          (0, $color-brown, $color-page),
-          (1, map.get($theme-palette, primary), $color-page),
-          (2, $color-mint, map.get($theme-palette, text)),
-          (3, map.get($theme-palette, card), $color-brown),
-          (4, $color-sand, $color-brown)
+          (0, $color-brown, $color-page, #fff),
+          (1, map.get($theme-palette, primary), $color-page, #fff),
+          (2, $color-mint, map.get($theme-palette, text), map.get($theme-palette, text)),
+          (3, map.get($theme-palette, card), $color-brown, $color-brown),
+          (4, $color-sand, $color-brown, $color-brown)
         ) {
       @at-root .app-shell[data-theme="folio"] .draw-card-inner[data-folio-color="#{$index}"] {
         --card-back-accent: #{$background};
       }
       &[data-folio-color="#{$index}"] {
+        --card-back-shape: #{$shape};
         background: $background;
         .card-back-mark {
           color: $text;
