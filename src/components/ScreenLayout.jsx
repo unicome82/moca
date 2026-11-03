@@ -35,9 +35,11 @@ export default function ScreenLayout({
     const isTransparent = (color) =>
       !color || color === "transparent" || /rgba\(.*,\s*0\)$/.test(color);
 
+    // Only full-width surfaces count: a card under the sample point is not the page.
     const paintedAt = (y) =>
       document
         .elementsFromPoint(window.innerWidth / 2, y)
+        .filter((element) => element.getBoundingClientRect().width >= window.innerWidth - 1)
         .map((element) => getComputedStyle(element).backgroundColor)
         .find((color) => !isTransparent(color));
 
