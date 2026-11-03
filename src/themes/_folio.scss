@@ -367,7 +367,12 @@ $color-page: #f7f0d8;
         }
       }
     }
+    .card-back-mark {
+      gap: 3cqw;
+      padding-block: 6cqw;
+    }
     .card-back-bottom {
+      margin-top: 4cqw;
       border-color: currentColor;
     }
   }

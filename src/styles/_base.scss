@@ -94,6 +94,9 @@ h3,
 .app-shell {
   min-height: 100vh;
   min-height: 100dvh;
+  // iPhone status bar / home indicator safe area
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
   color: $color-black;
   background: var(--ui-bg, #{$color-bg});
   --ui-primary: #{$color-primary};
@@ -114,7 +117,9 @@ h3,
 
   width: 100%;
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: calc(
+    100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+  );
   margin: 0 auto;
   padding: 0;
   color: var(--ui-text, #{$color-black});
@@ -175,7 +180,8 @@ h3,
   @include flex(center, center);
 
   z-index: 20;
-  padding: $space-4;
+  padding: max($space-4, env(safe-area-inset-top)) $space-4
+    max($space-4, env(safe-area-inset-bottom));
   background: rgba(0, 0, 0, 0.32);
 }
 
