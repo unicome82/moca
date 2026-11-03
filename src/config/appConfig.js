@@ -19,8 +19,8 @@ export const liarStages = [
 ];
 
 export const themeOptions = [
-  { id: "prism", label: "Prism", icon: "diamond" },
   { id: "shape", label: "Shape", icon: "category" },
+  { id: "prism", label: "Prism", icon: "diamond" },
   { id: "folio", label: "Folio", icon: "auto_stories" },
   { id: "retro", label: "Retro", icon: "videogame_asset" },
   { id: "pattern", label: "Pattern", icon: "grid_4x4" },
