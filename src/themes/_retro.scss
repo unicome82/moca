@@ -44,7 +44,10 @@ $theme-palette: (
       max-width: 1120px;
       .intro {
         @include flex($justify: center, $direction: column);
-        padding: $space-8 0;
+        // Span the full width (cancel .visual's side padding) so the pinned
+        // header never lets the cards' shadows show past its edges.
+        margin-inline: -$space-5;
+        padding: $space-8 $space-5;
         flex: 1;
         text-align: center;
         .logo {
