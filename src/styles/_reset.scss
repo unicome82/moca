@@ -13,6 +13,8 @@
 
 html,
 body {
+  // No rubber-band stretch past the page edges (it reveals the body and parked panels).
+  overscroll-behavior: none;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
