@@ -90,6 +90,7 @@ export default function ScreenLayout({
       if (!logo) return;
       logo.style.transform = "";
       logo.style.transformOrigin = "";
+      logo.style.transition = "";
     };
 
     // Measure the untransformed layout once (and again on resize).
@@ -144,12 +145,14 @@ export default function ScreenLayout({
       }
       if (!metrics) measure();
       const { travel, logo: logoMetrics } = metrics;
-      const progress = travel ? Math.min(1, Math.max(0, window.scrollY / travel)) : 0;
+      // Switch at once (no gradual transition) when the copy area has scrolled past.
+      const progress = travel && window.scrollY >= travel - 1 ? 1 : 0;
       intro.style.setProperty("--pin-progress", progress.toFixed(3));
       if (logo && logoMetrics && progress === 0) {
         clearLogo();
       } else if (logo && logoMetrics) {
         const { origin, dx, dy, scale } = logoMetrics;
+        logo.style.transition = "none";
         logo.style.transformOrigin = origin;
         logo.style.transform = `translate(${dx * progress}px, ${dy * progress}px) scale(${1 + (scale - 1) * progress})`;
       }
