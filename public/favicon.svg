@@ -1,14 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="24" fill="#141e28" />
-  <g fill="#fff" transform="translate(10.8071375 10.8071375) scale(0.78385725)">
-    <path id="petal" d="M50 50c-2-8-2-15-5-22-4-9-2-18 3-23 1-1 3-1 4 0 5 5 7 14 3 23-3 7-3 14-5 22Z" />
-    <use href="#petal" transform="rotate(45 50 50)" />
-    <use href="#petal" transform="rotate(90 50 50)" />
-    <use href="#petal" transform="rotate(135 50 50)" />
-    <use href="#petal" transform="rotate(180 50 50)" />
-    <use href="#petal" transform="rotate(225 50 50)" />
-    <use href="#petal" transform="rotate(270 50 50)" />
-    <use href="#petal" transform="rotate(315 50 50)" />
-    <circle cx="50" cy="50" r="5.5" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254">
+  <rect width="1254" height="1254" rx="280" fill="#181e20" />
+  <g transform="translate(627 627) scale(0.84) translate(-627 -627)">
+    <path fill="#f86634" d="M177 161 367 352 556 161V543H177Z" />
+    <circle fill="#ed5ca2" cx="882" cy="353" r="194" />
+    <path fill="#a56de4" d="M369 879 505 742A195 195 0 1 0 505 1018Z" />
+    <path fill="#fca82c" d="M881 685 1078 1071H685Z" />
   </g>
 </svg>
