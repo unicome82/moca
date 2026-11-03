@@ -24,18 +24,38 @@ export default function ScreenLayout({
     if (screen === "intro") setSettingsOpen(false);
   }, [screen]);
 
+  // iOS Safari tints the status bar / toolbar with the body background,
+  // so match it to whatever is actually painted at the top of the screen.
   useLayoutEffect(() => {
     const shell = document.querySelector(".app-shell");
-    if (!shell) return;
+    if (!shell) return undefined;
 
-    const backgroundColor = getComputedStyle(shell).getPropertyValue("--ui-bg").trim();
-    if (!backgroundColor) return;
+    const isTransparent = (color) =>
+      !color || color === "transparent" || /rgba\(.*,\s*0\)$/.test(color);
 
-    document.body.style.backgroundColor = backgroundColor;
+    const syncSurfaceColor = () => {
+      const topElements = document.elementsFromPoint(window.innerWidth / 2, 1);
+      const painted = topElements
+        .map((element) => getComputedStyle(element).backgroundColor)
+        .find((color) => !isTransparent(color));
+      const backgroundColor =
+        painted || getComputedStyle(shell).getPropertyValue("--ui-bg").trim();
+      if (!backgroundColor) return;
 
-    const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", backgroundColor);
-  }, [theme]);
+      document.documentElement.style.backgroundColor = backgroundColor;
+      document.body.style.backgroundColor = backgroundColor;
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      if (themeColor) themeColor.setAttribute("content", backgroundColor);
+    };
+
+    syncSurfaceColor();
+    const frame = requestAnimationFrame(syncSurfaceColor);
+    const timer = setTimeout(syncSurfaceColor, 1000);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(timer);
+    };
+  }, [theme, screen]);
 
   useEffect(() => {
     if (isCardRevealed) setHeaderHidden(true);
