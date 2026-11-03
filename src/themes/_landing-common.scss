@@ -17,9 +17,33 @@
   z-index: 10;
   border: 0;
   background: transparent;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
   .brand-mark {
     visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease;
   }
+  // Pinned once the landing scrolls: logo left, settings right.
+  &.is-stuck {
+    position: fixed;
+    background: var(--ui-bg);
+    color: var(--ui-text);
+    box-shadow: 0 1px 0 var(--ui-line);
+    .brand-mark {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+// Keep landing content below the iPhone status bar while its background runs underneath.
+.theme-landing .intro {
+  border-top: env(safe-area-inset-top) solid transparent;
+}
+.theme-landing[data-theme="prism"] .visual {
+  border-top: env(safe-area-inset-top) solid transparent;
 }
 
 .theme-landing {

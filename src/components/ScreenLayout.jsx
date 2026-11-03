@@ -17,6 +17,7 @@ export default function ScreenLayout({
 }) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
+  const [headerStuck, setHeaderStuck] = useState(false);
   const touchStartY = useRef(null);
 
   useEffect(() => {
@@ -55,7 +56,15 @@ export default function ScreenLayout({
       cancelAnimationFrame(frame);
       clearTimeout(timer);
     };
-  }, [theme, screen]);
+  }, [theme, screen, headerStuck]);
+
+  // Once the page scrolls, pin the header with a solid background.
+  useEffect(() => {
+    const syncStuck = () => setHeaderStuck(window.scrollY > 8);
+    syncStuck();
+    window.addEventListener("scroll", syncStuck, { passive: true });
+    return () => window.removeEventListener("scroll", syncStuck);
+  }, [screen]);
 
   useEffect(() => {
     if (isCardRevealed) setHeaderHidden(true);
@@ -104,7 +113,9 @@ export default function ScreenLayout({
       }}
     >
       <div className={`app-frame ${headerHidden ? "is-header-hidden" : ""}`}>
-        <header className={`header ${headerHidden ? "is-hidden" : ""}`}>
+        <header
+          className={`header ${headerHidden ? "is-hidden" : ""} ${headerStuck ? "is-stuck" : ""}`}
+        >
           {showBack ? (
             <button
               className="btn icon"

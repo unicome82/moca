@@ -128,7 +128,10 @@ h3,
   // Backgrounds run under the iPhone status bar; only header content is pushed down.
   height: calc(#{$height-header} + env(safe-area-inset-top));
   padding: env(safe-area-inset-top) $space-7 0;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: var(--ui-bg, #{$color-bg});
   border-bottom: 1px solid $color-black10;
   transition:
     height 0.28s ease,
