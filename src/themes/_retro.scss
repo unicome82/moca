@@ -36,7 +36,7 @@ $theme-palette: (
   .visual {
     @include flex(stretch);
     padding: $space-5;
-    min-height: 100svh;
+    min-height: var(--app-height, 100svh);
     .poster {
       @include flex(stretch, flex-start, column);
       flex: 1;

@@ -76,10 +76,10 @@ $theme-palette: (
         stretch,
         center,
         column,
-        clamp($space-8, calc(var(--intro-height, 100svh) * 0.08), 80px)
+        clamp($space-8, calc(var(--intro-height, var(--app-height, 100svh)) * 0.08), 80px)
       );
       flex: 0 0 auto;
-      min-height: 100svh;
+      min-height: var(--app-height, 100svh);
       overflow: hidden;
       padding: clamp($space-6, 6vw, 72px);
       background-position: center;
@@ -104,7 +104,7 @@ $theme-palette: (
         h1 {
           margin-bottom: clamp(
             $space-2,
-            calc(var(--intro-height, 100svh) * 0.02),
+            calc(var(--intro-height, var(--app-height, 100svh)) * 0.02),
             $space-4
           );
           font-size: clamp(26px, 5cqw, 52px);
@@ -174,7 +174,7 @@ $theme-palette: (
         min-height: 0;
         gap: clamp(
           $space-8,
-          calc(var(--intro-height, 100svh) * 0.03),
+          calc(var(--intro-height, var(--app-height, 100svh)) * 0.03),
           $space-6
         );
         .logo {

@@ -97,7 +97,7 @@ $theme-palette: (
       @include flex(center, center, column);
       gap: clamp($space-7, 5vh, $space-14);
       position: relative;
-      min-height: 100svh;
+      min-height: var(--app-height, 100svh);
       overflow: hidden;
       padding: max(64px, env(safe-area-inset-top)) $space-6
         max($space-10, env(safe-area-inset-bottom));

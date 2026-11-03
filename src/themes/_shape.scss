@@ -71,7 +71,7 @@ $theme-palette: (
     --flip-state: paused;
   }
   .visual {
-    min-height: 100svh;
+    min-height: var(--app-height, 100svh);
     overflow-anchor: none;
     .poster {
       @include position(relative);
@@ -81,7 +81,7 @@ $theme-palette: (
         @include flex($align: stretch, $direction: column);
         @include position(relative);
         margin-top: var(--intro-offset, 0px);
-        min-height: 100svh;
+        min-height: var(--app-height, 100svh);
         z-index: 2;
         background: map.get($theme-palette, bg);
         transition: margin-top 650ms cubic-bezier(0.22, 1, 0.36, 1);

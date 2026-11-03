@@ -30,8 +30,8 @@ $theme-palette: (
   .visual {
     @include flex(stretch, center);
     padding: clamp($space-4, 2vw, $space-8);
-    min-height: 100svh;
-    height: 100svh;
+    min-height: var(--app-height, 100svh);
+    height: var(--app-height, 100svh);
     width: 100%;
     overflow: hidden;
     &:has(.is-expanded) {

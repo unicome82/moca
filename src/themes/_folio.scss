@@ -21,7 +21,7 @@ $color-page: #f7f0d8;
     .poster {
       @include position(relative);
       margin: 0 auto;
-      min-height: 100svh;
+      min-height: var(--app-height, 100svh);
       overflow: hidden;
       .intro {
         @include flex($justify: center, $direction: column);

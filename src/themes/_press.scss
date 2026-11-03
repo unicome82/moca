@@ -27,7 +27,7 @@ $theme-palette: (
         }
         @include flex($align: stretch, $justify: center, $direction: column);
         flex: 0 0 auto;
-        min-height: 100svh;
+        min-height: var(--app-height, 100svh);
         position: relative;
         padding: $space-5;
         text-align: center;
