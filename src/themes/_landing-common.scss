@@ -25,18 +25,22 @@
     opacity: 0;
     transition: opacity 0.25s ease;
   }
-  // Pinned once the landing scrolls: logo left, settings right.
+  // Pinned once the landing scrolls: logo text left, settings right.
   &.is-stuck {
     position: fixed;
-    background: var(--ui-bg);
+    background: var(--header-surface, var(--ui-bg));
     color: var(--ui-text);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     .brand-mark {
       visibility: visible;
       opacity: 1;
     }
+    .brand-dot {
+      display: none;
+    }
   }
-  // The sticky intro supplies the background; the header only overlays the logo and settings.
+  // The sticky intro supplies the background and its own shrunken logo;
+  // the header only keeps the settings button on top.
   &.is-over-intro {
     position: fixed;
     &.is-stuck {
@@ -45,13 +49,14 @@
     }
   }
 }
-
-// Copy fades out while the intro is pinned as the header strip.
-.theme-landing .intro > * {
-  transition: opacity 0.25s ease;
-}
-.theme-landing.is-intro-pinned .intro > * {
+.app-frame:has(.theme-landing .intro .logo) > .header.is-over-intro .brand-mark {
+  visibility: hidden;
   opacity: 0;
+}
+
+// While the intro collapses into the header strip, everything but the logo fades out.
+.theme-landing .intro > :not(.logo) {
+  opacity: calc(1 - var(--pin-progress, 0) * 1.6);
 }
 
 // Keep landing content below the iPhone status bar while its background runs underneath.

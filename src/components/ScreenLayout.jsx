@@ -60,73 +60,133 @@ export default function ScreenLayout({
     };
   }, [theme, screen, headerStuck]);
 
-  // Pin the header once the page scrolls. On the landing, the intro (copy area)
-  // itself becomes the sticky header: it scrolls up until only a header-high
-  // strip is left, so its own background never gets cut.
+  // Pin the header once the page scrolls. On the landing home, the intro (copy
+  // area) itself becomes the sticky header: it scrolls up until only a
+  // header-high strip is left, and its MOCA logo shrinks into the header's
+  // left side while the rest of the copy fades out.
   useLayoutEffect(() => {
     const header = headerRef.current;
     const landing = document.querySelector(".theme-landing");
-    const intro = landing?.querySelector(".intro");
+    const homeIntro = screen === "home" ? landing?.querySelector(".intro") : null;
+    // Only intros with a MOCA logo can collapse into the header strip.
+    const intro = homeIntro?.querySelector(":scope > .logo") ? homeIntro : null;
+    const logo = intro?.querySelector(":scope > .logo");
     const isClear = (color) => /rgba\(.*,\s*0\)$|transparent/.test(color);
-    const hasBackground = (element) => {
-      const { backgroundImage, backgroundColor } = getComputedStyle(element);
-      return backgroundImage !== "none" || !isClear(backgroundColor);
+    const LOGO_HEIGHT = 26;
+    let metrics = null;
+
+    const surfaceColor = () => {
+      if (!landing) return "";
+      const surface = [".poster", ".visual"]
+        .map((selector) => landing.querySelector(selector))
+        .concat(landing)
+        .find((element) => element && !isClear(getComputedStyle(element).backgroundColor));
+      if (surface) return getComputedStyle(surface).backgroundColor;
+      const frame = document.querySelector(".app-frame");
+      return frame ? getComputedStyle(frame).backgroundColor : "";
     };
 
-    const reset = () => {
-      if (intro) {
-        intro.style.position = "";
-        intro.style.top = "";
-        intro.style.zIndex = "";
+    const clearLogo = () => {
+      if (!logo) return;
+      logo.style.transform = "";
+      logo.style.transformOrigin = "";
+    };
+
+    // Measure the untransformed layout once (and again on resize).
+    const measure = () => {
+      if (!intro || !header) return;
+      clearLogo();
+      intro.style.position = "sticky";
+      intro.style.zIndex = "5";
+      if (isClear(getComputedStyle(intro).backgroundColor)) {
+        intro.style.backgroundColor = surfaceColor();
       }
-      landing?.classList.remove("is-intro-pinned");
-      if (header) {
-        header.style.color = "";
-        header.style.backgroundColor = "";
+      const headerHeight = header.offsetHeight;
+      const travel = Math.max(0, intro.offsetHeight - headerHeight);
+      const introRect = intro.getBoundingClientRect();
+      let logoMetrics = null;
+      if (logo) {
+        const range = document.createRange();
+        range.selectNodeContents(logo);
+        const text = range.getBoundingClientRect();
+        const box = logo.getBoundingClientRect();
+        const safeTop = parseFloat(getComputedStyle(header).paddingTop) || 0;
+        const settings = header.querySelector(".settings-toggle");
+        // Mirror the visible gap to the right of the settings icon.
+        const icon = settings?.firstElementChild || settings;
+        const sideGap = icon
+          ? window.innerWidth - icon.getBoundingClientRect().right
+          : 20;
+        // Horizontal edge from the text itself (logos may be centered in a wide box),
+        // vertical size from the box (its line-height hugs the glyphs).
+        const height = Math.min(text.height, box.height);
+        const scale = Math.min(1, LOGO_HEIGHT / height);
+        const targetTop =
+          safeTop + (headerHeight - safeTop - height * scale) / 2 + travel;
+        logoMetrics = {
+          origin: `${text.left - box.left}px 0px`,
+          dx: sideGap - (text.left - introRect.left),
+          dy: targetTop - (box.top - introRect.top),
+          scale,
+        };
       }
-      setHeaderOverIntro(false);
+      metrics = { travel, logo: logoMetrics };
+      intro.style.top = `${-travel}px`;
     };
 
     const sync = () => {
       if (!header) return;
-      const introSticks = screen === "home" && intro && hasBackground(intro);
-      if (!introSticks) {
-        // No painted intro: give the pinned header the landing's own background color.
-        const surface = landing
-          ? [".poster", ".visual"]
-              .map((selector) => landing.querySelector(selector))
-              .concat(landing)
-              .find((element) => element && !isClear(getComputedStyle(element).backgroundColor))
-          : null;
-        header.style.backgroundColor = surface
-          ? getComputedStyle(surface).backgroundColor
-          : "";
+      if (!intro) {
+        header.style.setProperty("--header-surface", surfaceColor());
         setHeaderOverIntro(false);
         setHeaderStuck(window.scrollY > 8);
         return;
       }
-      header.style.backgroundColor = "";
-      const headerHeight = header.offsetHeight;
-      const travel = intro.offsetHeight - headerHeight;
-      intro.style.position = "sticky";
-      intro.style.top = `${-travel}px`;
-      intro.style.zIndex = "5";
-      const pinned = window.scrollY >= travel - 1;
-      landing.classList.toggle("is-intro-pinned", pinned);
-      setHeaderOverIntro(true);
+      if (!metrics) measure();
+      const { travel, logo: logoMetrics } = metrics;
+      const progress = travel ? Math.min(1, Math.max(0, window.scrollY / travel)) : 0;
+      intro.style.setProperty("--pin-progress", progress.toFixed(3));
+      if (logo && logoMetrics && progress === 0) {
+        clearLogo();
+      } else if (logo && logoMetrics) {
+        const { origin, dx, dy, scale } = logoMetrics;
+        logo.style.transformOrigin = origin;
+        logo.style.transform = `translate(${dx * progress}px, ${dy * progress}px) scale(${1 + (scale - 1) * progress})`;
+      }
       header.style.color = getComputedStyle(intro).color;
-      setHeaderStuck(pinned);
+      setHeaderOverIntro(true);
+      setHeaderStuck(progress >= 1);
+    };
+
+    const remeasure = () => {
+      metrics = null;
+      sync();
     };
 
     sync();
-    const timer = setTimeout(sync, 1000); // after the expand animation
+    // Re-measure once the expand animation has settled and whenever the intro resizes.
+    const timers = [400, 1000, 2000].map((delay) => setTimeout(remeasure, delay));
+    const observer = intro ? new ResizeObserver(remeasure) : null;
+    observer?.observe(intro);
     window.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync);
+    window.addEventListener("resize", remeasure);
     return () => {
-      clearTimeout(timer);
+      timers.forEach(clearTimeout);
+      observer?.disconnect();
       window.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
-      reset();
+      window.removeEventListener("resize", remeasure);
+      clearLogo();
+      if (intro) {
+        ["position", "top", "zIndex", "backgroundColor"].forEach((prop) => {
+          intro.style[prop] = "";
+        });
+        intro.style.removeProperty("--pin-progress");
+      }
+      if (header) {
+        header.style.color = "";
+        header.style.removeProperty("--header-surface");
+      }
+      setHeaderOverIntro(false);
     };
   }, [screen, theme]);
 
