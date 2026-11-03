@@ -68,8 +68,11 @@ export default function ScreenLayout({
     const header = headerRef.current;
     const landing = document.querySelector(".theme-landing");
     const homeIntro = screen === "home" ? landing?.querySelector(".intro") : null;
-    // Only intros with a MOCA logo can collapse into the header strip.
-    const intro = homeIntro?.querySelector(":scope > .logo") ? homeIntro : null;
+    // Only intros with a logo (the MOCA wordmark, or Shape's four shapes) collapse
+    // into the header strip.
+    const intro = homeIntro?.querySelector(":scope > .logo, :scope > .shapes")
+      ? homeIntro
+      : null;
     const logo = intro?.querySelector(":scope > .logo");
     const isClear = (color) => /rgba\(.*,\s*0\)$|transparent/.test(color);
     const LOGO_HEIGHT = 26;
@@ -97,6 +100,10 @@ export default function ScreenLayout({
     const measure = () => {
       if (!intro || !header) return;
       clearLogo();
+      // Where the intro's bottom sits in the page decides when it is fully pinned.
+      intro.style.position = "";
+      intro.style.top = "";
+      const flowRect = intro.getBoundingClientRect();
       intro.style.position = "sticky";
       intro.style.zIndex = "5";
       if (isClear(getComputedStyle(intro).backgroundColor)) {
@@ -104,20 +111,28 @@ export default function ScreenLayout({
       }
       const headerHeight = header.offsetHeight;
       const travel = Math.max(0, intro.offsetHeight - headerHeight);
+      const pinAt = Math.max(0, flowRect.bottom + window.scrollY - headerHeight);
       const introRect = intro.getBoundingClientRect();
+      const safeTop = parseFloat(getComputedStyle(header).paddingTop) || 0;
+      const settings = header.querySelector(".settings-toggle");
+      // Mirror the visible gap to the right of the settings icon.
+      const icon = settings?.firstElementChild || settings;
+      const sideGap = icon
+        ? window.innerWidth - icon.getBoundingClientRect().right
+        : 20;
+      // Used by CSS to place Shape's four shapes in the header strip.
+      intro.style.setProperty("--pin-logo-left", `${sideGap}px`);
+      intro.style.setProperty(
+        "--pin-logo-bottom",
+        `${(headerHeight - safeTop - LOGO_HEIGHT) / 2}px`,
+      );
+      intro.style.setProperty("--pin-logo-height", `${LOGO_HEIGHT}px`);
       let logoMetrics = null;
       if (logo) {
         const range = document.createRange();
         range.selectNodeContents(logo);
         const text = range.getBoundingClientRect();
         const box = logo.getBoundingClientRect();
-        const safeTop = parseFloat(getComputedStyle(header).paddingTop) || 0;
-        const settings = header.querySelector(".settings-toggle");
-        // Mirror the visible gap to the right of the settings icon.
-        const icon = settings?.firstElementChild || settings;
-        const sideGap = icon
-          ? window.innerWidth - icon.getBoundingClientRect().right
-          : 20;
         // Horizontal edge from the text itself (logos may be centered in a wide box),
         // vertical size from the box (its line-height hugs the glyphs).
         const height = Math.min(text.height, box.height);
@@ -131,7 +146,7 @@ export default function ScreenLayout({
           scale,
         };
       }
-      metrics = { travel, logo: logoMetrics };
+      metrics = { pinAt, logo: logoMetrics };
       intro.style.top = `${-travel}px`;
     };
 
@@ -144,10 +159,11 @@ export default function ScreenLayout({
         return;
       }
       if (!metrics) measure();
-      const { travel, logo: logoMetrics } = metrics;
+      const { pinAt, logo: logoMetrics } = metrics;
       // Switch at once (no gradual transition) when the copy area has scrolled past.
-      const progress = travel && window.scrollY >= travel - 1 ? 1 : 0;
+      const progress = pinAt && window.scrollY >= pinAt - 1 ? 1 : 0;
       intro.style.setProperty("--pin-progress", progress.toFixed(3));
+      landing.classList.toggle("is-intro-pinned", progress === 1);
       if (logo && logoMetrics && progress === 0) {
         clearLogo();
       } else if (logo && logoMetrics) {
@@ -183,7 +199,10 @@ export default function ScreenLayout({
         ["position", "top", "zIndex", "backgroundColor"].forEach((prop) => {
           intro.style[prop] = "";
         });
-        intro.style.removeProperty("--pin-progress");
+        ["--pin-progress", "--pin-logo-left", "--pin-logo-bottom", "--pin-logo-height"].forEach(
+          (name) => intro.style.removeProperty(name),
+        );
+        landing?.classList.remove("is-intro-pinned");
       }
       if (header) {
         header.style.color = "";

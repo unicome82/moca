@@ -262,3 +262,23 @@ $theme-palette: (
 .shape-backdrop {
   display: none;
 }
+
+// Pinned home header: the intro's four shapes line up as the logo, left of settings.
+.theme-landing[data-theme="shape"].is-intro-pinned .visual .poster .intro .shapes {
+  @include position(absolute, $left: var(--pin-logo-left), $bottom: var(--pin-logo-bottom));
+  display: flex;
+  gap: 3px;
+  height: var(--pin-logo-height);
+  padding: 0;
+  background: none;
+  overflow: visible;
+  .shape {
+    flex: 0 0 var(--pin-logo-height);
+    height: var(--pin-logo-height);
+    perspective: none;
+    &::before {
+      width: 100%;
+      animation: none;
+    }
+  }
+}

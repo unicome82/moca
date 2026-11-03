@@ -49,13 +49,13 @@
     }
   }
 }
-.app-frame:has(.theme-landing .intro .logo) > .header.is-over-intro .brand-mark {
+.app-frame:has(.theme-landing .intro :is(.logo, .shapes)) > .header.is-over-intro .brand-mark {
   visibility: hidden;
   opacity: 0;
 }
 
 // While the intro collapses into the header strip, everything but the logo fades out.
-.theme-landing .intro > :not(.logo) {
+.theme-landing .intro > :not(.logo, .shapes) {
   opacity: calc(1 - var(--pin-progress, 0) * 1.6);
 }
 
