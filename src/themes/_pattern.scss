@@ -1,7 +1,7 @@
 @use "../styles/variables" as *;
 @use "../styles/mixins" as *;
 $theme-palette: (
-  bg: #fffdf5,
+  bg: #f1f0ec, // a touch of gray so white card fronts stand out
   text: #101f50,
   primary: #e65a2e,
   card: #fffdf5,
@@ -50,8 +50,7 @@ $theme-palette: (
     --pattern-bg: #e65a2e;
   }
   [data-pattern-color="1"] {
-    // Cream, not the page white, so this card stands apart from the background.
-    --pattern-bg: #f2e6c9;
+    --pattern-bg: #fffdf5;
     --pattern-ink: #101f50;
   }
   [data-pattern-color="2"] {
