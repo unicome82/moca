@@ -139,10 +139,6 @@ $theme-palette: (
           color: inherit;
           text-align: left;
           text-decoration: none;
-          transition: background 0.2s;
-          &:hover {
-            background: var(--ui-line);
-          }
         }
         h2 {
           font-size: clamp(18px, 3cqw, 28px);
