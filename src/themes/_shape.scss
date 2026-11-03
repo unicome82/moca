@@ -276,16 +276,24 @@ $theme-palette: (
 
 // Pinned home header: the intro's four shapes line up as the logo, left of settings.
 .theme-landing[data-theme="shape"].is-intro-pinned .visual .poster .intro .shapes {
-  @include position(absolute, $left: var(--pin-logo-left), $bottom: var(--pin-logo-bottom));
+  --shape-logo-size: 16px;
+  @include position(
+    absolute,
+    $left: var(--pin-logo-left),
+    $bottom: calc(var(--pin-logo-bottom) + (var(--pin-logo-height) - var(--shape-logo-size)) / 2)
+  );
   display: flex;
-  gap: 3px;
-  height: var(--pin-logo-height);
+  flex-wrap: nowrap;
+  gap: 2px;
+  width: max-content;
+  height: var(--shape-logo-size);
   padding: 0;
   background: none;
   overflow: visible;
   .shape {
-    flex: 0 0 var(--pin-logo-height);
-    height: var(--pin-logo-height);
+    flex: 0 0 var(--shape-logo-size);
+    width: var(--shape-logo-size);
+    height: var(--shape-logo-size);
     perspective: none;
     &::before {
       width: 100%;
