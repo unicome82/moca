@@ -4,7 +4,7 @@
 export const solutionCards = [
   // Take action
   { id: "solution-1", solution: "自分から連絡してみよう。" },
-  { id: "solution-2", solution: "もう一回だけやってみよう。" },
+  { id: "solution-2", solution: "もう一度だけ、やってみよう。" },
   { id: "solution-3", solution: "小さくてもいいから始めよう。" },
   { id: "solution-4", solution: "言いたかったことを伝えよう。" },
   { id: "solution-5", solution: "今日、一歩だけ進もう。" },
