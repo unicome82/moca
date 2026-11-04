@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { liarStages, storageKeys } from "../config/appConfig.js";
 import useCards from "./useCards.js";
 import { readJson, removeStoredValue, writeJson } from "../utils/browserStorage.js";
@@ -33,7 +33,7 @@ function readLiarSession(liarCategories) {
 const clearSession = () => removeStoredValue("sessionStorage", storageKeys.liarSession);
 
 export default function useLiarGame(screen, navigate) {
-  const { liarCategories } = useCards();
+  const { locale, liarCategories } = useCards();
   const [initialSession] = useState(() =>
     readScreen() === "liar-game" ? readLiarSession(liarCategories) : null,
   );
@@ -45,6 +45,19 @@ export default function useLiarGame(screen, navigate) {
   const [stage, setStage] = useState(initialSession?.stage ?? "pass");
 
   const selectedCategory = liarCategories.find(({ id }) => id === categoryId) ?? liarCategories[0];
+
+  // The keyword belongs to the old language, so a language change ends the
+  // round; the effect below then sends players back to setup.
+  const roundLocale = useRef(locale);
+  useEffect(() => {
+    if (roundLocale.current === locale) return;
+    roundLocale.current = locale;
+    setKeyword("");
+    setPlayerIndex(0);
+    setStage("pass");
+    clearSession();
+    if (!liarCategories.some(({ id }) => id === categoryId)) setCategoryId(liarCategories[0].id);
+  }, [locale, liarCategories, categoryId]);
 
   // Leaving the game screen discards the round in progress.
   useEffect(() => {
@@ -80,10 +93,10 @@ export default function useLiarGame(screen, navigate) {
     const historyId = `liar-${selectedCategory.id}`;
     // The word itself is the ID, so adding or reordering words keeps history intact.
     const wordItems = selectedCategory.words.map((word) => ({ id: word, word }));
-    const wordIndex = pickUnseenIndex(historyId, wordItems);
+    const wordIndex = pickUnseenIndex(locale, historyId, wordItems);
 
     setKeyword(selectedCategory.words[wordIndex]);
-    rememberCard(historyId, wordItems[wordIndex].id);
+    rememberCard(locale, historyId, wordItems[wordIndex].id);
     setLiarIndex(randomIndex(playerCount));
     setPlayerIndex(0);
     setStage("pass");

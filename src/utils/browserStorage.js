@@ -39,3 +39,12 @@ export function removeStoredValue(storageName, key) {
     // Storage can be disabled by the browser or its privacy settings.
   }
 }
+
+export function listStoredKeys(storageName) {
+  try {
+    const storage = window[storageName];
+    return Array.from({ length: storage.length }, (_, index) => storage.key(index));
+  } catch {
+    return [];
+  }
+}

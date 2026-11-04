@@ -31,7 +31,16 @@ export const themeOptions = [
   { id: "cutout", label: "Cutout", icon: "content_cut" },
 ];
 
-// Locales a user can pick. Add a locale here once its UI text and cards are ready.
+// Every locale the app knows about, named in its own language.
+export const localeOptions = [
+  { id: "ko", label: "한국어" },
+  { id: "en", label: "English" },
+  { id: "ja", label: "日本語" },
+  { id: "zh-TW", label: "繁體中文" },
+];
+
+// Locales a user can get. Add a locale here once its UI text and cards are
+// ready; the language picker appears in settings when there are two or more.
 export const defaultLocale = "ko";
 export const enabledLocales = ["ko"];
 
@@ -40,5 +49,7 @@ export const themes = themeOptions.map(({ id }) => id);
 export const storageKeys = {
   liarSession: "random-card-liar-session",
   preference: (name) => `random-card-${name}`,
-  cardHistory: (deckId) => `random-card-seen-${deckId}`,
+  cardHistory: (locale, deckId) => `random-card-seen-${locale}-${deckId}`,
+  // Before locales, history was stored per deck only; that history is Korean.
+  legacyCardHistoryPrefix: "random-card-seen-",
 };

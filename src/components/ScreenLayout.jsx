@@ -2,7 +2,9 @@ import { assetUrl } from "../utils/assetUrl.js";
 import GoogleIcon from "./GoogleIcon.jsx";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { themeOptions } from "../config/appConfig.js";
+import { enabledLocales, localeOptions, themeOptions } from "../config/appConfig.js";
+
+const pickableLocales = localeOptions.filter(({ id }) => enabledLocales.includes(id));
 
 export default function ScreenLayout({
   children,
@@ -15,6 +17,8 @@ export default function ScreenLayout({
   theme,
   themeImages,
   onThemeChange,
+  locale,
+  onLocaleChange,
 }) {
   const { t } = useTranslation();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -359,6 +363,28 @@ export default function ScreenLayout({
                         ))}
                       </div>
                     </div>
+                    {pickableLocales.length > 1 && (
+                      <div className="settings-group">
+                        <h4>{t("common.language")}</h4>
+                        <div className="locale-options">
+                          {pickableLocales.map((option) => (
+                            <button
+                              key={option.id}
+                              lang={option.id}
+                              className={`btn theme-option locale-option ${locale === option.id ? "selected" : ""}`}
+                              onClick={() => {
+                                if (option.id === locale) return;
+                                setSettingsOpen(false);
+                                onLocaleChange(option.id);
+                              }}
+                              aria-pressed={locale === option.id}
+                            >
+                              {option.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <footer className="popup-footer">
                     <button

@@ -6,12 +6,14 @@ import ThemeLanding from "./themes/ThemeLanding.jsx";
 import useCardDraw from "./hooks/useCardDraw.js";
 import useLiarGame from "./hooks/useLiarGame.js";
 import useScreenNavigation from "./hooks/useScreenNavigation.js";
+import useLocale from "./hooks/useLocale.js";
 import useThemeSettings from "./hooks/useThemeSettings.js";
 
 export default function App() {
   const { screen, navigate } = useScreenNavigation();
   const card = useCardDraw(screen);
   const liar = useLiarGame(screen, navigate);
+  const { selectedLocale, changeLocale } = useLocale();
   const { theme, themeImages, changeTheme } = useThemeSettings({
     onThemeChanged: () => {
       navigate("intro");
@@ -36,6 +38,8 @@ export default function App() {
       theme={theme}
       themeImages={themeImages}
       onThemeChange={changeTheme}
+      locale={selectedLocale}
+      onLocaleChange={changeLocale}
     >
       {isLanding && (
         <ThemeLanding

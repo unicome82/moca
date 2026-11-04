@@ -7,7 +7,8 @@
     "closeSettings": "설정 닫기",
     "close": "닫기",
     "theme": "테마",
-    "tagline": "세상의 모든 카드"
+    "tagline": "세상의 모든 카드",
+    "language": "언어"
   },
   "decks": {
     "ice": {

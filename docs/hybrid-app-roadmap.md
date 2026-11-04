@@ -34,12 +34,12 @@
   src/data/cards/ko/solution.js
   src/data/cards/ko/liar.js
   ```
-- [ ] 기기 언어 감지 + 수동 언어 전환, 선택값 저장
-- [ ] `<html lang>` 동적 변경
-- [ ] 카드 이력 저장 키에 언어 포함 (`random-card-seen-{locale}-{deckId}`)
+- [x] 기기 언어 감지 + 수동 언어 전환, 선택값 저장
+- [x] `<html lang>` 동적 변경
+- [x] 카드 이력 저장 키에 언어 포함 (`random-card-seen-{locale}-{deckId}`)
   - 기존 `random-card-seen-{deckId}` 이력은 `ko` 키로 한 번 옮기기
-- [ ] 언어 변경 시 진행 중인 라이어 세션 초기화
-- [ ] 언어 전환 UI: 켜진 언어가 2개 이상일 때만 설정창에 표시
+- [x] 언어 변경 시 진행 중인 라이어 세션 초기화
+- [x] 언어 전환 UI: 켜진 언어가 2개 이상일 때만 설정창에 표시
 - [ ] `en.json` 화면 문구 (카드 현지화는 6단계)
 
 ## 1단계. 사전 정리
