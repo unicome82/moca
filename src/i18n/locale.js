@@ -1,4 +1,4 @@
-import { defaultLocale, enabledLocales, storageKeys } from "../config/appConfig.js";
+import { autoDetectLocales, defaultLocale, enabledLocales, storageKeys } from "../config/appConfig.js";
 import { readPreference, savePreference } from "../utils/browserStorage.js";
 
 const localeKey = storageKeys.preference("locale");
@@ -6,19 +6,19 @@ const localeKey = storageKeys.preference("locale");
 // Traditional Chinese regions and scripts all map to zh-TW.
 const aliases = { "zh-hant": "zh-TW", "zh-hk": "zh-TW", "zh-mo": "zh-TW" };
 
-// Match a browser language tag (e.g. "en-US", "zh-Hant-TW") to an enabled locale.
-export function matchLocale(tag) {
+// Match a browser language tag (e.g. "en-US", "zh-Hant-TW") to one of the locales.
+export function matchLocale(tag, locales = autoDetectLocales) {
   if (!tag) return null;
   const lower = tag.toLowerCase();
-  const exact = enabledLocales.find((locale) => locale.toLowerCase() === lower);
+  const exact = locales.find((locale) => locale.toLowerCase() === lower);
   if (exact) return exact;
 
   const alias = Object.entries(aliases).find(([prefix]) => lower.startsWith(prefix));
-  if (alias) return enabledLocales.includes(alias[1]) ? alias[1] : null;
+  if (alias) return locales.includes(alias[1]) ? alias[1] : null;
 
   // "en-US" → "en", but never "zh-CN" → "zh-TW".
   const base = lower.split("-")[0];
-  return enabledLocales.find((locale) => locale === base) ?? null;
+  return locales.find((locale) => locale === base) ?? null;
 }
 
 // A saved choice wins; otherwise follow the device language.
