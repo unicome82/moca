@@ -154,7 +154,7 @@
   @include font(clamp(20px, 8cqw, 40px), 400, inherit);
   flex: 1;
   max-width: 100%;
-  word-break: keep-all;
+  word-break: var(--word-break);
   // Even out line lengths so a lone word doesn't hang on the last line.
   // Inherited by the balance question and choices inside.
   text-wrap: balance;
@@ -197,7 +197,7 @@
 
   flex: 1;
   text-align: center;
-  word-break: keep-all;
+  word-break: var(--word-break);
 }
 
 .balance-vs {

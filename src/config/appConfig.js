@@ -42,10 +42,10 @@ export const localeOptions = [
 // Locales a user can get. Add a locale here once its UI text and cards are
 // ready; the language picker appears in settings when there are two or more.
 export const defaultLocale = "ko";
-export const enabledLocales = ["ko", "en"];
+export const enabledLocales = ["ko", "en", "ja", "zh-TW"];
 
 // Locales the device language may pick on its own. Keep a locale out of this
-// list while it is still being prepared (e.g. English cards are still in review), so
+// list until the app launches in that language (cards are still in review), so
 // only people who choose it in settings see it.
 export const autoDetectLocales = ["ko"];
 

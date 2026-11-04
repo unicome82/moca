@@ -28,5 +28,6 @@ npm run local
 
 - 본문: 디바이스 기본 폰트 (Apple SD Gothic Neo, Noto Sans KR, 맑은 고딕 등, 내려받는 파일 없음)
 - Gowun Dodum: Google Fonts 유니코드 범위 분할 파일 (필요한 범위만 내려받음)
+- Zen Maru Gothic (일본어), LXGW WenKai TC (번체 중국어): 앱에서 쓰는 글자만 잘라낸 서브셋. **ja, zh-TW 문구나 카드를 고치면 `scripts/subset-locale-fonts.py`를 다시 실행해야 합니다.** (사용법은 스크립트 첫머리 참고)
 - Bodoni Moda, Fraunces, Instrument Serif, Oleo Script: 라틴 서브셋
 - Material Symbols Outlined: 앱에서 쓰는 아이콘만 포함한 서브셋. **새 아이콘을 쓰려면 아이콘 이름을 추가해 폰트를 다시 받아야 합니다.**

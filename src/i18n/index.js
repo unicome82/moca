@@ -2,12 +2,16 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { defaultLocale, enabledLocales } from "../config/appConfig.js";
 import en from "../locales/en.json";
+import ja from "../locales/ja.json";
 import ko from "../locales/ko.json";
+import zhTW from "../locales/zh-TW.json";
 import { detectLocale } from "./locale.js";
 
 const resources = {
   ko: { translation: ko },
   en: { translation: en },
+  ja: { translation: ja },
+  "zh-TW": { translation: zhTW },
 };
 
 const syncDocumentLanguage = () => {

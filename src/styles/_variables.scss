@@ -81,11 +81,14 @@ $height-button: 48px;
 // Segoe UI / Malgun Gothic on Windows. Nothing to download.
 $font-sans: (-apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI", Roboto, sans-serif);
 $font-mono: ("Courier New", -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", monospace);
-$font-serif: (Georgia, "Times New Roman", "Gowun Dodum", serif);
+// Display font for Hangul, kana and Han characters. Set per language in _fonts.scss, because
+// Gowun Dodum only has some kana and a few hundred Han characters.
+$font-cjk-display: var(--font-cjk-display);
+$font-serif: (Georgia, "Times New Roman", $font-cjk-display, serif);
 $font-korean-serif: $font-serif;
-$font-retro: ("Fraunces", Georgia, "Gowun Dodum", serif);
-$font-display: ("Bodoni Moda", Georgia, "Gowun Dodum", serif);
-$font-folio: ("Instrument Serif", Georgia, "Gowun Dodum", serif);
+$font-retro: ("Fraunces", Georgia, $font-cjk-display, serif);
+$font-display: ("Bodoni Moda", Georgia, $font-cjk-display, serif);
+$font-folio: ("Instrument Serif", Georgia, $font-cjk-display, serif);
 $theme-color-black: #000;
 $theme-color-black70: rgba($theme-color-black, 0.7);
 

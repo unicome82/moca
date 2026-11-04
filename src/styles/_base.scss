@@ -109,6 +109,21 @@ h3,
   --ui-text: #{$color-black};
 }
 
+// Korean keeps words whole. Japanese and Chinese have no spaces between words, so keep-all
+// would stop a line from wrapping at all; break between characters (or phrases, where supported).
+:root {
+  --word-break: keep-all;
+}
+:root:lang(ja),
+:root:lang(zh-TW) {
+  --word-break: normal;
+}
+@supports (word-break: auto-phrase) {
+  :root:lang(ja) {
+    --word-break: auto-phrase;
+  }
+}
+
 .app-frame {
   @include flex(stretch, flex-start, column);
 
@@ -119,7 +134,7 @@ h3,
   padding: 0;
   color: var(--ui-text, #{$color-black});
   background: var(--ui-bg, #{$color-bg});
-  word-break: keep-all;
+  word-break: var(--word-break);
 }
 
 .header {

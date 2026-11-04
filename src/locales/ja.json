@@ -80,7 +80,7 @@
     },
     "pickerLabel": "ウソつきの番号を選ぶ",
     "playerNumber": "{{number}}番",
-    "player": "{{number}}番のプレイヤー",
+    "player": "{{number}}番の人",
     "liarWinsIfKeyword": "お題を当てたらウソつきの勝ち",
     "liarWins": "ウソつきの勝ちです",
     "liarIs": "ウソつきは{{number}}番です",

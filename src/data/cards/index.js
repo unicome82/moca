@@ -1,10 +1,12 @@
 import { defaultLocale } from "../../config/appConfig.js";
 import * as ko from "./ko/index.js";
 import * as en from "./en/index.js";
+import * as ja from "./ja/index.js";
+import * as zhTW from "./zh-TW/index.js";
 
 // Each locale folder exports the same names: ice, solution, balance, liar.
 // Cards are written for each language rather than translated line by line.
-const sources = { ko, en };
+const sources = { ko, en, ja, "zh-TW": zhTW };
 
 const MAX_LIAR_WORDS = 100;
 

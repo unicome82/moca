@@ -872,3 +872,30 @@
   font-display: block;
   src: url("../assets/fonts/material-symbols-outlined-0-all.woff2") format('woff2');
 }
+
+// Japanese and Traditional Chinese display fonts, cut to the characters the app uses.
+// Regenerate with scripts/subset-locale-fonts.py after changing ja / zh-TW text.
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/zen-maru-gothic-ja.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'LXGW WenKai TC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/lxgw-wenkai-tc-zh-tw.woff2") format('woff2');
+}
+
+:root {
+  --font-cjk-display: "Gowun Dodum";
+}
+:root:lang(ja) {
+  --font-cjk-display: "Zen Maru Gothic";
+}
+:root:lang(zh-TW) {
+  --font-cjk-display: "LXGW WenKai TC";
+}
