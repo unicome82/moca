@@ -413,7 +413,7 @@ export default function ThemeLanding({
             <a
               className="deck-link"
               href={`?screen=${target}`}
-              aria-label={t("landing.openDeck", { title: deck.title })}
+              aria-label={t("landing.openDeck", { title: t(`decks.${deck.id}.title`) })}
               onClick={(event) => {
                 if (
                   event.button !== 0 ||
@@ -431,8 +431,8 @@ export default function ThemeLanding({
                 <GoogleIcon name={deck.icon} />
               </span>
               <div className="deck-copy">
-                <h2>{theme === "folio" && !expanded ? deck.en : deck.title}</h2>
-                <p>{deck.copy}</p>
+                <h2>{theme === "folio" && !expanded ? deck.en : t(`decks.${deck.id}.title`)}</h2>
+                <p>{t(`decks.${deck.id}.copy`)}</p>
               </div>
             </a>
           </li>

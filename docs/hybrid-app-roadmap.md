@@ -24,9 +24,9 @@
 > 기능은 미리 만들어 두고, **서비스는 `enabledLocales`에 언어를 추가할 때 시작**합니다 (지금은 `["ko"]`).
 
 - [x] 카드 ID 고정 (배열 순서 기반 ID 제거, 라이어 단어는 단어 자체가 ID)
-- [ ] `react-i18next` 도입
-- [ ] 화면 문구 → 번역 키로 분리 (`src/locales/ko.json`)
-- [ ] `src/data/decks.js`의 `title`, `copy` → 번역 키로 교체
+- [x] `react-i18next` 도입
+- [x] 화면 문구 → 번역 키로 분리 (`src/locales/ko.json`)
+- [x] `src/data/decks.js`의 `title`, `copy` → 번역 키로 교체
 - [ ] 카드 데이터를 언어별 폴더로 이동
   ```
   src/data/cards/ko/balance.js

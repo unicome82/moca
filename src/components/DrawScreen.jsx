@@ -57,7 +57,7 @@ export default function DrawScreen({
     <section className={`draw-page draw-${deck.type}`}>
       <div className="draw-heading">
         <span className="eyebrow">{deck.en}</span>
-        <h1>{deck.title}</h1>
+        <h1>{t(`decks.${deck.id}.title`)}</h1>
         <p>
           {t(`draw.guide.${deckId}`)}
         </p>
