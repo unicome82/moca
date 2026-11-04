@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { liarStages, storageKeys } from "../config/appConfig.js";
-import { liarCategories } from "../data/decks.js";
+import useCards from "./useCards.js";
 import { readJson, removeStoredValue, writeJson } from "../utils/browserStorage.js";
 import { pickUnseenIndex, rememberCard } from "../utils/cardHistory.js";
 import { readScreen } from "./useScreenNavigation.js";
@@ -12,7 +12,7 @@ const REVEALED_STAGES = ["shown", "handoff", "liar-reveal", "keyword"];
 const randomIndex = (length) => Math.floor(Math.random() * length);
 const isIndexBelow = (value, limit) => Number.isInteger(value) && value >= 0 && value < limit;
 
-function readLiarSession() {
+function readLiarSession(liarCategories) {
   const saved = readJson("sessionStorage", storageKeys.liarSession, null);
   if (!saved) return null;
 
@@ -33,8 +33,9 @@ function readLiarSession() {
 const clearSession = () => removeStoredValue("sessionStorage", storageKeys.liarSession);
 
 export default function useLiarGame(screen, navigate) {
+  const { liarCategories } = useCards();
   const [initialSession] = useState(() =>
-    readScreen() === "liar-game" ? readLiarSession() : null,
+    readScreen() === "liar-game" ? readLiarSession(liarCategories) : null,
   );
   const [playerCount, setPlayerCount] = useState(initialSession?.playerCount ?? 4);
   const [categoryId, setCategoryId] = useState(initialSession?.categoryId ?? liarCategories[0].id);

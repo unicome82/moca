@@ -27,7 +27,7 @@
 - [x] `react-i18next` 도입
 - [x] 화면 문구 → 번역 키로 분리 (`src/locales/ko.json`)
 - [x] `src/data/decks.js`의 `title`, `copy` → 번역 키로 교체
-- [ ] 카드 데이터를 언어별 폴더로 이동
+- [x] 카드 데이터를 언어별 폴더로 이동
   ```
   src/data/cards/ko/balance.js
   src/data/cards/ko/icebreaker.js

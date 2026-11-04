@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { cardCollections, decks } from "../data/decks.js";
+import { decks } from "../data/decks.js";
+import useCards from "../hooks/useCards.js";
 import CardFlip from "./CardFlip.jsx";
 import GoogleIcon from "./GoogleIcon.jsx";
 
@@ -15,7 +16,7 @@ export default function DrawScreen({
   const { t } = useTranslation();
   const [hasRevealedCard, setHasRevealedCard] = useState(false);
   const deck = decks.find(({ id }) => id === deckId);
-  const collection = cardCollections[deckId];
+  const collection = useCards().collections[deckId];
   const card = collection?.[cardIndex] ?? collection?.[0];
   const flipped = revealStage === "revealed";
   const isQuestion = deckId === "ice";

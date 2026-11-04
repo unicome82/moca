@@ -1,23 +1,21 @@
 import { useEffect, useState } from "react";
-import { cardCollections } from "../data/decks.js";
+import useCards from "./useCards.js";
 import { pickUnseenIndex, rememberCard } from "../utils/cardHistory.js";
 
-const initialIndex = (screen) => {
-  const collection = cardCollections[screen];
-  return collection ? pickUnseenIndex(screen, collection) : 0;
-};
 
 // Card state for the draw decks (ice, solution, balance).
 export default function useCardDraw(screen) {
-  const [cardIndex, setCardIndex] = useState(() => initialIndex(screen));
+  const { collections } = useCards();
+  const collection = collections[screen];
+  const [cardIndex, setCardIndex] = useState(() =>
+    collection ? pickUnseenIndex(screen, collection) : 0,
+  );
   const [revealStage, setRevealStage] = useState("hidden");
-  const collection = cardCollections[screen];
 
   useEffect(() => {
     setRevealStage("hidden");
-    const nextCollection = cardCollections[screen];
-    if (nextCollection) setCardIndex(pickUnseenIndex(screen, nextCollection));
-  }, [screen]);
+    if (collection) setCardIndex(pickUnseenIndex(screen, collection));
+  }, [screen, collection]);
 
   const revealCard = () => {
     if (collection?.[cardIndex]) rememberCard(screen, collection[cardIndex].id);

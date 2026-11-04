@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { liarCategories } from "../data/decks.js";
+import useCards from "../hooks/useCards.js";
 import GoogleIcon from "./GoogleIcon.jsx";
 
 export default function LiarSetupScreen({
@@ -10,6 +10,7 @@ export default function LiarSetupScreen({
   onStart,
 }) {
   const { t } = useTranslation();
+  const { liarCategories } = useCards();
 
   return (
     <section className="draw-page">

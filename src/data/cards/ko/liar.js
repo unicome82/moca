@@ -589,7 +589,3 @@ export const liarCategories = [
   },
 ];
 
-export const liarCategoriesWithWords = liarCategories.map((category) => ({
-  ...category,
-  words: [...new Set(category.words)].slice(0, 100),
-}));
