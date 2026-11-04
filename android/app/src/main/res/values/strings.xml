@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MOCA</string>
+    <string name="title_activity_main">MOCA</string>
+    <string name="package_name">io.github.unicome82.moca</string>
+    <string name="custom_url_scheme">io.github.unicome82.moca</string>
+</resources>

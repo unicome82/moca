@@ -7,9 +7,15 @@
     "dev": "vite --host 0.0.0.0 --port 5174 --strictPort",
     "local": "npm run dev",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "build:app": "vite build --mode app",
+    "cap:sync": "npm run build:app && cap sync"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/ios": "^8.6.0",
+    "@capacitor/preferences": "^8.0.1",
     "@vitejs/plugin-react": "6.1.2",
     "i18next": "^24.2.3",
     "react": "19.3.0",
@@ -17,5 +23,8 @@
     "react-i18next": "^15.7.4",
     "sass": "1.105.1",
     "vite": "8.3.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.0"
   }
 }

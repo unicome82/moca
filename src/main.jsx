@@ -1,7 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
-import './i18n/index.js';
+import i18n from './i18n/index.js';
+import { detectLocale } from './i18n/locale.js';
+import { hydrateStorage } from './utils/browserStorage.js';
 import { migrateLegacyCardHistory } from './utils/cardHistory.js';
 import './styles/styles.scss';
 
@@ -26,8 +28,12 @@ if (isStandalone) {
   window.addEventListener('orientationchange', syncAppHeight);
 }
 
-migrateLegacyCardHistory();
-
-createRoot(document.getElementById('root')).render(
-  <React.StrictMode><App /></React.StrictMode>,
-);
+// The native app loads saved settings asynchronously; render once they are in place.
+hydrateStorage().then(() => {
+  const locale = detectLocale();
+  if (i18n.resolvedLanguage !== locale) i18n.changeLanguage(locale);
+  migrateLegacyCardHistory();
+  createRoot(document.getElementById('root')).render(
+    <React.StrictMode><App /></React.StrictMode>,
+  );
+});

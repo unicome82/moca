@@ -11,6 +11,14 @@ npm run local
 
 터미널에 표시되는 주소를 브라우저에서 열어 확인합니다. 프로덕션 번들은 `npm run build`로 생성합니다.
 
+## 앱 빌드 (Capacitor)
+
+```bash
+npm run cap:sync
+```
+
+`vite build --mode app`(base `./`)으로 빌드한 뒤 `android/`, `ios/`에 복사합니다. 이후 Android Studio(`npx cap open android`) 또는 Xcode(`npx cap open ios`)에서 실행합니다. 앱에서는 설정·카드 기록이 Capacitor Preferences에 저장됩니다.
+
 ## 프로젝트 구조
 
 - `src/components/`: 인트로, 목록, 카드 뽑기, 라이어게임 화면
