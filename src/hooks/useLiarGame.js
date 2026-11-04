@@ -77,10 +77,8 @@ export default function useLiarGame(screen, navigate) {
 
   const startGame = () => {
     const historyId = `liar-${selectedCategory.id}`;
-    const wordItems = selectedCategory.words.map((word, index) => ({
-      id: `${selectedCategory.id}-${index}`,
-      word,
-    }));
+    // The word itself is the ID, so adding or reordering words keeps history intact.
+    const wordItems = selectedCategory.words.map((word) => ({ id: word, word }));
     const wordIndex = pickUnseenIndex(historyId, wordItems);
 
     setKeyword(selectedCategory.words[wordIndex]);
