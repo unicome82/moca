@@ -1,0 +1,95 @@
+{
+  "common": {
+    "back": "前の画面に戻る",
+    "goIntro": "イントロへ",
+    "settings": "設定",
+    "settingsDialog": "表示設定",
+    "closeSettings": "設定を閉じる",
+    "close": "閉じる",
+    "theme": "テーマ",
+    "tagline": "いろんな場面のカード",
+    "language": "言語"
+  },
+  "decks": {
+    "ice": {
+      "title": "アイスブレイク",
+      "copy": "はじめての相手とも話しやすい質問"
+    },
+    "solution": {
+      "title": "ヒントカード",
+      "copy": "迷ったときにすぐ試せるひとこと"
+    },
+    "balance": {
+      "title": "究極の二択",
+      "copy": "2つのうち、どっちを選ぶ？"
+    },
+    "liar": {
+      "title": "ワードウルフ",
+      "copy": "お題を隠して、ウソつきを探そう"
+    }
+  },
+  "landing": {
+    "title": "いろんな場面のカード",
+    "subtitleLine1": "自分だけの好みから、みんなの話まで。",
+    "subtitleLine2": "いつもの毎日に、新しい楽しさを。",
+    "expandCards": "カードを広げる",
+    "openDeck": "{{title}}を開く",
+    "catalogTitle": "MOCA カードコレクション",
+    "catalogCount": "{{count}}つのデッキ"
+  },
+  "draw": {
+    "loadErrorTitle": "カードを読み込めませんでした。",
+    "loadErrorBody": "メイン画面に戻って、もう一度選んでください。",
+    "guide": {
+      "balance": "カードをタップして質問と選択肢を見てみよう。",
+      "ice": "カードをタップして質問を見てみよう。",
+      "solution": "カードをタップしてヒントを見てみよう。"
+    },
+    "reveal": {
+      "balance": "質問を見る",
+      "ice": "質問を見る",
+      "solution": "ヒントを見る"
+    },
+    "next": "次のカードを引く",
+    "hintNext": "カードをタップすると次のカードへ。",
+    "hintFlip": "カードをタップして裏返そう。"
+  },
+  "liarSetup": {
+    "title": "ワードウルフ",
+    "description": "人数とカテゴリーを選んでください。",
+    "players": "人数（{{min}}〜{{max}}人）",
+    "decrease": "人数を減らす",
+    "increase": "人数を増やす",
+    "category": "カテゴリー",
+    "start": "ゲームを始める"
+  },
+  "liarGame": {
+    "title": {
+      "keyword": "お題を発表します",
+      "correct": "正解です！",
+      "wrong": "ウソつきは{{number}}番でした",
+      "choose": "ウソつきを選んでください",
+      "allChecked": "全員がカードを確認しました",
+      "pass": "カードを確認してください",
+      "shown": "確認しました"
+    },
+    "description": {
+      "choose": "ウソつきだと思う番号を選んでください",
+      "allChecked": "話し合ってから、ウソつきを選びましょう",
+      "shown": "カードを隠して、次の人に渡してください"
+    },
+    "pickerLabel": "ウソつきの番号を選ぶ",
+    "playerNumber": "{{number}}番",
+    "player": "{{number}}番のプレイヤー",
+    "liarWinsIfKeyword": "お題を当てたらウソつきの勝ち",
+    "liarWins": "ウソつきの勝ちです",
+    "liarIs": "ウソつきは{{number}}番です",
+    "youAreLiar": "あなたはウソつきです",
+    "keywordRevealed": "お題が発表されました",
+    "checkKeyword": "お題を見る",
+    "chooseLiar": "ウソつきを選ぶ",
+    "checked": "確認しました",
+    "checkLiar": "ウソつきを発表する",
+    "restart": "もう一度遊ぶ"
+  }
+}

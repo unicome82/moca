@@ -1,0 +1,95 @@
+{
+  "common": {
+    "back": "回上一頁",
+    "goIntro": "回到開場畫面",
+    "settings": "設定",
+    "settingsDialog": "顯示設定",
+    "closeSettings": "關閉設定",
+    "close": "關閉",
+    "theme": "主題",
+    "tagline": "每個時刻都有一張卡",
+    "language": "語言"
+  },
+  "decks": {
+    "ice": {
+      "title": "破冰問題",
+      "copy": "第一次見面也能輕鬆聊開的問題"
+    },
+    "solution": {
+      "title": "解答之書",
+      "copy": "卡關時馬上能試試的小提示"
+    },
+    "balance": {
+      "title": "二選一",
+      "copy": "兩個選項，你會選哪一個？"
+    },
+    "liar": {
+      "title": "誰是臥底",
+      "copy": "藏好關鍵字，找出臥底"
+    }
+  },
+  "landing": {
+    "title": "每個時刻都有一張卡",
+    "subtitleLine1": "從一個人的喜好，到我們之間的故事。",
+    "subtitleLine2": "為熟悉的日常，加一點新的樂趣。",
+    "expandCards": "展開卡片",
+    "openDeck": "打開{{title}}",
+    "catalogTitle": "MOCA 卡片集",
+    "catalogCount": "{{count}} 副卡"
+  },
+  "draw": {
+    "loadErrorTitle": "無法載入這張卡片。",
+    "loadErrorBody": "請回到主畫面重新選擇。",
+    "guide": {
+      "balance": "點一下卡片，看看問題和選項。",
+      "ice": "點一下卡片，看看問題。",
+      "solution": "點一下卡片，看看提示。"
+    },
+    "reveal": {
+      "balance": "看問題",
+      "ice": "看問題",
+      "solution": "看提示"
+    },
+    "next": "抽下一張",
+    "hintNext": "點一下卡片看下一張。",
+    "hintFlip": "點一下卡片翻面。"
+  },
+  "liarSetup": {
+    "title": "誰是臥底",
+    "description": "請選擇人數和類別。",
+    "players": "人數（{{min}}～{{max}} 人）",
+    "decrease": "減少人數",
+    "increase": "增加人數",
+    "category": "類別",
+    "start": "開始遊戲"
+  },
+  "liarGame": {
+    "title": {
+      "keyword": "公布關鍵字",
+      "correct": "答對了！",
+      "wrong": "臥底是 {{number}} 號",
+      "choose": "請選出臥底",
+      "allChecked": "大家都看過卡片了",
+      "pass": "請確認你的卡片",
+      "shown": "看好了"
+    },
+    "description": {
+      "choose": "選出你覺得是臥底的號碼",
+      "allChecked": "討論之後，選出臥底",
+      "shown": "把卡片蓋好，傳給下一位"
+    },
+    "pickerLabel": "選擇臥底的號碼",
+    "playerNumber": "{{number}} 號",
+    "player": "{{number}} 號玩家",
+    "liarWinsIfKeyword": "臥底猜中關鍵字就獲勝",
+    "liarWins": "臥底獲勝",
+    "liarIs": "臥底是 {{number}} 號",
+    "youAreLiar": "你是臥底",
+    "keywordRevealed": "關鍵字已公布",
+    "checkKeyword": "查看關鍵字",
+    "chooseLiar": "選出臥底",
+    "checked": "看好了",
+    "checkLiar": "揭曉臥底",
+    "restart": "再玩一次"
+  }
+}
