@@ -31,6 +31,10 @@ export const themeOptions = [
   { id: "cutout", label: "Cutout", icon: "content_cut" },
 ];
 
+// Locales a user can pick. Add a locale here once its UI text and cards are ready.
+export const defaultLocale = "ko";
+export const enabledLocales = ["ko"];
+
 export const themes = themeOptions.map(({ id }) => id);
 
 export const storageKeys = {

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { liarCategories } from "../data/decks.js";
 import GoogleIcon from "./GoogleIcon.jsx";
 
@@ -8,19 +9,21 @@ export default function LiarSetupScreen({
   onCategoryChange,
   onStart,
 }) {
+  const { t } = useTranslation();
+
   return (
     <section className="draw-page">
       <div className="draw-heading">
-        <h1>라이어게임</h1>
-        <p>인원과 카테고리를 선택해주세요.</p>
+        <h1>{t("liarSetup.title")}</h1>
+        <p>{t("liarSetup.description")}</p>
       </div>
       <div className="setup-section">
-        <div className="eyebrow">인원 (3명 ~ 12명)</div>
+        <div className="eyebrow">{t("liarSetup.players", { min: 3, max: 12 })}</div>
         <div className="player-picker">
           <button
             className="btn white icon"
             onClick={() => onPlayerCountChange(Math.max(3, playerCount - 1))}
-            aria-label="인원 줄이기"
+            aria-label={t("liarSetup.decrease")}
           >
             <GoogleIcon name="remove" size={24} />
           </button>
@@ -28,14 +31,14 @@ export default function LiarSetupScreen({
           <button
             className="btn white icon"
             onClick={() => onPlayerCountChange(Math.min(12, playerCount + 1))}
-            aria-label="인원 늘리기"
+            aria-label={t("liarSetup.increase")}
           >
             <GoogleIcon name="add" size={24} />
           </button>
         </div>
       </div>
       <div className="setup-section category-section">
-        <div className="eyebrow">카테고리</div>
+        <div className="eyebrow">{t("liarSetup.category")}</div>
         <div className="select-wrap">
           {liarCategories.map((category) => (
             <button
@@ -49,7 +52,7 @@ export default function LiarSetupScreen({
         </div>
       </div>
       <button className="btn black" onClick={onStart}>
-        게임 시작하기
+        {t("liarSetup.start")}
       </button>
     </section>
   );

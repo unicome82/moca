@@ -1,6 +1,7 @@
 import { assetUrl } from "../utils/assetUrl.js";
 import GoogleIcon from "./GoogleIcon.jsx";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { themeOptions } from "../config/appConfig.js";
 
 export default function ScreenLayout({
@@ -15,6 +16,7 @@ export default function ScreenLayout({
   themeImages,
   onThemeChange,
 }) {
+  const { t } = useTranslation();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
   const [headerStuck, setHeaderStuck] = useState(false);
@@ -284,7 +286,7 @@ export default function ScreenLayout({
             <button
               className="btn icon"
               onClick={onBack}
-              aria-label="이전 화면으로"
+              aria-label={t("common.back")}
             >
               <GoogleIcon name="arrow_left_alt" size={24} />
             </button>
@@ -292,7 +294,7 @@ export default function ScreenLayout({
             <button
               className="btn brand-mark"
               onClick={onHome}
-              aria-label="인트로로 이동"
+              aria-label={t("common.goIntro")}
             >
               <span className="brand-dot" aria-hidden="true">
                 ❋
@@ -305,7 +307,7 @@ export default function ScreenLayout({
             <button
               className={`btn icon settings-toggle ${settingsOpen ? "is-active" : ""}`}
               onClick={() => setSettingsOpen((open) => !open)}
-              aria-label="설정"
+              aria-label={t("common.settings")}
               aria-expanded={settingsOpen}
               aria-controls="appearance-settings"
             >
@@ -320,7 +322,7 @@ export default function ScreenLayout({
                 <section
                   className="popup"
                   id="appearance-settings"
-                  aria-label="화면 설정"
+                  aria-label={t("common.settingsDialog")}
                   role="dialog"
                   aria-modal="true"
                   onClick={(event) => event.stopPropagation()}
@@ -331,14 +333,14 @@ export default function ScreenLayout({
                       type="button"
                       className="btn icon small btn-close"
                       onClick={() => setSettingsOpen(false)}
-                      aria-label="설정 닫기"
+                      aria-label={t("common.closeSettings")}
                     >
                       <GoogleIcon name="close" size={20} />
                     </button>
                   </header>
                   <div className="popup-inner">
                     <div className="settings-group">
-                      <h4>테마</h4>
+                      <h4>{t("common.theme")}</h4>
                       <div className="theme-options">
                         {themeOptions.map((option) => (
                           <button
@@ -363,7 +365,7 @@ export default function ScreenLayout({
                       className="btn line"
                       onClick={() => setSettingsOpen(false)}
                     >
-                      닫기
+                      {t("common.close")}
                     </button>
                   </footer>
                 </section>

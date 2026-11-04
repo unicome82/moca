@@ -1,0 +1,76 @@
+{
+  "common": {
+    "back": "이전 화면으로",
+    "goIntro": "인트로로 이동",
+    "settings": "설정",
+    "settingsDialog": "화면 설정",
+    "closeSettings": "설정 닫기",
+    "close": "닫기",
+    "theme": "테마",
+    "tagline": "세상의 모든 카드"
+  },
+  "landing": {
+    "title": "세상의 모든 카드",
+    "subtitleLine1": "혼자만의 취향부터 우리 사이의 이야기까지",
+    "subtitleLine2": "익숙한 하루에 새로운 재미를 더해보세요.",
+    "expandCards": "카드 펼쳐 보기",
+    "openDeck": "{{title}} 열기",
+    "catalogTitle": "MOCA 카드 모음",
+    "catalogCount": "{{count}}개의 카드덱"
+  },
+  "draw": {
+    "loadErrorTitle": "카드를 불러오지 못했어요.",
+    "loadErrorBody": "메인 화면에서 다시 선택해 주세요.",
+    "guide": {
+      "balance": "카드를 눌러 질문과 선택지를 확인하세요.",
+      "ice": "카드를 눌러 질문을 확인하세요.",
+      "solution": "카드를 눌러 해결책을 확인하세요."
+    },
+    "reveal": {
+      "balance": "밸런스 질문 보기",
+      "ice": "질문 보기",
+      "solution": "해결책 보기"
+    },
+    "next": "다음 카드 뽑기",
+    "hintNext": "카드를 눌러 다음 내용을 확인하세요.",
+    "hintFlip": "카드를 눌러 뒤집어 보세요."
+  },
+  "liarSetup": {
+    "title": "라이어게임",
+    "description": "인원과 카테고리를 선택해주세요.",
+    "players": "인원 ({{min}}명 ~ {{max}}명)",
+    "decrease": "인원 줄이기",
+    "increase": "인원 늘리기",
+    "category": "카테고리",
+    "start": "게임 시작하기"
+  },
+  "liarGame": {
+    "title": {
+      "keyword": "키워드를 공개합니다",
+      "correct": "정답입니다",
+      "wrong": "라이어는 {{number}}번입니다",
+      "choose": "라이어를 선택하세요",
+      "allChecked": "키워드를 모두 확인했습니다",
+      "pass": "카드를 확인하세요",
+      "shown": "확인했어요"
+    },
+    "description": {
+      "choose": "라이어라고 생각되는 번호를 선택해주세요",
+      "allChecked": "토론 후 라이어를 선택해주세요",
+      "shown": "카드를 가리고 다음 플레이어에게 건네주세요"
+    },
+    "pickerLabel": "라이어 번호 선택",
+    "playerNumber": "{{number}}번",
+    "player": "{{number}}번 플레이어",
+    "liarWinsIfKeyword": "키워드를 맞추면 라이어가 승리합니다",
+    "liarWins": "라이어가 승리하였습니다",
+    "liarIs": "라이어는 {{number}}번 입니다",
+    "youAreLiar": "당신은 라이어입니다",
+    "keywordRevealed": "키워드가 공개됐습니다",
+    "checkKeyword": "키워드 확인하기",
+    "chooseLiar": "라이어 선택하기",
+    "checked": "확인했어요",
+    "checkLiar": "라이어 확인하기",
+    "restart": "게임 다시하기"
+  }
+}

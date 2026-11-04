@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { cardCollections, decks } from "../data/decks.js";
 import CardFlip from "./CardFlip.jsx";
 import GoogleIcon from "./GoogleIcon.jsx";
@@ -11,6 +12,7 @@ export default function DrawScreen({
   onReplace,
   onReplaceComplete,
 }) {
+  const { t } = useTranslation();
   const [hasRevealedCard, setHasRevealedCard] = useState(false);
   const deck = decks.find(({ id }) => id === deckId);
   const collection = cardCollections[deckId];
@@ -27,8 +29,8 @@ export default function DrawScreen({
   if (!deck || !card) {
     return (
       <section className="draw-page draw-empty-state">
-        <h1>카드를 불러오지 못했어요.</h1>
-        <p>메인 화면에서 다시 선택해 주세요.</p>
+        <h1>{t("draw.loadErrorTitle")}</h1>
+        <p>{t("draw.loadErrorBody")}</p>
       </section>
     );
   }
@@ -57,11 +59,7 @@ export default function DrawScreen({
         <span className="eyebrow">{deck.en}</span>
         <h1>{deck.title}</h1>
         <p>
-          {isBalance
-            ? "카드를 눌러 질문과 선택지를 확인하세요."
-            : isQuestion
-              ? "카드를 눌러 질문을 확인하세요."
-              : "카드를 눌러 해결책을 확인하세요."}
+          {t(`draw.guide.${deckId}`)}
         </p>
       </div>
       <div className="draw-stage">
@@ -71,15 +69,7 @@ export default function DrawScreen({
           className={revealStage === "replacing" ? "is-replacing" : ""}
           onClick={handleCardClick}
           onTransitionEnd={handleFlipTransitionEnd}
-          aria-label={
-            flipped
-              ? "다음 카드 뽑기"
-              : isBalance
-                ? "밸런스 질문 보기"
-                : isQuestion
-                  ? "질문 보기"
-                  : "해결책 보기"
-          }
+          aria-label={flipped ? t("draw.next") : t(`draw.reveal.${deckId}`)}
           backContent={
             <span className="card-back-mark">
 
@@ -88,7 +78,7 @@ export default function DrawScreen({
                 <span className="card-back-game" lang="en">{deck.en}</span>
               </span>
               <span className="card-back-star" aria-hidden="true">✦</span>
-              <span className="card-back-tagline">세상의 모든 카드</span>
+              <span className="card-back-tagline">{t("common.tagline")}</span>
               <span className="card-back-logo" aria-hidden="true">MOCA</span>
             </span>
           }
@@ -124,9 +114,7 @@ export default function DrawScreen({
       </div>
       <div className="draw-bottom">
         <span className="draw-hint">
-          {flipped || hasRevealedCard
-            ? "카드를 눌러 다음 내용을 확인하세요."
-            : "카드를 눌러 뒤집어 보세요."}
+          {flipped || hasRevealedCard ? t("draw.hintNext") : t("draw.hintFlip")}
         </span>
       </div>
     </section>

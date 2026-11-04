@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { decks } from "../data/decks.js";
 import { patternDeckColors, themeImageAssets } from "../data/themeAssets.js";
 import GoogleIcon from "../components/GoogleIcon.jsx";
@@ -181,6 +182,7 @@ export default function ThemeLanding({
   onCollapse,
   onNavigate,
 }) {
+  const { t, i18n } = useTranslation();
   const root = useRef(null);
   const trigger = useRef(null);
   const list = useRef(null);
@@ -352,12 +354,12 @@ export default function ThemeLanding({
   }, [expanded, onExpand, onCollapse, theme]);
 
   const copy = (
-    <div className="copy" lang="ko">
+    <div className="copy" lang={i18n.resolvedLanguage}>
       {theme === "prism" && (
         <button
           ref={trigger}
           className="trigger"
-          aria-label="카드 펼쳐 보기"
+          aria-label={t("landing.expandCards")}
           aria-expanded={expanded}
           aria-controls="theme-cards"
           onClick={onExpand}
@@ -372,12 +374,12 @@ export default function ThemeLanding({
         </p>
       )}
       {/* <h1>Cards for Every Moment</h1> */}
-      <h1>세상의 모든 카드</h1>
+      <h1>{t("landing.title")}</h1>
       {/* <p className="subtitle">From your own interests to the stories we share.<br />Bring something new to your everyday.</p> */}
       <p className="subtitle">
-        혼자만의 취향부터 우리 사이의 이야기까지
+        {t("landing.subtitleLine1")}
         <br />
-        익숙한 하루에 새로운 재미를 더해보세요.
+        {t("landing.subtitleLine2")}
       </p>
     </div>
   );
@@ -411,7 +413,7 @@ export default function ThemeLanding({
             <a
               className="deck-link"
               href={`?screen=${target}`}
-              aria-label={`${deck.title} 열기`}
+              aria-label={t("landing.openDeck", { title: deck.title })}
               onClick={(event) => {
                 if (
                   event.button !== 0 ||
@@ -466,7 +468,7 @@ export default function ThemeLanding({
                   role={expanded ? undefined : "button"}
                   tabIndex={expanded ? undefined : 0}
                   ref={trigger}
-                  aria-label={expanded ? undefined : "카드 펼쳐 보기"}
+                  aria-label={expanded ? undefined : t("landing.expandCards")}
                   aria-expanded={expanded}
                   aria-controls="theme-cards"
                   onClick={() => !expanded && onExpand()}
@@ -505,8 +507,8 @@ export default function ThemeLanding({
                 {/* {theme === "press" && <div className="catalog"><span>MOCA COLLECTION</span><span>{decks.length} DECKS</span></div>} */}
                 {theme === "press" && (
                   <div className="catalog">
-                    <span>MOCA 카드 모음</span>
-                    <span>{decks.length}개의 카드덱</span>
+                    <span>{t("landing.catalogTitle")}</span>
+                    <span>{t("landing.catalogCount", { count: decks.length })}</span>
                   </div>
                 )}
                 {cards}

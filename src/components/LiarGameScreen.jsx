@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import CardFlip from "./CardFlip.jsx";
 import GoogleIcon from "./GoogleIcon.jsx";
 
@@ -17,6 +18,7 @@ export default function LiarGameScreen({
   onRevealKeyword,
   onRestart,
 }) {
+  const { t } = useTranslation();
   const [selectedLiarIndex, setSelectedLiarIndex] = useState(null);
   const isLastPlayer = playerIndex === playerCount - 1;
   const isLiarReady = stage === "liar-ready";
@@ -39,29 +41,29 @@ export default function LiarGameScreen({
   };
 
   const title = isKeywordReveal
-    ? "키워드를 공개합니다" // 키워드 공개
+    ? t("liarGame.title.keyword") // 키워드 공개
     : isLiarReveal
       ? selectedLiarIndex === liarIndex
-        ? "정답입니다" // 라이어 맞추기를 성공했을 때
-        : `라이어는 ${liarIndex + 1}번입니다` // 라이어 맞추기를 실패했을 때
+        ? t("liarGame.title.correct") // 라이어 맞추기를 성공했을 때
+        : t("liarGame.title.wrong", { number: liarIndex + 1 }) // 라이어 맞추기를 실패했을 때
       : isLiarCheck
-        ? "라이어를 선택하세요" // 라이어 번호 선택 단계
+        ? t("liarGame.title.choose") // 라이어 번호 선택 단계
         : isLiarReady
-          ? "키워드를 모두 확인했습니다" // 키워드 모두 확인
+          ? t("liarGame.title.allChecked") // 키워드 모두 확인
           : stage === "pass"
-            ? "카드를 확인하세요" // 다음 플레이어 카드확인
-            : "확인했어요"; // 키워드 확인
+            ? t("liarGame.title.pass") // 다음 플레이어 카드확인
+            : t("liarGame.title.shown"); // 키워드 확인
   const description = isKeywordReveal
     ? "" // 키워드 공개 설명 문구
     : isLiarReveal
       ? "" // 라이어 결과 설명 문구
       : isLiarCheck
-        ? "라이어라고 생각되는 번호를 선택해주세요" // 라이어 선택
+        ? t("liarGame.description.choose") // 라이어 선택
         : isLiarReady
-          ? "토론 후 라이어를 선택해주세요" // 키워드 모두 확인
+          ? t("liarGame.description.allChecked") // 키워드 모두 확인
           : stage === "pass"
             ? "" // 카드 확인 전
-            : "카드를 가리고 다음 플레이어에게 건네주세요"; // 키워드 확인 후
+            : t("liarGame.description.shown"); // 키워드 확인 후
 
   return (
     <section
@@ -78,7 +80,7 @@ export default function LiarGameScreen({
           <div
             className="select-wrap liar-guess-panel"
             role="group"
-            aria-label="라이어 번호 선택"
+            aria-label={t("liarGame.pickerLabel")}
           >
             {Array.from({ length: playerCount }, (_, index) => (
               <button
@@ -88,7 +90,7 @@ export default function LiarGameScreen({
                 aria-pressed={selectedLiarIndex === index}
                 onClick={() => setSelectedLiarIndex(index)}
               >
-                {index + 1}번
+                {t("liarGame.playerNumber", { number: index + 1 })}
               </button>
             ))}
           </div>
@@ -96,8 +98,8 @@ export default function LiarGameScreen({
           <div className="liar-guess-panel liar-result-panel">
             <p className="liar-guess-result">
               {selectedLiarIndex === liarIndex
-                ? "키워드를 맞추면 라이어가 승리합니다" // 라이어를 맞혔을 때
-                : "라이어가 승리하였습니다"}
+                ? t("liarGame.liarWinsIfKeyword") // 라이어를 맞혔을 때
+                : t("liarGame.liarWins")}
             </p>
           </div>
         ) : (
@@ -108,7 +110,7 @@ export default function LiarGameScreen({
             onClick={stage === "pass" ? onReveal : undefined}
             onTransitionEnd={handleHandoffTransitionEnd}
             aria-label={
-              isRevealed ? "키워드가 공개됐습니다" : "키워드 확인하기"
+              isRevealed ? t("liarGame.keywordRevealed") : t("liarGame.checkKeyword")
             }
             backContent={
               <span className="card-back-mark">
@@ -118,10 +120,10 @@ export default function LiarGameScreen({
                   <span className="card-back-game" lang="en">LIAR GAME</span>
                 </span>
                 <span className="card-back-star" aria-hidden="true">✦</span>
-                <span className="card-back-tagline">세상의 모든 카드</span>
+                <span className="card-back-tagline">{t("common.tagline")}</span>
                 <span className="card-back-logo" aria-hidden="true">MOCA</span>
                 <span className="card-back-bottom">
-                  {playerIndex + 1}번 플레이어
+                  {t("liarGame.player", { number: playerIndex + 1 })}
                 </span>
               </span>
             }
@@ -131,16 +133,16 @@ export default function LiarGameScreen({
                 <span className="card-front-tag">MOCA</span>
                 <span className="card-prompt">
                   {isLiarReveal
-                    ? `라이어는 ${liarIndex + 1}번 입니다` // 라이어 공개
+                    ? t("liarGame.liarIs", { number: liarIndex + 1 }) // 라이어 공개
                     : isKeywordReveal
                       ? keyword // 키워드 공개
                       : isLiar
-                        ? "당신은 라이어입니다" // 라이어 카드
+                        ? t("liarGame.youAreLiar") // 라이어 카드
                         : keyword}
                 </span>
                 <span className="eyebrow">
                   {isLiarReveal
-                    ? "키워드를 맞추면 라이어가 승리합니다"
+                    ? t("liarGame.liarWinsIfKeyword")
                     : isKeywordReveal
                       ? ``
                       : `[ ${categoryName} ]`}
@@ -154,17 +156,17 @@ export default function LiarGameScreen({
       <div className={`draw-bottom ${""}`}>
         {isLiarReady && (
           <button className="btn black" onClick={onStartLiarSelection}>
-            라이어 선택하기
+            {t("liarGame.chooseLiar")}
           </button>
         )}
         {/* {stage === "pass" && (
           <button className="btn black" onClick={onReveal}>
-            카드 확인하기
+            {t("liarGame.title.pass")}
           </button>
         )} */}
         {stage === "shown" && (
           <button className="btn line" onClick={onHide}>
-            확인했어요
+            {t("liarGame.checked")}
           </button>
         )}
         {isLiarCheck && (
@@ -173,18 +175,18 @@ export default function LiarGameScreen({
             onClick={() => onRevealLiar(selectedLiarIndex)}
             disabled={selectedLiarIndex === null}
           >
-            라이어 확인하기
+            {t("liarGame.checkLiar")}
           </button>
         )}
         {isLiarReveal && (
           <button className="btn black" onClick={onRevealKeyword}>
-            키워드 확인하기
+            {t("liarGame.checkKeyword")}
           </button>
         )}
         {isKeywordReveal && (
           <>
             <button className="btn line" onClick={onRestart}>
-              <GoogleIcon name="refresh" size={20} /> 게임 다시하기{" "}
+              <GoogleIcon name="refresh" size={20} /> {t("liarGame.restart")}{" "}
             </button>
           </>
         )}
