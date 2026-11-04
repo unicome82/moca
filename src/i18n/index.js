@@ -1,10 +1,14 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { defaultLocale, enabledLocales } from "../config/appConfig.js";
+import en from "../locales/en.json";
 import ko from "../locales/ko.json";
 import { detectLocale } from "./locale.js";
 
-const resources = { ko: { translation: ko } };
+const resources = {
+  ko: { translation: ko },
+  en: { translation: en },
+};
 
 const syncDocumentLanguage = () => {
   document.documentElement.lang = i18n.resolvedLanguage;

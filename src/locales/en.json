@@ -1,0 +1,96 @@
+{
+  "common": {
+    "back": "Go back",
+    "goIntro": "Go to intro",
+    "settings": "Settings",
+    "settingsDialog": "Display settings",
+    "closeSettings": "Close settings",
+    "close": "Close",
+    "theme": "Theme",
+    "tagline": "Cards for every moment",
+    "language": "Language"
+  },
+  "decks": {
+    "ice": {
+      "title": "Ice Breaking",
+      "copy": "Easy questions to get anyone talking"
+    },
+    "solution": {
+      "title": "Solution Cards",
+      "copy": "Quick ideas for when you feel stuck"
+    },
+    "balance": {
+      "title": "Balance Game",
+      "copy": "Pick one of two choices"
+    },
+    "liar": {
+      "title": "Liar Game",
+      "copy": "Hide the keyword and find the liar"
+    }
+  },
+  "landing": {
+    "title": "Cards for Every Moment",
+    "subtitleLine1": "From your own interests to the stories we share.",
+    "subtitleLine2": "Bring something new to your everyday.",
+    "expandCards": "Open the cards",
+    "openDeck": "Open {{title}}",
+    "catalogTitle": "MOCA Collection",
+    "catalogCount_one": "{{count}} deck",
+    "catalogCount_other": "{{count}} decks"
+  },
+  "draw": {
+    "loadErrorTitle": "Couldn't load this card.",
+    "loadErrorBody": "Go back to the main screen and pick again.",
+    "guide": {
+      "balance": "Tap the card to see the question and choices.",
+      "ice": "Tap the card to see the question.",
+      "solution": "Tap the card to see the solution."
+    },
+    "reveal": {
+      "balance": "Show the question",
+      "ice": "Show the question",
+      "solution": "Show the solution"
+    },
+    "next": "Draw the next card",
+    "hintNext": "Tap the card to see the next one.",
+    "hintFlip": "Tap the card to flip it."
+  },
+  "liarSetup": {
+    "title": "Liar Game",
+    "description": "Choose the number of players and a category.",
+    "players": "Players ({{min}}–{{max}})",
+    "decrease": "Fewer players",
+    "increase": "More players",
+    "category": "Category",
+    "start": "Start game"
+  },
+  "liarGame": {
+    "title": {
+      "keyword": "Here's the keyword",
+      "correct": "You got it!",
+      "wrong": "The liar was Player {{number}}",
+      "choose": "Choose the liar",
+      "allChecked": "Everyone has seen their card",
+      "pass": "Check your card",
+      "shown": "Got it"
+    },
+    "description": {
+      "choose": "Pick the player you think is the liar",
+      "allChecked": "Talk it over, then choose the liar",
+      "shown": "Cover the card and pass it to the next player"
+    },
+    "pickerLabel": "Choose the liar's number",
+    "playerNumber": "{{number}}",
+    "player": "Player {{number}}",
+    "liarWinsIfKeyword": "The liar wins by guessing the keyword",
+    "liarWins": "The liar wins",
+    "liarIs": "The liar is Player {{number}}",
+    "youAreLiar": "You are the liar",
+    "keywordRevealed": "Keyword revealed",
+    "checkKeyword": "See the keyword",
+    "chooseLiar": "Choose the liar",
+    "checked": "Got it",
+    "checkLiar": "Reveal the liar",
+    "restart": "Play again"
+  }
+}
