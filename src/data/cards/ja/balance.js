@@ -53,7 +53,7 @@ export const balanceCards = [
   { id: "balance-049", question: "1年間毎日飲むなら", optionA: "コーヒー", optionB: "緑茶" },
   { id: "balance-050", question: "", optionA: "辛いもの", optionB: "甘いもの" },
   { id: "balance-051", question: "旅行先", optionA: "都会", optionB: "自然" },
-  { id: "balance-052", question: "旅行は", optionA: "ひとりで", optionB: "友だちと" },
+  { id: "balance-052", question: "旅行は", optionA: "ひとり", optionB: "みんな" },
   { id: "balance-053", question: "", optionA: "ライブ", optionB: "フェス" },
   { id: "balance-054", question: "", optionA: "エアコンなしの夏", optionB: "暖房なしの冬" },
   { id: "balance-055", question: "移動するなら", optionA: "車", optionB: "電車" },

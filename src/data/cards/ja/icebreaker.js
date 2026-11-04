@@ -64,7 +64,7 @@ export const icebreakerCards = [
   { id: "ice-53", question: "近所のお気に入りスポットは？" },
 
   // Growing up and memories
-  { id: "ice-54", question: "子どものころ夢中だった遊びは？" },
+  { id: "ice-54", question: "子どものころ、夢中だった遊びは？" },
   { id: "ice-55", question: "子どものころの夢は？" },
   { id: "ice-56", question: "子どものころの楽しい思い出は？" },
   { id: "ice-57", question: "学生時代に好きだった教科は？" },
