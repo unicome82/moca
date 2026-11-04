@@ -46,11 +46,13 @@
 
 ## 1단계. 사전 정리
 
-- [ ] `index.html`의 `user-scalable=no`, `maximum-scale=1.0` 제거 (접근성·스토어 심사)
+- [x] `index.html`의 `user-scalable=no`, `maximum-scale=1.0` 제거 (접근성·스토어 심사)
+  - 두 번 탭 확대는 기존 `touch-action: manipulation`이 계속 막고, 두 손가락 확대만 허용됨
 - [x] 텍스트가 길어져도 깨지지 않도록 카드 레이아웃 여유 확보 (0단계의 영어 문구로 확인)
   - 영어로 테마 10종 점검: 넘침 없음. 라이어 번호 버튼만 영어에서 숫자만 표시하도록 조정
-- [ ] 분석 이벤트 목록 설계 (최소한만)
-  - `deck_open`, `card_draw`, `theme_change`, `liar_game_complete`, `share_card`
+- [x] 분석 이벤트 목록 설계 (최소한만) → [`docs/analytics-events.md`](./analytics-events.md)
+  - `deck_open`, `card_draw`, `theme_change`, `liar_game_start`, `liar_game_complete`, `share_card`
+  - 완료율을 내기 위해 `liar_game_start` 추가
 
 ## 2단계. Capacitor 래핑
 
