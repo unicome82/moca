@@ -45,7 +45,7 @@ export const defaultLocale = "ko";
 export const enabledLocales = ["ko", "en"];
 
 // Locales the device language may pick on its own. Keep a locale out of this
-// list while it is still being prepared (e.g. English has no cards yet), so
+// list while it is still being prepared (e.g. English cards are still in review), so
 // only people who choose it in settings see it.
 export const autoDetectLocales = ["ko"];
 

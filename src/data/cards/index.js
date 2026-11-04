@@ -1,9 +1,10 @@
 import { defaultLocale } from "../../config/appConfig.js";
 import * as ko from "./ko/index.js";
+import * as en from "./en/index.js";
 
 // Each locale folder exports the same names: ice, solution, balance, liar.
 // Cards are written for each language rather than translated line by line.
-const sources = { ko };
+const sources = { ko, en };
 
 const MAX_LIAR_WORDS = 100;
 
